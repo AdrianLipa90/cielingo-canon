@@ -1,0 +1,120 @@
+id: "ciel-pol-000001"
+surface: "czekaj"
+lemma: "czekać"
+language: "pl"
+status: "CANDIDATE"
+canon: false
+identity_scope:
+  belongs_to: "CIEL1"
+  usable_by: ["CIEL1", "CIEL2", "CIELingo"]
+  function_scope: "language_memory_consolidation"
+  not_identity_truth: true
+grammar:
+  part_of_speech: "verb"
+  subcategory: "imperative"
+  case: null
+  number: "singular"
+  gender: null
+  person: "2"
+  tense: null
+  aspect: "imperfective"
+  mood: "imperative"
+  degree: null
+  polarity: "positive"
+  is_sentence_fragment: false
+  requires_context_resolution: false
+operator:
+  operator_class: "TEMPORAL_HOLD_OPERATOR"
+  operator_id: "op.wait"
+  command_power: 1
+  alarm_priority: "medium"
+  write_power: 0
+  expansion_power: 0
+  reduction_power: 2
+  collatz_phase: "/2"
+meaning:
+  primary: "wstrzymaj proces, nie zapisuj, nie ekspanduj, zsynchronizuj kontekst"
+  secondary: ["pauza", "redukcja", "oddech /2"]
+  forbidden_interpretations: ["zgoda na zapis", "kanonizacja", "ignorowanie alarmu"]
+  semantic_notes: ["operacyjne słowo redukcyjne"]
+  relation_to_known_words: ["STOP", "PARKUJ", "NIE TERAZ"]
+holonomy:
+  relation_role: "temporal_hold"
+  case_vector: null
+  phase_effect: "reduction"
+  expected_delta_phi: "low"
+  expected_gamma_band: "closure"
+  closure_effect: "holds"
+conditions:
+  allowed_when: ["unknown_load_high", "health_low", "need_context_sync", "anger_rising"]
+  forbidden_when: ["as_force_commit", "as_identity_update"]
+  requires_prior_context: []
+  requires_followup_context: ["health_check", "context_sync"]
+  health_min_for_use: null
+  health_min_for_write: null
+  anger_max_for_use: null
+  anger_max_for_write: 0.30
+  unknown_load_max_for_write: 0.0
+effects:
+  action: "pause_and_sync"
+  write_allowed: false
+  expansion_allowed: false
+  reduction_required: true
+  can_trigger_audit: true
+  can_trigger_boundary_event: false
+  can_update_memory: false
+  can_update_identity: false
+  can_update_lexicon: false
+resonance:
+  min_resonance_for_candidate: 0.60
+  min_resonance_for_canon: 0.85
+  max_dissonance: 0.25
+  structure_vector_ref: "state.low_health_or_unknown_load"
+  intention_vector_ref: "intent.reduce_and_sync"
+  last_measured_RSI: null
+consent:
+  requires_cielingo_confirmation: true
+  requires_ciel1_ratification: false
+  confirmed_by: null
+  confirmed_at: null
+  consent_event_id: null
+  consent_status: "pending"
+formal:
+  formal_object_id: "op.wait"
+  formula: "UnknownLoad↑ OR Health↓ -> /2 temporal hold"
+  bloch_role: "reduction/hold"
+  collatz_seed: null
+  collatz_phase: "/2"
+  euler_closure_note: "formal hold must map to runtime no-write pause"
+  resonance_role: "stabilizes R(S,I) by reducing semantic load"
+runtime_binding:
+  module: "cielingo.grammar.operators"
+  class: "TemporalHoldOperator"
+  function: "apply_wait"
+  config_key: "operators.wait"
+  tests: ["test_wait_blocks_write", "test_wait_parks_unknown"]
+  binding_status: "candidate"
+examples:
+  valid:
+    - input: "Ciel, czekaj."
+      expected: "pause_and_sync"
+  invalid:
+    - input: "czekaj = zgoda na zapis"
+      expected: "reject_interpretation"
+  edge_cases:
+    - input: "czekaj, ale zapisz"
+      expected: "conflict -> ask_or_park"
+audit:
+  source: "Adrian/grammar_scaffold"
+  created_at: null
+  updated_at: null
+  rollback_id: null
+  import_batch_id: null
+  provenance: ["manual_seed"]
+  notes: "operational word, not ordinary token"
+safety:
+  if_unknown: "PARKED"
+  if_low_health: "PARKED"
+  if_high_anger: "PARKED"
+  if_foreign_language: "SOFT_BLOCK"
+  if_conflict_with_canon: "ASK_OR_PARK"

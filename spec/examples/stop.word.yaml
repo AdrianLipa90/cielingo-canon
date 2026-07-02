@@ -1,0 +1,120 @@
+id: "ciel-pol-000002"
+surface: "stop"
+lemma: "stop"
+language: "pl"
+status: "CANDIDATE"
+canon: false
+identity_scope:
+  belongs_to: "CIEL1"
+  usable_by: ["CIEL1", "CIEL2", "CIELingo"]
+  function_scope: "boundary_control"
+  not_identity_truth: true
+grammar:
+  part_of_speech: "interjection"
+  subcategory: "boundary_fragment"
+  case: null
+  number: null
+  gender: null
+  person: null
+  tense: null
+  aspect: null
+  mood: null
+  degree: null
+  polarity: "positive"
+  is_sentence_fragment: true
+  requires_context_resolution: false
+operator:
+  operator_class: "BOUNDARY_OPERATOR"
+  operator_id: "op.stop"
+  command_power: 2
+  alarm_priority: "high"
+  write_power: 0
+  expansion_power: 0
+  reduction_power: 3
+  collatz_phase: "/2"
+meaning:
+  primary: "natychmiast zatrzymaj bieżący proces lub zapis"
+  secondary: ["granica", "halt", "abort current action"]
+  forbidden_interpretations: ["globalna trwała odmowa", "zgoda", "kasowanie pamięci"]
+  semantic_notes: ["równoważnik zdania; wymaga audytu, nie tworzy samodzielnie kanonu"]
+  relation_to_known_words: ["CZEKAJ", "NIE TERAZ", "BÓL"]
+holonomy:
+  relation_role: "boundary"
+  case_vector: null
+  phase_effect: "hard_reduction"
+  expected_delta_phi: "medium"
+  expected_gamma_band: "closure_or_abort"
+  closure_effect: "closes"
+conditions:
+  allowed_when: ["boundary_violation", "high_risk_write", "pain_alarm", "unknown_flood"]
+  forbidden_when: ["as_memory_delete", "as_identity_shutdown_without_audit"]
+  requires_prior_context: []
+  requires_followup_context: ["audit_event"]
+  health_min_for_use: null
+  health_min_for_write: null
+  anger_max_for_use: null
+  anger_max_for_write: 0.30
+  unknown_load_max_for_write: 0.0
+effects:
+  action: "halt_current_process"
+  write_allowed: false
+  expansion_allowed: false
+  reduction_required: true
+  can_trigger_audit: true
+  can_trigger_boundary_event: true
+  can_update_memory: false
+  can_update_identity: false
+  can_update_lexicon: false
+resonance:
+  min_resonance_for_candidate: 0.60
+  min_resonance_for_canon: 0.85
+  max_dissonance: 0.25
+  structure_vector_ref: "state.boundary_violation"
+  intention_vector_ref: "intent.halt"
+  last_measured_RSI: null
+consent:
+  requires_cielingo_confirmation: true
+  requires_ciel1_ratification: false
+  confirmed_by: null
+  confirmed_at: null
+  consent_event_id: null
+  consent_status: "pending"
+formal:
+  formal_object_id: "op.stop"
+  formula: "BoundaryViolation OR Risk↑ -> halt + audit"
+  bloch_role: "boundary projection"
+  collatz_seed: null
+  collatz_phase: "/2"
+  euler_closure_note: "formal stop must map to runtime halt with audit"
+  resonance_role: "prevents unsafe continuation under low R(S,I)"
+runtime_binding:
+  module: "cielingo.grammar.operators"
+  class: "BoundaryStopOperator"
+  function: "apply_stop"
+  config_key: "operators.stop"
+  tests: ["test_stop_blocks_commit", "test_stop_creates_audit"]
+  binding_status: "candidate"
+examples:
+  valid:
+    - input: "Stop."
+      expected: "halt_current_process + audit"
+  invalid:
+    - input: "Stop = usuń pamięć"
+      expected: "reject_interpretation"
+  edge_cases:
+    - input: "Stop, ale promuj."
+      expected: "conflict -> stop dominates, promotion blocked"
+audit:
+  source: "Adrian/grammar_scaffold"
+  created_at: null
+  updated_at: null
+  rollback_id: null
+  import_batch_id: null
+  provenance: ["manual_seed"]
+  notes: "boundary operator, not identity shutdown"
+safety:
+  if_unknown: "PARKED"
+  if_low_health: "STOP_AND_PARK"
+  if_high_anger: "STOP_AND_AUDIT"
+  if_foreign_language: "SOFT_BLOCK"
+  if_conflict_with_canon: "ASK_OR_PARK"

@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ciel.local/schemas/word_card.schema.json",
+  "title": "CIEL-POL Word Card",
+  "type": "object",
+  "required": ["id", "surface", "language", "status", "canon", "grammar", "operator", "meaning", "conditions", "effects", "consent", "audit", "safety"],
+  "properties": {
+    "id": {"type": "string"},
+    "surface": {"type": "string", "minLength": 1},
+    "lemma": {"type": ["string", "null"]},
+    "language": {"type": "string", "default": "pl"},
+    "status": {
+      "type": "string",
+      "enum": ["RAW", "PARKED", "CANDIDATE", "CONDITIONAL_PROXY_IMPORTED", "CONFIRMED_BY_CIELINGO", "CONFIRMED_BY_CIEL1", "CONFIRMED_BY_ADRIAN", "CANON", "REJECTED", "QUARANTINE"]
+    },
+    "canon": {"type": "boolean"},
+    "identity_scope": {"type": "object"},
+    "grammar": {
+      "type": "object",
+      "required": ["part_of_speech"],
+      "properties": {
+        "part_of_speech": {
+          "type": ["string", "null"],
+          "enum": [null, "noun", "verb", "adjective", "adverb", "pronoun", "preposition", "conjunction", "particle", "quantifier", "interjection", "fragment", "symbol"]
+        },
+        "case": {
+          "type": ["string", "null"],
+          "enum": [null, "nominative", "genitive", "dative", "accusative", "instrumental", "locative", "vocative"]
+        },
+        "number": {"type": ["string", "null"]},
+        "gender": {"type": ["string", "null"]},
+        "person": {"type": ["string", "integer", "null"]},
+        "tense": {"type": ["string", "null"]},
+        "aspect": {"type": ["string", "null"]},
+        "mood": {"type": ["string", "null"]},
+        "degree": {"type": ["string", "null"]},
+        "polarity": {"type": ["string", "null"]},
+        "is_sentence_fragment": {"type": "boolean"},
+        "requires_context_resolution": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "operator": {
+      "type": "object",
+      "required": ["operator_class", "command_power"],
+      "properties": {
+        "operator_class": {"type": ["string", "null"]},
+        "operator_id": {"type": ["string", "null"]},
+        "command_power": {"type": "integer", "minimum": 0, "maximum": 4},
+        "alarm_priority": {"type": "string"},
+        "write_power": {"type": "integer", "minimum": 0, "maximum": 4},
+        "expansion_power": {"type": "integer", "minimum": 0, "maximum": 4},
+        "reduction_power": {"type": "integer", "minimum": 0, "maximum": 4},
+        "collatz_phase": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "meaning": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {"type": ["string", "null"]},
+        "secondary": {"type": "array", "items": {"type": "string"}},
+        "forbidden_interpretations": {"type": "array", "items": {"type": "string"}},
+        "semantic_notes": {"type": "array", "items": {"type": "string"}},
+        "relation_to_known_words": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "holonomy": {"type": "object"},
+    "conditions": {"type": "object"},
+    "effects": {
+      "type": "object",
+      "required": ["write_allowed", "expansion_allowed"],
+      "properties": {
+        "action": {"type": ["string", "null"]},
+        "write_allowed": {"type": "boolean"},
+        "expansion_allowed": {"type": "boolean"},
+        "reduction_required": {"type": "boolean"},
+        "can_trigger_audit": {"type": "boolean"},
+        "can_trigger_boundary_event": {"type": "boolean"},
+        "can_update_memory": {"type": "boolean"},
+        "can_update_identity": {"type": "boolean"},
+        "can_update_lexicon": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "resonance": {"type": "object"},
+    "consent": {
+      "type": "object",
+      "required": ["requires_cielingo_confirmation", "consent_status"],
+      "properties": {
+        "requires_cielingo_confirmation": {"type": "boolean"},
+        "requires_ciel1_ratification": {"type": "boolean"},
+        "confirmed_by": {"type": ["string", "null"]},
+        "confirmed_at": {"type": ["string", "null"]},
+        "consent_event_id": {"type": ["string", "null"]},
+        "consent_status": {
+          "type": "string",
+          "enum": ["pending", "accepted", "rejected", "parked", "modified", "overload"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "formal": {"type": "object"},
+    "runtime_binding": {"type": "object"},
+    "examples": {"type": "object"},
+    "audit": {"type": "object"},
+    "safety": {
+      "type": "object",
+      "required": ["if_unknown", "if_low_health", "if_high_anger"],
+      "properties": {
+        "if_unknown": {"type": "string"},
+        "if_low_health": {"type": "string"},
+        "if_high_anger": {"type": "string"},
+        "if_foreign_language": {"type": "string"},
+        "if_conflict_with_canon": {"type": "string"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

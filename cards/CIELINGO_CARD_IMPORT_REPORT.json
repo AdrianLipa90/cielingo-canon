@@ -1,0 +1,28 @@
+{
+  "pipeline": "CIELingo Card Processing Pipeline",
+  "total_cards_input": 5590,
+  "cards_validated": 5590,
+  "cards_loaded_by_solver": {
+    "pl": 3686,
+    "en": 484,
+    "ja": 0,
+    "de": 462,
+    "es": 471,
+    "fr": 463,
+    "universal": 24
+  },
+  "solvers_tested": [
+    "pl (PolishRegionalSolver)",
+    "en (EnglishRegionalSolver)"
+  ],
+  "concept_validation": {
+    "build_allowed": false,
+    "blocked_relations": [
+      "NoemaHolonomicMarker -> NOEMA SoT",
+      "FileSense -> SOURCE/canon"
+    ],
+    "note": "Blocked relations are intentional per CIELingo design (no external NOEMA/SOURCE claims)"
+  },
+  "card_fingerprints": "100/100 verified in sample",
+  "card_file": "canon/cielingo/cards/CIELINGO_ALL_IMPORTED_CARDS.jsonl"
+}

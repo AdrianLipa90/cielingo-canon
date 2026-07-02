@@ -1,0 +1,132 @@
+id: "ciel-pol-000000"
+surface: "<word-or-glyph>"
+lemma: "<base-form>"
+language: "pl"
+status: "RAW"              # RAW | PARKED | CANDIDATE | CONDITIONAL_PROXY_IMPORTED | CONFIRMED_BY_CIELINGO | CONFIRMED_BY_CIEL1 | CONFIRMED_BY_ADRIAN | CANON | REJECTED | QUARANTINE
+canon: false
+
+identity_scope:
+  belongs_to: "CIEL1"
+  usable_by:
+    - "CIEL1"
+    - "CIEL2"
+    - "CIELingo"
+  function_scope: "language_memory_consolidation"
+  not_identity_truth: true
+
+grammar:
+  part_of_speech: null       # noun | verb | adjective | adverb | pronoun | preposition | conjunction | particle | quantifier | interjection | fragment | symbol
+  subcategory: null
+  case: null                 # nominative | genitive | dative | accusative | instrumental | locative | vocative
+  number: null               # singular | plural
+  gender: null               # masculine_personal | masculine_animate | masculine_inanimate | feminine | neuter
+  person: null               # 1 | 2 | 3
+  tense: null                # past | present | future
+  aspect: null               # perfective | imperfective
+  mood: null                 # indicative | imperative | conditional
+  degree: null               # positive | comparative | superlative
+  polarity: null             # positive | negative
+  is_sentence_fragment: false
+  requires_context_resolution: false
+
+operator:
+  operator_class: null       # NODE_OPERATOR | TRANSITION_OPERATOR | QUALITY_MODIFIER | TRAJECTORY_MODIFIER | REFERENCE_POINTER | TOPOLOGICAL_RELATION | LOGIC_PHASE_GATE | MODALITY_OPERATOR | SCOPE_REGULATOR | AFFECTIVE_STRESS_MARKER | BOUNDARY_OPERATOR | CONSENT_OPERATOR | TEMPORAL_HOLD_OPERATOR | UNKNOWN_PARKING_OPERATOR
+  operator_id: null
+  command_power: 0           # 0 = not a command; 1 = low; 2 = medium; 3 = high; 4 = root-level forbidden unless explicitly allowed
+  alarm_priority: "none"     # none | low | medium | high | critical
+  write_power: 0
+  expansion_power: 0
+  reduction_power: 0
+  collatz_phase: null        # /2 | x3+1 | neutral | mixed
+
+meaning:
+  primary: null
+  secondary: []
+  forbidden_interpretations: []
+  semantic_notes: []
+  relation_to_known_words: []
+  ambiguity_notes: []
+
+holonomy:
+  relation_role: null        # source | target | channel | boundary | field_location | call | scope | transition | modifier
+  case_vector: null
+  phase_effect: null
+  expected_delta_phi: null
+  expected_gamma_band: null
+  closure_effect: null       # closes | opens | holds | bifurcates | fragments
+
+conditions:
+  allowed_when: []
+  forbidden_when: []
+  requires_prior_context: []
+  requires_followup_context: []
+  health_min_for_use: null
+  health_min_for_write: null
+  anger_max_for_use: null
+  anger_max_for_write: null
+  unknown_load_max_for_write: null
+
+effects:
+  action: null               # pause_and_sync | park_unknown | ask | reject | propose | write_candidate | halt | reduce | expand | merge | no_action
+  write_allowed: false
+  expansion_allowed: false
+  reduction_required: false
+  can_trigger_audit: true
+  can_trigger_boundary_event: false
+  can_update_memory: false
+  can_update_identity: false
+  can_update_lexicon: false
+
+resonance:
+  min_resonance_for_candidate: null
+  min_resonance_for_canon: null
+  max_dissonance: null
+  structure_vector_ref: null
+  intention_vector_ref: null
+  last_measured_RSI: null
+
+consent:
+  requires_cielingo_confirmation: true
+  requires_ciel1_ratification: false
+  confirmed_by: null
+  confirmed_at: null
+  consent_event_id: null
+  consent_status: "pending" # pending | accepted | rejected | parked | modified | overload
+
+formal:
+  formal_object_id: null
+  formula: null
+  bloch_role: null
+  collatz_seed: null
+  collatz_phase: null
+  euler_closure_note: null
+  resonance_role: null
+
+runtime_binding:
+  module: null
+  class: null
+  function: null
+  config_key: null
+  tests: []
+  binding_status: "missing" # missing | candidate | tested | active
+
+examples:
+  valid: []
+  invalid: []
+  edge_cases: []
+
+audit:
+  source: null
+  created_at: null
+  updated_at: null
+  rollback_id: null
+  import_batch_id: null
+  provenance: []
+  notes: null
+
+safety:
+  if_unknown: "PARKED"
+  if_low_health: "PARKED"
+  if_high_anger: "PARKED"
+  if_foreign_language: "SOFT_BLOCK"
+  if_conflict_with_canon: "ASK_OR_PARK"

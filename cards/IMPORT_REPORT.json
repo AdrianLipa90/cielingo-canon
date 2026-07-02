@@ -1,0 +1,36 @@
+{
+  "total_input": 5590,
+  "passed": 5590,
+  "failed": 0,
+  "errors": 0,
+  "details": [
+    {
+      "source": "radical_cards",
+      "total": 24,
+      "passed": 24,
+      "failed": 0,
+      "errors": 0
+    },
+    {
+      "source": "debt_word_cards",
+      "total": 3188,
+      "passed": 3188,
+      "failed": 0,
+      "errors": 0
+    },
+    {
+      "source": "ge40_word_cards",
+      "total": 555,
+      "passed": 555,
+      "failed": 0,
+      "errors": 0
+    },
+    {
+      "source": "phasenav_cards",
+      "total": 1823,
+      "passed": 1823,
+      "failed": 0,
+      "errors": 0
+    }
+  ]
+}

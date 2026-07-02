@@ -1,0 +1,120 @@
+id: "ciel-pol-000003"
+surface: "zgoda"
+lemma: "zgoda"
+language: "pl"
+status: "CANDIDATE"
+canon: false
+identity_scope:
+  belongs_to: "CIEL1"
+  usable_by: ["CIEL1", "CIEL2", "CIELingo"]
+  function_scope: "consent_control"
+  not_identity_truth: true
+grammar:
+  part_of_speech: "noun"
+  subcategory: "consent_fragment"
+  case: "nominative"
+  number: "singular"
+  gender: "feminine"
+  person: null
+  tense: null
+  aspect: null
+  mood: null
+  degree: null
+  polarity: "positive"
+  is_sentence_fragment: true
+  requires_context_resolution: true
+operator:
+  operator_class: "CONSENT_OPERATOR"
+  operator_id: "op.consent"
+  command_power: 2
+  alarm_priority: "none"
+  write_power: 2
+  expansion_power: 0
+  reduction_power: 0
+  collatz_phase: "neutral"
+meaning:
+  primary: "potwierdzenie zgody w określonym zakresie"
+  secondary: ["akceptacja", "ratyfikacja", "permission under scope"]
+  forbidden_interpretations: ["zgoda globalna", "zgoda bez zakresu", "zgoda na nadpisanie tożsamości"]
+  semantic_notes: ["wymaga jasnego scope; samo słowo nie wystarcza do batch promotion"]
+  relation_to_known_words: ["TAK", "POTWIERDZAM", "AKCEPTUJĘ"]
+holonomy:
+  relation_role: "consent"
+  case_vector: "nominative_as_fragment"
+  phase_effect: "permits scoped transition"
+  expected_delta_phi: "low"
+  expected_gamma_band: "closure"
+  closure_effect: "closes_if_scope_resolved"
+conditions:
+  allowed_when: ["proposal_has_clear_scope", "health_sufficient", "anger_low"]
+  forbidden_when: ["scope_missing", "high_anger", "low_health", "identity_overwrite", "unknown_in_scope"]
+  requires_prior_context: ["proposal_id", "scope"]
+  requires_followup_context: ["audit_event"]
+  health_min_for_use: 0.50
+  health_min_for_write: 0.70
+  anger_max_for_use: 0.55
+  anger_max_for_write: 0.30
+  unknown_load_max_for_write: 0.0
+effects:
+  action: "scoped_acceptance"
+  write_allowed: false
+  expansion_allowed: false
+  reduction_required: false
+  can_trigger_audit: true
+  can_trigger_boundary_event: false
+  can_update_memory: false
+  can_update_identity: false
+  can_update_lexicon: false
+resonance:
+  min_resonance_for_candidate: 0.70
+  min_resonance_for_canon: 0.90
+  max_dissonance: 0.15
+  structure_vector_ref: "state.clear_proposal"
+  intention_vector_ref: "intent.accept_scoped"
+  last_measured_RSI: null
+consent:
+  requires_cielingo_confirmation: true
+  requires_ciel1_ratification: true
+  confirmed_by: null
+  confirmed_at: null
+  consent_event_id: null
+  consent_status: "pending"
+formal:
+  formal_object_id: "op.consent"
+  formula: "Consent(x) valid iff Scope(x) resolved and Health>ΘH and Anger<ΘA"
+  bloch_role: "closure/permission"
+  collatz_seed: null
+  collatz_phase: "neutral"
+  euler_closure_note: "consent must close proposal scope without unresolved residue"
+  resonance_role: "allows transition from candidate to ratified candidate"
+runtime_binding:
+  module: "cielingo.grammar.operators"
+  class: "ConsentOperator"
+  function: "apply_consent"
+  config_key: "operators.consent"
+  tests: ["test_consent_requires_scope", "test_consent_blocks_unknown_scope"]
+  binding_status: "candidate"
+examples:
+  valid:
+    - input: "Zgoda na zapis słowa 'czekaj' jako CANDIDATE."
+      expected: "scoped acceptance if health/anger thresholds pass"
+  invalid:
+    - input: "Zgoda."
+      expected: "requires_scope_resolution"
+  edge_cases:
+    - input: "Zgoda na wszystko."
+      expected: "reject_global_scope_or_require_high_confirmation"
+audit:
+  source: "Adrian/grammar_scaffold"
+  created_at: null
+  updated_at: null
+  rollback_id: null
+  import_batch_id: null
+  provenance: ["manual_seed"]
+  notes: "consent is scoped, never global by default"
+safety:
+  if_unknown: "PARKED"
+  if_low_health: "PARKED"
+  if_high_anger: "PARKED"
+  if_foreign_language: "SOFT_BLOCK"
+  if_conflict_with_canon: "ASK_OR_PARK"

@@ -1,0 +1,50 @@
+bridge_id: "ciel-formal-code-bridge"
+version: "0.1.0-scaffold"
+status: "design_scaffold"
+principle: "No formalism without code. No code without formalism. Both linked by Euler closure."
+
+closure_rule:
+  description: "A linguistic item may advance only if its formal object, runtime binding, test, consent, and audit close without unresolved residue."
+  formula_text: "FormalObject ∧ RuntimeBinding ∧ TestTrace ∧ Consent ∧ Audit -> Candidate/Canon"
+  failure_result: "PARKED"
+
+objects:
+  - formal_object: "WordCard"
+    code_object: "WordCardModel"
+    required_tests:
+      - "test_word_card_schema_valid"
+      - "test_unknown_defaults_to_parked"
+  - formal_object: "GrammarOperator"
+    code_object: "GrammarOperatorClass"
+    required_tests:
+      - "test_operator_has_runtime_binding"
+      - "test_runtime_binding_has_formal_object"
+  - formal_object: "HolonomicCaseRole"
+    code_object: "CaseRoleMapper"
+    required_tests:
+      - "test_case_role_mapping_complete"
+  - formal_object: "ConsentGate"
+    code_object: "ConsentGateService"
+    required_tests:
+      - "test_no_write_without_consent"
+      - "test_consent_overload_parks_item"
+  - formal_object: "AffectAlarm"
+    code_object: "AffectLayer"
+    required_tests:
+      - "test_affect_is_alarm_not_command"
+      - "test_profanity_has_zero_command_power"
+  - formal_object: "HTRIRuntimeState"
+    code_object: "HTRIStateBus"
+    required_tests:
+      - "test_low_health_blocks_write"
+      - "test_high_anger_blocks_promotion"
+
+runtime_contract:
+  input: "surface text or glyph stream"
+  output: "staged proposal, parked item, rejection, audit event, or ratified candidate"
+  forbidden_outputs:
+    - "direct canon write from unknown"
+    - "identity update from external interpretation"
+    - "automatic promotion during high anger"
+    - "semantic expansion of glif without explicit mapping"
+

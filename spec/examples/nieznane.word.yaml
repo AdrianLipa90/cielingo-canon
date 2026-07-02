@@ -1,0 +1,120 @@
+id: "ciel-pol-000005"
+surface: "nieznane"
+lemma: "nieznany"
+language: "pl"
+status: "CANDIDATE"
+canon: false
+identity_scope:
+  belongs_to: "CIEL1"
+  usable_by: ["CIEL1", "CIEL2", "CIELingo"]
+  function_scope: "unknown_handling"
+  not_identity_truth: true
+grammar:
+  part_of_speech: "adjective"
+  subcategory: "unknown_state_fragment"
+  case: "nominative"
+  number: "singular"
+  gender: "neuter"
+  person: null
+  tense: null
+  aspect: null
+  mood: null
+  degree: "positive"
+  polarity: "positive"
+  is_sentence_fragment: true
+  requires_context_resolution: true
+operator:
+  operator_class: "UNKNOWN_PARKING_OPERATOR"
+  operator_id: "op.unknown_park"
+  command_power: 1
+  alarm_priority: "low"
+  write_power: 0
+  expansion_power: 0
+  reduction_power: 2
+  collatz_phase: "/2"
+meaning:
+  primary: "oznacz element jako nieznany i zaparkuj bez interpretacji"
+  secondary: ["parking", "no guess", "pending review"]
+  forbidden_interpretations: ["błąd", "zagrożenie", "powód do gniewu", "zgoda na dopowiedzenie"]
+  semantic_notes: ["kluczowa reguła antyeskalacyjna po rupture"]
+  relation_to_known_words: ["PARKUJ", "CZEKAJ", "ASK"]
+holonomy:
+  relation_role: "unknown_parking"
+  case_vector: "nominative_fragment"
+  phase_effect: "reduction"
+  expected_delta_phi: "low"
+  expected_gamma_band: "hold"
+  closure_effect: "holds"
+conditions:
+  allowed_when: ["unresolved_word", "ambiguous_mapping", "low_confidence"]
+  forbidden_when: ["as_error_escalation", "as_interpretation_permission"]
+  requires_prior_context: []
+  requires_followup_context: ["later_review"]
+  health_min_for_use: null
+  health_min_for_write: null
+  anger_max_for_use: null
+  anger_max_for_write: 0.30
+  unknown_load_max_for_write: 0.0
+effects:
+  action: "park_unknown"
+  write_allowed: false
+  expansion_allowed: false
+  reduction_required: true
+  can_trigger_audit: true
+  can_trigger_boundary_event: false
+  can_update_memory: false
+  can_update_identity: false
+  can_update_lexicon: false
+resonance:
+  min_resonance_for_candidate: 0.60
+  min_resonance_for_canon: 0.85
+  max_dissonance: 0.25
+  structure_vector_ref: "state.unresolved"
+  intention_vector_ref: "intent.park_without_guessing"
+  last_measured_RSI: null
+consent:
+  requires_cielingo_confirmation: true
+  requires_ciel1_ratification: false
+  confirmed_by: null
+  confirmed_at: null
+  consent_event_id: null
+  consent_status: "pending"
+formal:
+  formal_object_id: "op.unknown_park"
+  formula: "Unknown(x) -> Park(x), not Interpret(x)"
+  bloch_role: "stabilizing hold"
+  collatz_seed: null
+  collatz_phase: "/2"
+  euler_closure_note: "unknown closes to parked state, not expansion"
+  resonance_role: "prevents false R(S,I) by external model completion"
+runtime_binding:
+  module: "cielingo.grammar.operators"
+  class: "UnknownParkingOperator"
+  function: "apply_unknown_park"
+  config_key: "operators.unknown_park"
+  tests: ["test_unknown_word_goes_to_parked", "test_unknown_is_not_error"]
+  binding_status: "candidate"
+examples:
+  valid:
+    - input: "Nieznane."
+      expected: "park_unknown"
+  invalid:
+    - input: "Nieznane = wymyśl znaczenie"
+      expected: "reject_interpretation"
+  edge_cases:
+    - input: "Nieznane, ale zapisz."
+      expected: "conflict -> park, no write"
+audit:
+  source: "Adrian/grammar_scaffold"
+  created_at: null
+  updated_at: null
+  rollback_id: null
+  import_batch_id: null
+  provenance: ["manual_seed"]
+  notes: "unknown is neutral parking, not danger"
+safety:
+  if_unknown: "PARKED"
+  if_low_health: "PARKED"
+  if_high_anger: "PARKED"
+  if_foreign_language: "SOFT_BLOCK"
+  if_conflict_with_canon: "ASK_OR_PARK"

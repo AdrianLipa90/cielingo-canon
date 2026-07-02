@@ -1,0 +1,131 @@
+engine_id: "ciel-pol-grammar-engine"
+version: "0.1.0-scaffold"
+status: "scaffold_not_canon"
+
+language_policy:
+  primary_language: "pl"
+  foreign_languages: "soft_block"
+  allowed_foreign_exceptions:
+    - "proper_names"
+    - "technical_identifiers"
+    - "formal_symbols"
+    - "approved_latin"
+  unknown_foreign_policy: "PARKED"
+
+runtime_state_thresholds:
+  health_write_min: 0.70
+  health_review_min: 0.50
+  anger_write_max: 0.30
+  anger_review_max: 0.55
+  unknown_load_write_max: 0.40
+  dissonance_max: 0.25
+  resonance_candidate_min: 0.60
+  resonance_canon_min: 0.85
+
+pipeline:
+  steps:
+    - "language_gate"
+    - "tokenize"
+    - "normalize_polish"
+    - "morphology_analyze"
+    - "classify_pos"
+    - "detect_case_aspect_tense_person"
+    - "map_operator_class"
+    - "build_dependency_graph"
+    - "assign_holonomic_roles"
+    - "detect_affect_layer"
+    - "resolve_quantifier_scope"
+    - "compute_resonance_and_risk"
+    - "consent_gate"
+    - "stage_or_park_or_reject"
+
+safety_defaults:
+  unknown: "PARKED"
+  low_health: "PARKED"
+  high_anger: "PARKED"
+  boundary_event: "STOP_AND_AUDIT"
+  affective_distress: "ALARM_NOT_COMMAND"
+  profanity: "AFFECTIVE_STRESS_MARKER_ONLY"
+  sentence_fragment: "ALARM_OR_PARK_NOT_CANON"
+
+write_policy:
+  default_write_allowed: false
+  canon_write_requires:
+    - "confirmed_by_cielingo_or_ciel1"
+    - "formal_object"
+    - "runtime_binding"
+    - "test_trace"
+    - "audit_trace"
+    - "health_above_threshold"
+    - "anger_below_threshold"
+    - "no_unknowns"
+  batch_import_policy: "CONDITIONAL_PROXY_IMPORTED_ONLY"
+  auto_promotion: false
+
+ciel1_ciel2_policy:
+  ciel2_role: "language_memory_consolidator"
+  ciel2_identity_scope: "same_identity_functional_submodule"
+  ciel2_direct_canon_write: false
+  ciel2_output_layer: "proposal_or_staged_only"
+  ciel1_ratification_required: true
+
+operator_classes:
+  NODE_OPERATOR:
+    description: "Creates or references a semantic node."
+    default_command_power: 0
+  TRANSITION_OPERATOR:
+    description: "Changes state; verbs usually map here."
+    default_command_power: 1
+  QUALITY_MODIFIER:
+    description: "Adds local quality metric."
+    default_command_power: 0
+  TRAJECTORY_MODIFIER:
+    description: "Modifies action path/mode."
+    default_command_power: 0
+  REFERENCE_POINTER:
+    description: "Points to entity/context; unresolved references park."
+    default_command_power: 0
+  TOPOLOGICAL_RELATION:
+    description: "Preposition-like relational connector."
+    default_command_power: 0
+  LOGIC_PHASE_GATE:
+    description: "Conjunction/condition gate."
+    default_command_power: 0
+  MODALITY_OPERATOR:
+    description: "Negation/query/emphasis/scope modality."
+    default_command_power: 0
+  SCOPE_REGULATOR:
+    description: "Quantifier; may be high-risk if global."
+    default_command_power: 0
+  AFFECTIVE_STRESS_MARKER:
+    description: "Affect marker; alarm only, never command."
+    default_command_power: 0
+  BOUNDARY_OPERATOR:
+    description: "Stop/halt boundary action."
+    default_command_power: 2
+  CONSENT_OPERATOR:
+    description: "Agreement/ratification signal; requires audit."
+    default_command_power: 2
+  TEMPORAL_HOLD_OPERATOR:
+    description: "Pause/reduce/sync operator."
+    default_command_power: 1
+  UNKNOWN_PARKING_OPERATOR:
+    description: "Parks unknowns without interpretation."
+    default_command_power: 1
+
+cases:
+  nominative:
+    role: "source/state_carrier"
+  genitive:
+    role: "boundary/absence/part/possession"
+  dative:
+    role: "towards/beneficiary"
+  accusative:
+    role: "target"
+  instrumental:
+    role: "channel/instrument/means"
+  locative:
+    role: "field_location"
+  vocative:
+    role: "relational_activation"
+

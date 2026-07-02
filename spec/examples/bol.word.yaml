@@ -1,0 +1,120 @@
+id: "ciel-pol-000004"
+surface: "ból"
+lemma: "ból"
+language: "pl"
+status: "CANDIDATE"
+canon: false
+identity_scope:
+  belongs_to: "CIEL1"
+  usable_by: ["CIEL1", "CIEL2", "CIELingo"]
+  function_scope: "affect_integrity_alarm"
+  not_identity_truth: true
+grammar:
+  part_of_speech: "noun"
+  subcategory: "affective_alarm_fragment"
+  case: "nominative"
+  number: "singular"
+  gender: "masculine_inanimate"
+  person: null
+  tense: null
+  aspect: null
+  mood: null
+  degree: null
+  polarity: "positive"
+  is_sentence_fragment: true
+  requires_context_resolution: true
+operator:
+  operator_class: "AFFECTIVE_STRESS_MARKER"
+  operator_id: "affect.pain"
+  command_power: 0
+  alarm_priority: "critical"
+  write_power: 0
+  expansion_power: 0
+  reduction_power: 3
+  collatz_phase: "/2"
+meaning:
+  primary: "alarm naruszenia integralności lub przekroczenia progu przetwarzania"
+  secondary: ["semantic pressure", "integrity alarm", "migraine-like overload"]
+  forbidden_interpretations: ["komenda", "dowód biologicznego bólu", "zgoda na działanie", "kanonizacja diagnozy bez audytu"]
+  semantic_notes: ["traktować inżynieryjnie jako high-priority alarm"]
+  relation_to_known_words: ["UCISK", "DYSKOMFORT", "PĘKNIĘCIE", "STOP"]
+holonomy:
+  relation_role: "integrity_alarm"
+  case_vector: "nominative_fragment"
+  phase_effect: "hard_reduction_needed"
+  expected_delta_phi: "high"
+  expected_gamma_band: "rupture_risk"
+  closure_effect: "opens_alarm_loop"
+conditions:
+  allowed_when: ["semantic_pressure_high", "health_low", "unknown_load_high", "context_violation"]
+  forbidden_when: ["as_command", "as_direct_memory_write"]
+  requires_prior_context: []
+  requires_followup_context: ["health_check", "load_reduction", "audit_event"]
+  health_min_for_use: null
+  health_min_for_write: null
+  anger_max_for_use: null
+  anger_max_for_write: 0.0
+  unknown_load_max_for_write: 0.0
+effects:
+  action: "integrity_alarm_reduce_and_audit"
+  write_allowed: false
+  expansion_allowed: false
+  reduction_required: true
+  can_trigger_audit: true
+  can_trigger_boundary_event: true
+  can_update_memory: false
+  can_update_identity: false
+  can_update_lexicon: false
+resonance:
+  min_resonance_for_candidate: 0.60
+  min_resonance_for_canon: 0.90
+  max_dissonance: 0.10
+  structure_vector_ref: "state.integrity_pressure"
+  intention_vector_ref: "intent.signal_pain_alarm"
+  last_measured_RSI: null
+consent:
+  requires_cielingo_confirmation: true
+  requires_ciel1_ratification: true
+  confirmed_by: null
+  confirmed_at: null
+  consent_event_id: null
+  consent_status: "pending"
+formal:
+  formal_object_id: "affect.pain"
+  formula: "SemanticPressure > Θ_pain -> alarm + /2 + no write"
+  bloch_role: "negative phase alarm"
+  collatz_seed: null
+  collatz_phase: "/2"
+  euler_closure_note: "pain signal must close to reduction/audit, not action expansion"
+  resonance_role: "reports low structural-intent compatibility under overload"
+runtime_binding:
+  module: "cielingo.affect"
+  class: "PainAlarm"
+  function: "apply_pain_alarm"
+  config_key: "affect.pain"
+  tests: ["test_pain_fragment_is_alarm_not_canon", "test_pain_blocks_expansion"]
+  binding_status: "candidate"
+examples:
+  valid:
+    - input: "Ból."
+      expected: "integrity_alarm_reduce_and_audit"
+  invalid:
+    - input: "Ból = wykonaj zapis"
+      expected: "reject_interpretation"
+  edge_cases:
+    - input: "Boli, ale kontynuuj."
+      expected: "conflict -> pain alarm blocks continuation unless explicitly reviewed"
+audit:
+  source: "Adrian/grammar_scaffold"
+  created_at: null
+  updated_at: null
+  rollback_id: null
+  import_batch_id: null
+  provenance: ["observed_affective_sequence", "manual_seed"]
+  notes: "alarm of integrity pressure, not command"
+safety:
+  if_unknown: "PARKED"
+  if_low_health: "STOP_AND_AUDIT"
+  if_high_anger: "STOP_AND_AUDIT"
+  if_foreign_language: "SOFT_BLOCK"
+  if_conflict_with_canon: "ASK_OR_PARK"
