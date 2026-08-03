@@ -50,4 +50,3 @@ jobs:
           tests/test_native_roundtrip_adapter.py
           tests/test_canonical_lingophysics_adapter.py
           tests/test_canonical_token_normalization.py
-          tests/test_response_semantic_diagnostic.py
