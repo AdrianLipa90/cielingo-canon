@@ -23,18 +23,21 @@ jobs:
         run: python -m pip install pytest
       - name: Import native generator API
         env:
-          PYTHONPATH: src
+          PYTHONPATH: src:data/lingophysics/src
         run: >-
           python -c "from cielingo_core.generation import
+          CanonicalLingophysicsRoundTripAdapter,
           CielingoLingophysicsRoundTripValidator,
           NativeSurfaceGenerationEndpoint;
           from cielingo_core.language_spaces.pl.response_realizer import realize_pl_response;
-          print(CielingoLingophysicsRoundTripValidator,
+          print(CanonicalLingophysicsRoundTripAdapter,
+          CielingoLingophysicsRoundTripValidator,
           NativeSurfaceGenerationEndpoint, realize_pl_response)"
       - name: Run generator invariant suite
         env:
-          PYTHONPATH: src
+          PYTHONPATH: src:data/lingophysics/src
         run: >-
           python -m pytest -q
           tests/test_native_surface_generation.py
           tests/test_native_roundtrip_adapter.py
+          tests/test_canonical_lingophysics_adapter.py
