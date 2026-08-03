@@ -1,6 +1,10 @@
 """Native CIELingo semantic-planning and surface-generation lanes."""
 
 from .canonical_lingophysics_adapter import CanonicalLingophysicsRoundTripAdapter
+from .dual_native_surface_endpoint import (
+    DUAL_SURFACE_PLAN_SCHEMA,
+    DualNativeSurfaceGenerationEndpoint,
+)
 from .hashing import canonical_sha256, is_sha256
 from .native_surface_endpoint import (
     CandidateProposal,
@@ -36,7 +40,9 @@ __all__ = [
     "CandidateProposal",
     "CanonicalLingophysicsRoundTripAdapter",
     "CielingoLingophysicsRoundTripValidator",
+    "DUAL_SURFACE_PLAN_SCHEMA",
     "DeterministicSurfaceBackend",
+    "DualNativeSurfaceGenerationEndpoint",
     "LanguageBackend",
     "LingophysicsRoundTripAdapter",
     "LingophysicsRoundTripVerdict",
