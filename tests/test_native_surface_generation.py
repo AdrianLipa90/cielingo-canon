@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from cielingo_core.generation.native_surface_endpoint import (
+from cielingo_core.generation import (
     CandidateProposal,
+    NativeResponseSemanticPlanner,
     NativeSurfaceGenerationEndpoint,
     RoundTripEvidence,
     canonical_sha256,
@@ -12,18 +13,70 @@ from cielingo_core.global_layer.response_contract import build_response_contract
 from cielingo_core.language_spaces.pl.response_realizer import realize_pl_response
 
 
+def _source_native_state() -> dict:
+    return {
+        "schema": "CIEL_NATIVE_SEMANTIC_STATE_V1",
+        "binding_sha256": "1" * 64,
+        "cielingo": {
+            "language_id": "pl",
+            "equation_id": "surface-input",
+            "tokens": ["Człowiek", "buduje", "dom"],
+            "slot_projection": {
+                "agent": [0],
+                "action": [1],
+                "patient": [2],
+            },
+        },
+        "lingophysics": {
+            "sentence_equation": {
+                "equation_id": "sentence-input",
+                "expression": "REQUEST_GENERATION(Build(Human,House))",
+            },
+            "semantic_knot": {
+                "concepts": ["human", "house"],
+                "operators": ["build"],
+            },
+            "invariant": {
+                "predicate": "build",
+                "agent": "human",
+                "patient": "house",
+                "polarity": "positive",
+            },
+            "meaning_state": {
+                "polarity": "positive",
+                "tam_e": {
+                    "tense": "Present",
+                    "aspect": "Imperfective",
+                    "mood": "Indicative",
+                    "evidentiality": "Unknown",
+                },
+            },
+        },
+    }
+
+
 def _surface_plan() -> dict:
+    native = _source_native_state()
+    response = NativeResponseSemanticPlanner().plan(
+        query="Napisz zdanie opisujące tę relację.",
+        source_native_semantics=native,
+        memory_context={"read_set_sha256": "3" * 64, "evidence": []},
+        target_language="pl",
+        style="plain",
+    )
     body = {
         "schema": "CIEL_NATIVE_SURFACE_PLAN_V1",
-        "native_semantic_binding_sha256": "1" * 64,
+        "native_semantic_binding_sha256": native["binding_sha256"],
         "phase_process_receipt_sha256": "2" * 64,
         "memory_read_set_sha256": "3" * 64,
+        "response_plan_sha256": response.plan_sha256,
+        "response_semantics": response.to_dict(),
         "target_language": "pl",
         "style": "plain",
         "cielingo_surface": {
             "language_id": "pl",
-            "equation_id": "surface-fixture",
-            "tokens": ["Człowiek", "buduje", "dom"],
+            "equation_id": response.plan_id,
+            "tokens": list(response.surface_seed_tokens),
             "slot_projection": {
                 "agent": [0],
                 "action": [1],
@@ -31,27 +84,12 @@ def _surface_plan() -> dict:
             },
             "local_j": {"J_word_order": 0.4},
             "confidence": 0.95,
-            "source_commit": "fixture-cielingo",
+            "source_commit": "fixture-cielingo-response-plan",
         },
-        "sentence_equation": {
-            "equation_id": "sentence-fixture",
-            "expression": "Build(Human,House)",
-        },
-        "semantic_knot": {
-            "concepts": ["human", "house"],
-            "operators": ["build"],
-        },
-        "invariant": {
-            "predicate": "build",
-            "agent": "human",
-            "patient": "house",
-            "polarity": "positive",
-        },
-        "meaning_state": {
-            "polarity": "positive",
-            "tam_e": {"tense": "present", "aspect": "imperfective"},
-            "deictic_anchors": [],
-        },
+        "sentence_equation": dict(response.response_equation),
+        "semantic_knot": dict(response.semantic_knot),
+        "invariant": dict(response.invariant),
+        "meaning_state": dict(response.meaning_state),
         "concept_cards": [
             {"card_id": "concept:human", "version": "1"},
             {"card_id": "concept:house", "version": "1"},
@@ -114,6 +152,7 @@ class ValidRoundTripValidator:
     polarity_preserved: bool = True
 
     def validate_surface(self, text: str, surface_plan: dict) -> RoundTripEvidence:
+        response_invariant = surface_plan["response_semantics"]["invariant"]
         return RoundTripEvidence(
             generated_surface_solution_sha256=canonical_sha256(
                 {"text": text, "kind": "SurfaceSolution"}
@@ -125,7 +164,7 @@ class ValidRoundTripValidator:
                 {"text": text, "kind": "SemanticKnot"}
             ),
             recovered_invariant_sha256=self.recovered_invariant_sha256
-            or canonical_sha256(surface_plan["invariant"]),
+            or canonical_sha256(response_invariant),
             semantic_equivalence=0.98,
             argument_structure_preserved=True,
             polarity_preserved=self.polarity_preserved,
@@ -149,7 +188,7 @@ class UnsafeGGUFBackend:
         )
 
 
-def test_endpoint_generates_receipted_polish_surface() -> None:
+def test_endpoint_generates_from_response_semantics_not_input_semantics() -> None:
     endpoint = NativeSurfaceGenerationEndpoint(
         validator=ValidRoundTripValidator(),
         cielingo_source_commit="fixture-cielingo-commit",
@@ -163,6 +202,12 @@ def test_endpoint_generates_receipted_polish_surface() -> None:
     assert "nie SOURCE" in response["final_text"]
     assert "nie canon" in response["final_text"]
     assert response["candidate"]["backend_kind"] == "cielingo_native"
+    assert response["candidate"]["prompt_binding_sha256"] == response[
+        "response_plan_sha256"
+    ]
+    assert response["roundtrip"]["response_plan_sha256"] == response[
+        "response_plan_sha256"
+    ]
     assert response["roundtrip"]["semantic_equivalence"] == 0.98
     assert response["receipt"]["external_ack"] is False
     assert response["receipt"]["memory_write_allowed"] is False
@@ -190,6 +235,18 @@ def test_candidate_aware_realizer_preserves_content_and_contract() -> None:
     assert regional.validate() == []
 
 
+def test_endpoint_rejects_missing_response_semantics() -> None:
+    plan = _surface_plan()
+    plan.pop("response_semantics")
+    body = {key: value for key, value in plan.items() if key != "surface_plan_sha256"}
+    plan["surface_plan_sha256"] = canonical_sha256(body)
+    endpoint = NativeSurfaceGenerationEndpoint(validator=ValidRoundTripValidator())
+    response = endpoint.handle(_request(plan))
+
+    assert response["status"] == "NACK"
+    assert "response_semantics" in response["detail"]
+
+
 def test_endpoint_rejects_semantic_invariant_loss() -> None:
     endpoint = NativeSurfaceGenerationEndpoint(
         validator=ValidRoundTripValidator(recovered_invariant_sha256="f" * 64)
@@ -197,7 +254,7 @@ def test_endpoint_rejects_semantic_invariant_loss() -> None:
     response = endpoint.handle(_request())
 
     assert response["status"] == "NACK"
-    assert "semantic invariant" in response["detail"]
+    assert "response semantic invariant" in response["detail"]
 
 
 def test_endpoint_rejects_non_advisory_gguf() -> None:
