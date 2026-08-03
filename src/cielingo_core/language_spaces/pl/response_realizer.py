@@ -1,5 +1,5 @@
 
-"""PL response realizer v1.1B."""
+"""PL response realizer v1.2 — candidate-aware surface realization."""
 
 from __future__ import annotations
 
@@ -75,13 +75,74 @@ def _base_text(contract: AllowedResponseContract) -> str:
     return " ".join(contract.required_markers)
 
 
-def realize_pl_response(contract: AllowedResponseContract) -> RegionalResponseDraft:
-    text = _base_text(contract)
+def _candidate_text(
+    contract: AllowedResponseContract,
+    candidate_text: str,
+) -> str:
+    """Bind fluent candidate content to the existing response contract.
+
+    The realizer does not infer meaning here. The candidate must already come
+    from a bound CIEL/Lingophysics SurfacePlan. This function only preserves the
+    requested content while ensuring explicit contract markers remain visible.
+    Forbidden claims are not removed; they are reported and cause validation to
+    fail upstream.
+    """
+
+    candidate = str(candidate_text).strip()
+    if not candidate:
+        raise ValueError("candidate_text must not be empty")
+
+    text = candidate
+    if contract.answer_kind == "draft_text_generation" and "draft_answer_candidate" not in text.lower():
+        text = "draft_answer_candidate: " + text
+
+    missing = [
+        marker
+        for marker in contract.required_markers
+        if marker.lower() not in text.lower()
+    ]
+    if missing:
+        boundary = ". ".join(marker.rstrip(".") for marker in missing)
+        text = text.rstrip()
+        if text and text[-1] not in ".!?":
+            text += "."
+        text += " " + boundary + "."
+    return text.strip()
+
+
+def realize_pl_response(
+    contract: AllowedResponseContract,
+    candidate_text: str | None = None,
+) -> RegionalResponseDraft:
+    """Realize a Polish response from a native semantic candidate.
+
+    Omitting ``candidate_text`` preserves the v1.1B deterministic safety
+    templates. Supplying it activates the generative surface lane while keeping
+    the same marker and forbidden-claim guards.
+    """
+
+    text = _base_text(contract) if candidate_text is None else _candidate_text(
+        contract, candidate_text
+    )
     preserved = [m for m in contract.required_markers if m.lower() in text.lower()]
     missing = [m for m in contract.required_markers if m.lower() not in text.lower()]
-    forbidden = forbidden_claims_after_required_markers(text, contract.required_markers, contract.forbidden_claims)
+    forbidden = forbidden_claims_after_required_markers(
+        text,
+        contract.required_markers,
+        contract.forbidden_claims,
+    )
 
-    payload = json.dumps({"contract": contract.contract_id, "text": text, "missing": missing, "forbidden": forbidden}, ensure_ascii=False, sort_keys=True)
+    payload = json.dumps(
+        {
+            "contract": contract.contract_id,
+            "text": text,
+            "missing": missing,
+            "forbidden": forbidden,
+            "candidate_bound": candidate_text is not None,
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+    )
     return RegionalResponseDraft(
         draft_id="pl_regional_response_" + sha256(payload.encode("utf-8")).hexdigest()[:16],
         language_id="pl",
