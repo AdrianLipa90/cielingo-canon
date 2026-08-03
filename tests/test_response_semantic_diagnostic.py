@@ -7,7 +7,12 @@ from cielingo_core.generation import (
 )
 from cielingo_core.language_spaces.pl.solver import PolishRegionalSolver
 from cielingo_core.lingophysics.sentence_equation import calculate_sentence_equation
-from tests.test_canonical_lingophysics_adapter import REPO_ROOT, _surface_plan
+from tests.test_canonical_lingophysics_adapter import (
+    REPO_ROOT,
+    _endpoint,
+    _request,
+    _surface_plan,
+)
 
 
 def test_canonical_response_semantic_diagnostic() -> None:
@@ -25,3 +30,6 @@ def test_canonical_response_semantic_diagnostic() -> None:
 
     assert verdict.tam_e_preserved is True, verdict.to_dict()
     assert verdict.conflicts == (), verdict.to_dict()
+
+    response = _endpoint().handle(_request(plan))
+    assert response["status"] == "ACK", response
