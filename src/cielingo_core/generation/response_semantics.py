@@ -1,19 +1,17 @@
 """Native response-semantic planning for CIELingo × Lingophysics.
 
-This module creates the *meaning of the answer* before surface realization.
-It is intentionally separate from the language backend: a backend may later
-propose wording, but it cannot choose propositions, authority, evidence, TAM-E,
-polarity or the response invariant.
+The planner creates the meaning of the answer before surface realization.  A
+language backend may later propose wording, but it cannot choose propositions,
+authority, evidence, TAM-E, polarity or the response invariant.
 
-The first planner is bounded and explicit.  It supports grounded answers,
-verification, requested proposition realization, safe command boundaries and
-clarification.  Unsupported or under-evidenced factual requests remain
-unresolved instead of being filled with invented facts.
+This implementation is deliberately bounded.  Unsupported or under-evidenced
+factual requests remain unresolved instead of being completed with invented
+facts.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import re
 from typing import Any, Mapping, Sequence
 
@@ -27,13 +25,7 @@ RESPONSE_PLAN_SCHEMA = "CIEL_RESPONSE_SEMANTIC_PLAN_V1"
 RESPONSE_PLAN_RECEIPT_SCHEMA = "NOEMA_CIEL_RESPONSE_PLAN_RECEIPT_V1"
 
 _ALLOWED_EVIDENCE_STATUS = {"verified", "accepted", "candidate", "ephemeral"}
-_ALLOWED_DISCOURSE_ACTS = {
-    "answer",
-    "verify",
-    "generate",
-    "boundary",
-    "clarify",
-}
+_ALLOWED_DISCOURSE_ACTS = {"answer", "verify", "generate", "boundary", "clarify"}
 _TOKEN_RE = re.compile(r"\w+|[^\w\s]", flags=re.UNICODE)
 
 
@@ -43,8 +35,6 @@ class ResponsePlanningError(ValueError):
 
 @dataclass(frozen=True)
 class SemanticEvidence:
-    """One receipted proposition selected from MemoryFabric or native context."""
-
     evidence_id: str
     lane_id: int
     subject: str
@@ -85,8 +75,6 @@ class SemanticEvidence:
 
 @dataclass(frozen=True)
 class SemanticProposition:
-    """A typed proposition owned by the response plan, not by the realizer."""
-
     proposition_id: str
     predicate: str
     roles: Mapping[str, str]
@@ -186,15 +174,23 @@ class ResponseSemanticPlan:
                 raise ResponsePlanningError("proposition references unselected evidence")
         if not self.surface_seed_tokens or any(not token for token in self.surface_seed_tokens):
             raise ResponsePlanningError("response surface seed must not be empty")
+
         response_equation_sha = canonical_sha256(self.response_equation)
         if response_equation_sha == self.source_sentence_equation_sha256:
             raise ResponsePlanningError(
                 "response equation must be a new discourse-semantic object"
             )
+        lead = self.propositions[0]
         if self.invariant.get("discourse_act") != self.discourse_act:
             raise ResponsePlanningError("response invariant does not bind discourse act")
         if self.invariant.get("response_equation_sha256") != response_equation_sha:
             raise ResponsePlanningError("response invariant does not bind equation")
+        if self.invariant.get("predicate") != lead.predicate:
+            raise ResponsePlanningError("response invariant does not bind lead predicate")
+        if dict(self.invariant.get("roles", {})) != dict(lead.roles):
+            raise ResponsePlanningError("response invariant does not bind lead roles")
+        if self.invariant.get("polarity") != lead.polarity:
+            raise ResponsePlanningError("response invariant does not bind polarity")
         if any(
             bool(self.claim_boundary.get(field, False))
             for field in (
@@ -272,17 +268,14 @@ class NativeResponseSemanticPlanner:
 
         if understood.intention in {QueryIntention.ASK, QueryIntention.VERIFY}:
             selected = _select_relevant_evidence(query, evidence)
+            discourse_act = (
+                "verify" if understood.intention == QueryIntention.VERIFY else "answer"
+            )
             if selected:
-                discourse_act = (
-                    "verify" if understood.intention == QueryIntention.VERIFY else "answer"
-                )
                 propositions = tuple(_proposition_from_evidence(item) for item in selected)
                 surface_tokens = _tokens_from_evidence(selected[0])
                 epistemic_status = "grounded"
             else:
-                discourse_act = (
-                    "verify" if understood.intention == QueryIntention.VERIFY else "answer"
-                )
                 propositions = (_unresolved_proposition(query),)
                 surface_tokens = tuple(
                     _tokenize(
@@ -319,17 +312,23 @@ class NativeResponseSemanticPlanner:
 
         response_equation = _response_equation(discourse_act, propositions)
         response_equation_sha = canonical_sha256(response_equation)
+        lead = propositions[0]
         semantic_knot = {
             "schema": "CIEL_RESPONSE_SEMANTIC_KNOT_V1",
             "discourse_act": discourse_act,
             "proposition_ids": [item.proposition_id for item in propositions],
             "predicates": [item.predicate for item in propositions],
+            "role_bindings": [dict(item.roles) for item in propositions],
             "evidence_ids": [item.evidence_id for item in selected],
             "source_query_sha256": canonical_sha256({"text": query}),
         }
         invariant = {
             "schema": "CIEL_RESPONSE_INVARIANT_V1",
             "discourse_act": discourse_act,
+            "predicate": lead.predicate,
+            "roles": dict(lead.roles),
+            "polarity": lead.polarity,
+            "tam_e": dict(lead.tam_e),
             "response_equation_sha256": response_equation_sha,
             "proposition_binding_sha256": canonical_sha256(
                 [item.to_dict() for item in propositions]
@@ -339,18 +338,9 @@ class NativeResponseSemanticPlanner:
             "style": style,
         }
         meaning_state = {
-            "polarity": "positive",
-            "tam_e": {
-                "tense": "Present",
-                "aspect": "Imperfective",
-                "mood": "Indicative",
-                "modality": (
-                    "Epistemic" if epistemic_status.startswith("unresolved") else None
-                ),
-                "evidentiality": (
-                    "MemoryReceipt" if selected else "Unknown"
-                ),
-            },
+            "polarity": lead.polarity,
+            "tam_e": dict(lead.tam_e),
+            "modality": lead.modality,
             "deictic_anchors": [],
             "scope": {"scope_status": "resolved", "discourse_act": discourse_act},
             "epistemic_status": epistemic_status,
@@ -393,11 +383,9 @@ class NativeResponseSemanticPlanner:
             claim_boundary=claim_boundary,
             plan_sha256="",
         )
-        plan = ResponseSemanticPlan(
-            **{
-                **provisional.__dict__,
-                "plan_sha256": canonical_sha256(provisional.to_binding_dict()),
-            }
+        plan = replace(
+            provisional,
+            plan_sha256=canonical_sha256(provisional.to_binding_dict()),
         )
         plan.validate()
         return plan
@@ -519,9 +507,7 @@ def parse_response_semantic_plan(payload: Mapping[str, Any]) -> ResponseSemantic
         source_query=str(payload["source_query"]),
         source_query_sha256=str(payload["source_query_sha256"]),
         source_native_binding_sha256=str(payload["source_native_binding_sha256"]),
-        source_sentence_equation_sha256=str(
-            payload["source_sentence_equation_sha256"]
-        ),
+        source_sentence_equation_sha256=str(payload["source_sentence_equation_sha256"]),
         memory_read_set_sha256=str(payload["memory_read_set_sha256"]),
         intention=str(payload["intention"]),
         discourse_act=str(payload["discourse_act"]),
@@ -707,11 +693,16 @@ def _proposition_from_native_request(
     meaning_state = lingophysics.get("meaning_state", {})
     if not isinstance(meaning_state, Mapping):
         meaning_state = {}
+    polarity = str(
+        meaning_state.get("polarity", invariant.get("polarity", "positive"))
+    )
+    if polarity not in {"positive", "negative"}:
+        raise ResponsePlanningError("native request polarity is unsupported")
     return SemanticProposition(
         proposition_id="prop_" + canonical_sha256(body)[:20],
         predicate=predicate,
         roles=roles,
-        polarity=str(meaning_state.get("polarity", invariant.get("polarity", "positive"))),
+        polarity=polarity,
         tam_e=dict(meaning_state.get("tam_e", meaning_state.get("tame", {}))),
         modality="requested_generation",
         confidence=1.0,
