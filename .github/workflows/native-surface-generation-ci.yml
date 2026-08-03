@@ -2,11 +2,15 @@ name: Native CIEL Semantic Generator CI
 
 on:
   pull_request:
-    branches: [main, feat/native-surface-generation-v0.4]
+    branches:
+      - main
+      - feat/native-surface-generation-v0.4
+      - feat/semantic-response-planner-v0.5
   push:
     branches:
       - feat/native-surface-generation-v0.4
       - feat/semantic-response-planner-v0.5
+      - feat/phase-bearing-evidence-v0.6
 
 jobs:
   generator-invariants:
@@ -30,12 +34,14 @@ jobs:
           python -c "from cielingo_core.generation import
           CanonicalLingophysicsRoundTripAdapter,
           CielingoLingophysicsRoundTripValidator,
+          DualNativeSurfaceGenerationEndpoint,
           NativeResponseSemanticPlanner,
           NativeResponseSemanticPlannerEndpoint,
           NativeSurfaceGenerationEndpoint,
           PlannedLingophysicsRoundTripAdapter;
           print(CanonicalLingophysicsRoundTripAdapter,
           CielingoLingophysicsRoundTripValidator,
+          DualNativeSurfaceGenerationEndpoint,
           NativeResponseSemanticPlanner,
           NativeResponseSemanticPlannerEndpoint,
           NativeSurfaceGenerationEndpoint,
@@ -47,6 +53,7 @@ jobs:
           python -m pytest -q
           tests/test_response_semantics.py
           tests/test_native_surface_generation.py
+          tests/test_dual_native_surface_generation.py
           tests/test_native_roundtrip_adapter.py
           tests/test_canonical_lingophysics_adapter.py
           tests/test_canonical_token_normalization.py
