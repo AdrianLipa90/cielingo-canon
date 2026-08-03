@@ -7,7 +7,9 @@ from cielingo_core.generation import (
     CandidateProposal,
     CanonicalLingophysicsRoundTripAdapter,
     CielingoLingophysicsRoundTripValidator,
+    NativeResponseSemanticPlanner,
     NativeSurfaceGenerationEndpoint,
+    PlannedLingophysicsRoundTripAdapter,
     canonical_sha256,
     semantic_payload_text,
 )
@@ -17,18 +19,70 @@ from cielingo_core.language_spaces.pl.solver import PolishRegionalSolver
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
+def _native_state() -> dict:
+    return {
+        "schema": "CIEL_NATIVE_SEMANTIC_STATE_V1",
+        "binding_sha256": "1" * 64,
+        "cielingo": {
+            "language_id": "pl",
+            "equation_id": "surface-input",
+            "tokens": ["Człowiek", "buduje", "dom"],
+            "slot_projection": {
+                "agent": [0],
+                "action": [1],
+                "patient": [2],
+            },
+        },
+        "lingophysics": {
+            "sentence_equation": {
+                "equation_id": "sentence-input",
+                "expression": "REQUEST_GENERATION(Build(Human,House))",
+            },
+            "semantic_knot": {
+                "concepts": ["human", "house"],
+                "operators": ["build"],
+            },
+            "invariant": {
+                "predicate": "build",
+                "agent": "human",
+                "patient": "house",
+                "polarity": "positive",
+            },
+            "meaning_state": {
+                "polarity": "positive",
+                "tam_e": {
+                    "tense": "Present",
+                    "aspect": "Imperfective",
+                    "mood": "Indicative",
+                    "evidentiality": "Unknown",
+                },
+            },
+        },
+    }
+
+
 def _surface_plan() -> dict:
+    native = _native_state()
+    response = NativeResponseSemanticPlanner().plan(
+        query="Napisz zdanie opisujące tę relację.",
+        source_native_semantics=native,
+        memory_context={"read_set_sha256": "3" * 64, "evidence": []},
+        target_language="pl",
+        style="plain",
+    )
     body = {
         "schema": "CIEL_NATIVE_SURFACE_PLAN_V1",
-        "native_semantic_binding_sha256": "1" * 64,
+        "native_semantic_binding_sha256": native["binding_sha256"],
         "phase_process_receipt_sha256": "2" * 64,
         "memory_read_set_sha256": "3" * 64,
+        "response_plan_sha256": response.plan_sha256,
+        "response_semantics": response.to_dict(),
         "target_language": "pl",
         "style": "plain",
         "cielingo_surface": {
             "language_id": "pl",
-            "equation_id": "surface-fixture",
-            "tokens": ["Człowiek", "buduje", "dom"],
+            "equation_id": response.plan_id,
+            "tokens": list(response.surface_seed_tokens),
             "slot_projection": {
                 "agent": [0],
                 "action": [1],
@@ -38,30 +92,10 @@ def _surface_plan() -> dict:
             "confidence": 0.95,
             "source_commit": "fixture-cielingo",
         },
-        "sentence_equation": {
-            "equation_id": "sentence-fixture",
-            "expression": "Build(Human,House)",
-        },
-        "semantic_knot": {
-            "concepts": ["human", "house"],
-            "operators": ["build"],
-        },
-        "invariant": {
-            "predicate": "build",
-            "agent": "human",
-            "patient": "house",
-            "polarity": "positive",
-        },
-        "meaning_state": {
-            "polarity": "positive",
-            "tam_e": {
-                "tense": "Present",
-                "aspect": "Imperfective",
-                "mood": "Indicative",
-                "evidentiality": "Unknown",
-            },
-            "deictic_anchors": [],
-        },
+        "sentence_equation": dict(response.response_equation),
+        "semantic_knot": dict(response.semantic_knot),
+        "invariant": dict(response.invariant),
+        "meaning_state": dict(response.meaning_state),
         "concept_cards": [
             {"card_id": "concept:human", "version": "1", "semantic_mass": 0.6},
             {"card_id": "concept:house", "version": "1", "semantic_mass": 0.5},
@@ -120,7 +154,8 @@ def _request(plan: dict | None = None) -> dict:
 
 def _endpoint(*, backend=None) -> NativeSurfaceGenerationEndpoint:
     solver = PolishRegionalSolver(REPO_ROOT)
-    adapter = CanonicalLingophysicsRoundTripAdapter.from_repo_root(REPO_ROOT)
+    canonical = CanonicalLingophysicsRoundTripAdapter.from_repo_root(REPO_ROOT)
+    adapter = PlannedLingophysicsRoundTripAdapter(canonical)
     validator = CielingoLingophysicsRoundTripValidator(
         regional_solver=solver,
         lingophysics_adapter=adapter,
@@ -157,7 +192,7 @@ class DeicticCandidateBackend:
         )
 
 
-def test_canonical_kernel_generates_and_recovers_invariant() -> None:
+def test_canonical_kernel_generates_and_recovers_response_invariant() -> None:
     response = _endpoint().handle(_request())
 
     assert response["status"] == "ACK"
@@ -168,6 +203,9 @@ def test_canonical_kernel_generates_and_recovers_invariant() -> None:
     assert response["roundtrip"]["tam_e_preserved"] is True
     assert response["roundtrip"]["deictic_anchors_preserved"] is True
     assert response["roundtrip"]["conflict_count"] == 0
+    assert response["roundtrip"]["response_plan_sha256"] == response[
+        "response_plan_sha256"
+    ]
     assert response["roundtrip"]["validator_source_commit"].startswith(
         "cielingo-canon:lingophysics"
     )
