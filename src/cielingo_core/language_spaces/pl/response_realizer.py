@@ -1,5 +1,5 @@
 
-"""PL response realizer v1.2 — candidate-aware surface realization."""
+"""PL response realizer v1.3 — candidate-aware semantic realization."""
 
 from __future__ import annotations
 
@@ -57,7 +57,11 @@ class RegionalResponseDraft:
         return asdict(self)
 
     def stable_hash(self) -> str:
-        return sha256(json.dumps(self.to_dict(), ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+        return sha256(
+            json.dumps(
+                self.to_dict(), ensure_ascii=False, sort_keys=True
+            ).encode("utf-8")
+        ).hexdigest()
 
 
 def _base_text(contract: AllowedResponseContract) -> str:
@@ -79,13 +83,12 @@ def _candidate_text(
     contract: AllowedResponseContract,
     candidate_text: str,
 ) -> str:
-    """Bind fluent candidate content to the existing response contract.
+    """Bind candidate content while keeping contract markers non-semantic.
 
-    The realizer does not infer meaning here. The candidate must already come
-    from a bound CIEL/Lingophysics SurfacePlan. This function only preserves the
-    requested content while ensuring explicit contract markers remain visible.
-    Forbidden claims are not removed; they are reported and cause validation to
-    fail upstream.
+    ``draft_answer_candidate`` is a boundary marker, not a proposition token.
+    Whenever the contract requires it, the marker is emitted as a prefix so the
+    round-trip layer can remove it deterministically before CIELingo parsing.
+    Remaining required markers are appended as sentence-final boundaries.
     """
 
     candidate = str(candidate_text).strip()
@@ -93,13 +96,17 @@ def _candidate_text(
         raise ValueError("candidate_text must not be empty")
 
     text = candidate
-    if contract.answer_kind == "draft_text_generation" and "draft_answer_candidate" not in text.lower():
+    requires_draft_marker = any(
+        marker.casefold() == "draft_answer_candidate"
+        for marker in contract.required_markers
+    )
+    if requires_draft_marker and "draft_answer_candidate" not in text.casefold():
         text = "draft_answer_candidate: " + text
 
     missing = [
         marker
         for marker in contract.required_markers
-        if marker.lower() not in text.lower()
+        if marker.casefold() not in text.casefold()
     ]
     if missing:
         boundary = ". ".join(marker.rstrip(".") for marker in missing)
@@ -114,18 +121,23 @@ def realize_pl_response(
     contract: AllowedResponseContract,
     candidate_text: str | None = None,
 ) -> RegionalResponseDraft:
-    """Realize a Polish response from a native semantic candidate.
+    """Realize a Polish response from a bound semantic candidate."""
 
-    Omitting ``candidate_text`` preserves the v1.1B deterministic safety
-    templates. Supplying it activates the generative surface lane while keeping
-    the same marker and forbidden-claim guards.
-    """
-
-    text = _base_text(contract) if candidate_text is None else _candidate_text(
-        contract, candidate_text
+    text = (
+        _base_text(contract)
+        if candidate_text is None
+        else _candidate_text(contract, candidate_text)
     )
-    preserved = [m for m in contract.required_markers if m.lower() in text.lower()]
-    missing = [m for m in contract.required_markers if m.lower() not in text.lower()]
+    preserved = [
+        marker
+        for marker in contract.required_markers
+        if marker.casefold() in text.casefold()
+    ]
+    missing = [
+        marker
+        for marker in contract.required_markers
+        if marker.casefold() not in text.casefold()
+    ]
     forbidden = forbidden_claims_after_required_markers(
         text,
         contract.required_markers,
@@ -144,7 +156,8 @@ def realize_pl_response(
         sort_keys=True,
     )
     return RegionalResponseDraft(
-        draft_id="pl_regional_response_" + sha256(payload.encode("utf-8")).hexdigest()[:16],
+        draft_id="pl_regional_response_"
+        + sha256(payload.encode("utf-8")).hexdigest()[:16],
         language_id="pl",
         contract_id=contract.contract_id,
         answer_kind=contract.answer_kind,

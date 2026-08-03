@@ -1,17 +1,14 @@
 """Native CIELingo × Lingophysics surface-generation endpoint.
 
-The endpoint realizes text from a previously bound semantic SurfacePlan. It
-never parses or invents semantic structure locally. A LanguageBackend may
-propose fluent wording, CIELingo owns regional and expressive realization, and
-an injected CIELingo × Lingophysics validator must prove a semantic round trip
-before the result is acknowledged.
+Surface generation is downstream of response-semantic planning.  The endpoint
+never chooses answer propositions.  It realizes the receipted
+``CIEL_RESPONSE_SEMANTIC_PLAN_V1`` and requires an independent CIELingo ×
+Lingophysics round trip against the *response* invariant before ACK.
 """
 
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from hashlib import sha256
-import json
 from typing import Any, Mapping, Protocol
 
 from cielingo_core.expressive.style_renderer import (
@@ -21,35 +18,18 @@ from cielingo_core.expressive.style_renderer import (
 from cielingo_core.global_layer.response_contract import build_response_contract
 from cielingo_core.language_spaces.pl.response_realizer import realize_pl_response
 
+from .hashing import canonical_sha256, is_sha256
+from .response_semantics import ResponseSemanticPlan, parse_response_semantic_plan
+
 REQUEST_SCHEMA = "CIEL_AUX_TEXT_GENERATION_REQUEST_V1"
 RESULT_SCHEMA = "CIEL_AUX_TEXT_GENERATION_RESULT_V1"
 RECEIPT_SCHEMA = "NOEMA_CIEL_TEXT_GENERATION_RECEIPT_V1"
 SURFACE_PLAN_SCHEMA = "CIEL_NATIVE_SURFACE_PLAN_V1"
 
 
-def canonical_sha256(value: Any) -> str:
-    payload = json.dumps(
-        value,
-        ensure_ascii=False,
-        sort_keys=True,
-        separators=(",", ":"),
-    ).encode("utf-8")
-    return sha256(payload).hexdigest()
-
-
-def _is_sha256(value: Any) -> bool:
-    if not isinstance(value, str) or len(value) != 64:
-        return False
-    try:
-        int(value, 16)
-    except ValueError:
-        return False
-    return True
-
-
 @dataclass(frozen=True)
 class CandidateProposal:
-    """Fluent wording proposed from a bound native semantic plan."""
+    """Fluent wording proposed from an already fixed response meaning."""
 
     text: str
     backend_kind: str
@@ -80,30 +60,20 @@ class LanguageBackend(Protocol):
     """Surface proposer; never the semantic source of truth."""
 
     def propose(self, surface_plan: Mapping[str, Any]) -> CandidateProposal:
-        """Return one wording candidate from the bound SurfacePlan."""
+        """Return one wording candidate for the bound response plan."""
 
 
 @dataclass(frozen=True)
 class DeterministicSurfaceBackend:
-    """Native deterministic reconstruction for bounded/offline operation.
+    """Deterministic realization of planner-provided surface seed tokens."""
 
-    This backend joins the ordered CIELingo surface tokens. It is suitable when
-    the SurfacePlan already describes the desired response semantics. It is not
-    an alternate parser or semantic engine.
-    """
-
-    backend_id: str = "cielingo-deterministic-surface"
-    backend_version: str = "v1"
-    source_commit: str = "cielingo-canon"
+    backend_id: str = "cielingo-response-plan-surface"
+    backend_version: str = "v2"
+    source_commit: str = "cielingo-canon:semantic-response-planner-v0.5"
 
     def propose(self, surface_plan: Mapping[str, Any]) -> CandidateProposal:
-        surface = surface_plan.get("cielingo_surface", {})
-        if not isinstance(surface, Mapping):
-            raise ValueError("SurfacePlan cielingo_surface must be an object")
-        tokens = [str(token) for token in surface.get("tokens", ())]
-        if not tokens:
-            raise ValueError("SurfacePlan contains no CIELingo tokens")
-        text = _detokenize(tokens)
+        response_plan = _response_plan(surface_plan)
+        text = _detokenize(list(response_plan.surface_seed_tokens))
         return CandidateProposal(
             text=text,
             backend_kind="cielingo_native",
@@ -161,11 +131,12 @@ class RoundTripEvidence:
             "generated_semantic_knot_sha256",
             "recovered_invariant_sha256",
         ):
-            if not _is_sha256(getattr(self, name)):
+            if not is_sha256(getattr(self, name)):
                 issues.append(f"{name} must be SHA-256")
-        expected_invariant = canonical_sha256(surface_plan.get("invariant"))
+        response_plan = _response_plan(surface_plan)
+        expected_invariant = canonical_sha256(response_plan.invariant)
         if self.recovered_invariant_sha256 != expected_invariant:
-            issues.append("generated text did not preserve semantic invariant")
+            issues.append("generated text did not preserve response semantic invariant")
         if not 0.0 <= float(self.semantic_equivalence) <= 1.0:
             issues.append("semantic_equivalence must be in [0,1]")
         elif float(self.semantic_equivalence) < float(minimum_equivalence):
@@ -227,7 +198,9 @@ class NativeSurfaceGenerationEndpoint:
         if not nonce:
             raise ValueError("generation nonce is required")
         request_sha = str(request.get("request_sha256", ""))
-        request_body = {key: value for key, value in request.items() if key != "request_sha256"}
+        request_body = {
+            key: value for key, value in request.items() if key != "request_sha256"
+        }
         if request_sha != canonical_sha256(request_body):
             raise ValueError("text generation request hash mismatch")
 
@@ -255,8 +228,17 @@ class NativeSurfaceGenerationEndpoint:
             ("phase_process_receipt_sha256", phase_receipt),
             ("memory_read_set_sha256", memory_read_hash),
         ):
-            if not _is_sha256(value):
+            if not is_sha256(value):
                 raise ValueError(f"SurfacePlan {name} must be SHA-256")
+
+        response_plan = _response_plan(surface_plan)
+        if response_plan.source_native_binding_sha256 != native_binding:
+            raise ValueError("response plan does not bind source native semantics")
+        if response_plan.memory_read_set_sha256 != memory_read_hash:
+            raise ValueError("response plan does not bind the memory read set")
+        declared_response_sha = str(surface_plan.get("response_plan_sha256", ""))
+        if declared_response_sha != response_plan.plan_sha256:
+            raise ValueError("SurfacePlan does not bind response semantic plan")
 
         policy = surface_plan.get("policy", {})
         if not isinstance(policy, Mapping):
@@ -267,15 +249,26 @@ class NativeSurfaceGenerationEndpoint:
         minimum_equivalence = float(policy.get("min_semantic_equivalence", 0.90))
         if target_language != "pl":
             raise ValueError("native endpoint currently requires target_language=pl")
+        if response_plan.invariant.get("target_language") != target_language:
+            raise ValueError("response plan target language does not match policy")
         if max_chars <= 0:
             raise ValueError("generation max_chars must be positive")
         if not 0.0 <= minimum_equivalence <= 1.0:
             raise ValueError("min_semantic_equivalence must be in [0,1]")
 
+        epistemic_status = str(response_plan.invariant.get("epistemic_status", ""))
         contract = build_response_contract(
-            intention="generate_text",
-            answer_kind="draft_text_generation",
-            severity="info",
+            intention=response_plan.intention,
+            answer_kind=f"semantic_{response_plan.discourse_act}",
+            severity=(
+                "warning"
+                if epistemic_status in {
+                    "unresolved_source_required",
+                    "execution_not_granted",
+                    "clarification_required",
+                }
+                else "info"
+            ),
             required_markers=[
                 "draft_answer_candidate",
                 "nie SOURCE",
@@ -287,9 +280,13 @@ class NativeSurfaceGenerationEndpoint:
                 "runtime executed",
                 "CURRENT updated",
             ],
-            uncertainty_required=False,
-            source_required=False,
-            repair_routes=[],
+            uncertainty_required=epistemic_status == "unresolved_source_required",
+            source_required=epistemic_status == "unresolved_source_required",
+            repair_routes=(
+                ["attach_source"]
+                if epistemic_status == "unresolved_source_required"
+                else []
+            ),
         )
         contract_issues = contract.validate()
         if contract_issues:
@@ -349,13 +346,14 @@ class NativeSurfaceGenerationEndpoint:
                 for card in surface_plan.get("operator_cards", ())
             ]
         )
-        invariant_sha = canonical_sha256(surface_plan.get("invariant"))
+        invariant_sha = canonical_sha256(response_plan.invariant)
         roundtrip_body = {
             **evidence.to_dict(),
             "source_invariant_sha256": invariant_sha,
             "concept_binding_sha256": concept_binding,
             "operator_binding_sha256": operator_binding,
             "required_markers_preserved": True,
+            "response_plan_sha256": response_plan.plan_sha256,
         }
         roundtrip = {
             **roundtrip_body,
@@ -379,7 +377,7 @@ class NativeSurfaceGenerationEndpoint:
             "candidate_id": "surface_candidate_"
             + canonical_sha256(
                 {
-                    "plan": plan_sha,
+                    "plan": response_plan.plan_sha256,
                     "backend": candidate.backend_id,
                     "text": candidate.text,
                 }
@@ -388,7 +386,7 @@ class NativeSurfaceGenerationEndpoint:
             "backend_kind": candidate.backend_kind,
             "backend_id": candidate.backend_id,
             "backend_version": candidate.backend_version,
-            "prompt_binding_sha256": plan_sha,
+            "prompt_binding_sha256": response_plan.plan_sha256,
             "candidate_sha256": canonical_sha256({"text": candidate.text}),
             "advisory_only": candidate.advisory_only,
             "source_commit": candidate.source_commit,
@@ -451,6 +449,7 @@ class NativeSurfaceGenerationEndpoint:
             "native_semantic_binding_sha256": native_binding,
             "phase_process_receipt_sha256": phase_receipt,
             "memory_read_set_sha256": memory_read_hash,
+            "response_plan_sha256": response_plan.plan_sha256,
             "surface_plan_sha256": plan_sha,
             "final_text_sha256": canonical_sha256({"text": expressive.text}),
             "canon_allowed": False,
@@ -468,6 +467,7 @@ class NativeSurfaceGenerationEndpoint:
             "schema": RESULT_SCHEMA,
             "status": "ACK",
             "request_sha256": request_sha,
+            "response_plan_sha256": response_plan.plan_sha256,
             "surface_plan_sha256": plan_sha,
             "target_language": target_language,
             "style": style,
@@ -479,3 +479,21 @@ class NativeSurfaceGenerationEndpoint:
             "roundtrip": roundtrip,
             "receipt": receipt,
         }
+
+
+def _response_plan(surface_plan: Mapping[str, Any]) -> ResponseSemanticPlan:
+    payload = surface_plan.get("response_semantics")
+    if not isinstance(payload, Mapping):
+        raise ValueError("SurfacePlan requires response_semantics")
+    return parse_response_semantic_plan(payload)
+
+
+__all__ = [
+    "CandidateProposal",
+    "DeterministicSurfaceBackend",
+    "LanguageBackend",
+    "NativeSurfaceGenerationEndpoint",
+    "RoundTripEvidence",
+    "RoundTripValidator",
+    "canonical_sha256",
+]
