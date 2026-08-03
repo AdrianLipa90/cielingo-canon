@@ -14,6 +14,7 @@ This is still not a full Polish parser or morphology engine.
 
 from __future__ import annotations
 
+from hashlib import sha256
 from pathlib import Path
 
 from cielingo_core.global_layer.contracts import SurfaceSolution
@@ -149,9 +150,12 @@ class PolishRegionalSolver:
         )
         local_j = attach_kuramoto_report_to_local_j(local_j, kuramoto_report)
 
+        # Python's built-in hash is process-randomized and cannot be part of a
+        # receipted ABI. The equation id is therefore stable across runtimes.
+        stable_text_id = sha256(text.encode("utf-8")).hexdigest()[:16]
         solution = SurfaceSolution(
             language_id=self.language_id,
-            equation_id="surface_pl_" + str(abs(hash(text)) % 10_000_000),
+            equation_id="surface_pl_" + stable_text_id,
             tokens=segments.tokens,
             slot_projection=slot_projection,
             local_j=local_j,
