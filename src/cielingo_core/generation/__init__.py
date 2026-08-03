@@ -17,6 +17,7 @@ from .native_roundtrip import (
     RegionalSolver,
     semantic_payload_text,
 )
+from .planned_roundtrip import PlannedLingophysicsRoundTripAdapter
 from .response_semantics import (
     NativeResponseSemanticPlanner,
     NativeResponseSemanticPlannerEndpoint,
@@ -42,6 +43,7 @@ __all__ = [
     "NativeResponseSemanticPlanner",
     "NativeResponseSemanticPlannerEndpoint",
     "NativeSurfaceGenerationEndpoint",
+    "PlannedLingophysicsRoundTripAdapter",
     "RESPONSE_PLAN_RECEIPT_SCHEMA",
     "RESPONSE_PLAN_REQUEST_SCHEMA",
     "RESPONSE_PLAN_RESULT_SCHEMA",
