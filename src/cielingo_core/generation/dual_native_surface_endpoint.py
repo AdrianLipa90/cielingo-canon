@@ -47,6 +47,12 @@ def _validate_native_payload(
         raise ValueError(f"{name} MemoryReadSet binding mismatch")
     _mapping(payload.get("cielingo"), name=f"{name}.cielingo")
     _mapping(payload.get("lingophysics"), name=f"{name}.lingophysics")
+    claim_boundary = _mapping(
+        payload.get("claim_boundary"), name=f"{name}.claim_boundary"
+    )
+    for authority in ("canon_promoted", "source_promoted", "code_updated"):
+        if bool(claim_boundary.get(authority, False)):
+            raise ValueError(f"{name} grants forbidden authority: {authority}")
     return payload
 
 
@@ -88,9 +94,7 @@ class DualNativeSurfaceGenerationEndpoint:
         if request_sha != canonical_sha256(request_body):
             raise ValueError("text generation request hash mismatch")
 
-        surface_plan = request.get("surface_plan")
-        if not isinstance(surface_plan, Mapping):
-            raise ValueError("surface_plan must be an object")
+        surface_plan = _mapping(request.get("surface_plan"), name="surface_plan")
         if surface_plan.get("schema") != DUAL_SURFACE_PLAN_SCHEMA:
             raise ValueError("invalid dual-native SurfacePlan schema")
         surface_sha = str(request.get("surface_plan_sha256", ""))
@@ -103,6 +107,30 @@ class DualNativeSurfaceGenerationEndpoint:
         }
         if surface_sha != canonical_sha256(surface_body):
             raise ValueError("dual-native SurfacePlan hash mismatch")
+
+        surface_claim_boundary = _mapping(
+            surface_plan.get("claim_boundary"), name="surface_plan.claim_boundary"
+        )
+        for required_flag in (
+            "full_source_native_payload_bound",
+            "full_response_native_payload_bound",
+            "remote_native_binding_recomputation_required",
+        ):
+            if not bool(surface_claim_boundary.get(required_flag, False)):
+                raise ValueError(
+                    f"dual-native SurfacePlan requires {required_flag}=true"
+                )
+        for authority in (
+            "canon_allowed",
+            "source_promotion_allowed",
+            "runtime_execution_allowed",
+            "memory_write_allowed",
+            "code_update_allowed",
+        ):
+            if bool(surface_claim_boundary.get(authority, False)):
+                raise ValueError(
+                    f"dual-native SurfacePlan grants forbidden authority: {authority}"
+                )
 
         source_native = str(
             surface_plan.get("source_native_semantic_binding_sha256", "")
@@ -148,9 +176,9 @@ class DualNativeSurfaceGenerationEndpoint:
             name="response_native_semantics",
         )
 
-        response_payload = surface_plan.get("response_semantics")
-        if not isinstance(response_payload, Mapping):
-            raise ValueError("dual-native SurfacePlan requires response_semantics")
+        response_payload = _mapping(
+            surface_plan.get("response_semantics"), name="response_semantics"
+        )
         response_plan = parse_response_semantic_plan(response_payload)
         if response_plan.plan_sha256 != response_plan_sha:
             raise ValueError("dual-native SurfacePlan response-plan mismatch")
@@ -209,15 +237,9 @@ class DualNativeSurfaceGenerationEndpoint:
             "potential_components",
             "orbit",
         ):
-            native_field = (
-                response_lingophysics.get(field_name)
-                if field_name
-                not in {"sentence_equation", "semantic_knot", "invariant", "meaning_state"}
-                else response_lingophysics.get(field_name)
-            )
             _require_equal(
                 surface_plan.get(field_name),
-                native_field,
+                response_lingophysics.get(field_name),
                 name=field_name,
             )
         _require_equal(
@@ -260,7 +282,7 @@ class DualNativeSurfaceGenerationEndpoint:
             "consensus": surface_plan.get("consensus", {}),
             "policy": surface_plan.get("policy", {}),
             "claim_boundary": {
-                **dict(surface_plan.get("claim_boundary", {})),
+                **dict(surface_claim_boundary),
                 "dual_native_compatibility_projection": True,
                 "full_native_payloads_recomputed": True,
                 "source_native_semantic_binding_sha256": source_native,
@@ -296,9 +318,9 @@ class DualNativeSurfaceGenerationEndpoint:
             }
 
         out = dict(inner_response)
-        inner_receipt = out.get("receipt")
-        if not isinstance(inner_receipt, Mapping):
-            raise ValueError("canonical surface endpoint returned no receipt")
+        inner_receipt = _mapping(
+            out.get("receipt"), name="canonical surface endpoint receipt"
+        )
         receipt_body = {
             "schema": "NOEMA_CIEL_TEXT_GENERATION_RECEIPT_V1",
             "transport": "native_cielingo_dual_endpoint",
