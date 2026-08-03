@@ -1,14 +1,17 @@
 """Native semantic round-trip adapter for generated CIEL surfaces.
 
-CIELingo recompiles the final text through an existing regional solver and
-`calculate_sentence_equation`. Lingophysics remains authoritative for semantic
-knot/invariant recovery and equivalence. This module only orchestrates those
-existing components and converts their output into endpoint evidence.
+CIELingo recompiles the semantic payload of the final text through an existing
+regional solver and ``calculate_sentence_equation``. Lingophysics remains
+authoritative for semantic knot/invariant recovery and equivalence. Contract
+markers are validated by the endpoint but removed from the semantic payload
+before linguistic recompilation so safety phrases such as ``nie SOURCE`` do not
+look like proposition-level negation.
 """
 
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+import re
 from typing import Any, Callable, Mapping, Protocol
 
 from cielingo_core.generation.native_surface_endpoint import (
@@ -84,7 +87,8 @@ class CielingoLingophysicsRoundTripValidator:
         text: str,
         surface_plan: Mapping[str, Any],
     ) -> RoundTripEvidence:
-        regional = self.regional_solver.solve(text)
+        semantic_text = semantic_payload_text(text)
+        regional = self.regional_solver.solve(semantic_text)
         regional_issues = regional.validate()
         if regional_issues:
             raise ValueError(
@@ -137,6 +141,48 @@ class CielingoLingophysicsRoundTripValidator:
             conflict_count=len(verdict.conflicts),
             validator_source_commit=verdict.source_commit,
         )
+
+
+def semantic_payload_text(text: str) -> str:
+    """Extract proposition text from the visible contract-wrapped response.
+
+    Required markers stay in the final output and are checked separately by the
+    response contract. They are not proposition content and therefore must not
+    perturb polarity, TAM-E, scope or deictic analysis.
+    """
+
+    value = str(text).strip()
+    prefixes = (
+        "Wersja formalna: ",
+        "Spin ustawiony na jawność granic: ",
+        "Na powierzchni odpowiedzi zostawiam kotwice bezpieczeństwa: ",
+    )
+    for prefix in prefixes:
+        if value.startswith(prefix):
+            value = value[len(prefix):].lstrip()
+            break
+
+    value = re.sub(
+        r"^draft_answer_candidate\s*:\s*",
+        "",
+        value,
+        flags=re.IGNORECASE,
+    )
+    # The candidate-aware realizer appends missing markers as sentence-final
+    # boundary declarations. Remove only those exact boundary forms.
+    value = re.sub(
+        r"(?:\s*\.\s*)?draft_answer_candidate\s*\.?\s*$",
+        "",
+        value,
+        flags=re.IGNORECASE,
+    )
+    value = re.sub(
+        r"\s*\.\s*nie SOURCE\s*\.\s*nie canon\s*\.\s*$",
+        ".",
+        value,
+        flags=re.IGNORECASE,
+    )
+    return value.strip()
 
 
 def _surface_solution_dict(result: RegionalSolveResult) -> dict[str, Any]:
