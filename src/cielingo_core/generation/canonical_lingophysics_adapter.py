@@ -12,7 +12,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
-import math
 from pathlib import Path
 import re
 from typing import Any, Mapping, Sequence
@@ -28,7 +27,7 @@ from cielingo_core.generation.native_surface_endpoint import canonical_sha256
 from cielingo_core.regional.base import RegionalSolveResult
 
 
-_PUNCTUATION = " \\t\\r\\n.,!?;:%()[]{}<>\"'„”«»—–-"
+_PUNCTUATION = " \t\r\n.,!?;:%()[]{}<>\"'„”«»—–-"
 _ROLE_ALIASES = {
     "agent": "Agent",
     "patient": "Patient",
@@ -459,7 +458,9 @@ def _potential_orbit_diagnostics(plan: Mapping[str, Any]) -> dict[str, Any]:
         consensus = {}
     phase = float(consensus.get("holonomy_phase", 0.0))
     coherence = float(consensus.get("coherence", 0.0))
-    holonomy, derived_coherence = consensus_holonomy([phase], [max(coherence, 1.0e-9)])
+    holonomy, derived_coherence = consensus_holonomy(
+        [phase], [max(coherence, 1.0e-9)]
+    )
 
     orbit = plan.get("orbit", {})
     if not isinstance(orbit, Mapping):
@@ -597,7 +598,8 @@ def _encode_tame(values: Mapping[str, Any], system: Mapping[str, Any]):
         aspect=str(values.get("aspect") or "Imperfective"),
         mood=str(values.get("mood") or "Indicative"),
         modality=(
-            None if values.get("modality") in {None, "None", ""}
+            None
+            if values.get("modality") in {None, "None", ""}
             else str(values.get("modality"))
         ),
         evidentiality=str(values.get("evidentiality") or "Unknown"),
