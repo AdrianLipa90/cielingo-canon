@@ -4,13 +4,12 @@ on:
   pull_request:
     branches:
       - main
-      - feat/native-surface-generation-v0.4
-      - feat/semantic-response-planner-v0.5
   push:
     branches:
-      - feat/native-surface-generation-v0.4
-      - feat/semantic-response-planner-v0.5
-      - feat/phase-bearing-evidence-v0.6
+      - main
+
+permissions:
+  contents: read
 
 jobs:
   generator-invariants:
