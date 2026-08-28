@@ -43,12 +43,17 @@ def logits_sha256(logits: Sequence[float]) -> str:
 
 @dataclass
 class LinearStructuralResidualExpert:
-    """Zero-initializable linear residual operating beside a frozen base LM."""
+    """Zero-initializable residual operating beside a frozen base LM.
+
+    The reference expert intentionally has no trainable intercept. Therefore a
+    zero structural feature vector always produces an exact zero residual,
+    preventing the expert from learning a lexical token prior independently of
+    CIEL/Lingophysics relations.
+    """
 
     vocab_size: int
     feature_order: tuple[str, ...]
     weights: list[list[float]]
-    bias: list[float]
 
     @classmethod
     def zero_initialized(
@@ -65,11 +70,10 @@ class LinearStructuralResidualExpert:
             vocab_size=int(vocab_size),
             feature_order=order,
             weights=[[0.0 for _ in order] for _ in range(int(vocab_size))],
-            bias=[0.0 for _ in range(int(vocab_size))],
         )
 
     def _validate_state(self) -> None:
-        if len(self.weights) != self.vocab_size or len(self.bias) != self.vocab_size:
+        if len(self.weights) != self.vocab_size:
             raise StructuralResidualError("expert vocabulary dimensions are inconsistent")
         width = len(self.feature_order)
         for row_index, row in enumerate(self.weights):
@@ -77,15 +81,13 @@ class LinearStructuralResidualExpert:
                 raise StructuralResidualError("expert feature dimensions are inconsistent")
             for col_index, value in enumerate(row):
                 _finite_float(value, f"weights[{row_index}][{col_index}]")
-        for index, value in enumerate(self.bias):
-            _finite_float(value, f"bias[{index}]")
 
     def residual_logits(self, features: Mapping[str, float]) -> tuple[float, ...]:
         self._validate_state()
         vector = feature_vector(features, feature_order=self.feature_order)
         out = []
-        for row, bias in zip(self.weights, self.bias):
-            value = float(bias) + sum(weight * feature for weight, feature in zip(row, vector))
+        for row in self.weights:
+            value = sum(weight * feature for weight, feature in zip(row, vector))
             out.append(_finite_float(value, "residual_logit"))
         return tuple(out)
 
@@ -117,7 +119,7 @@ class LinearStructuralResidualExpert:
         learning_rate: float,
         gate: float = 1.0,
     ) -> float:
-        """Update residual parameters with one cross-entropy step."""
+        """Update structural weights with one cross-entropy step."""
 
         self._validate_state()
         target = int(target_index)
@@ -141,7 +143,6 @@ class LinearStructuralResidualExpert:
         for vocab_index, probability in enumerate(probabilities):
             grad_logit = probability - (1.0 if vocab_index == target else 0.0)
             scaled = gate_value * grad_logit
-            self.bias[vocab_index] -= lr * scaled
             row = self.weights[vocab_index]
             for feature_index, feature_value in enumerate(vector):
                 row[feature_index] -= lr * scaled * feature_value
@@ -155,7 +156,6 @@ class LinearStructuralResidualExpert:
             "vocab_size": self.vocab_size,
             "feature_order": list(self.feature_order),
             "weights": self.weights,
-            "bias": self.bias,
         }
         raw = json.dumps(payload, separators=(",", ":"), sort_keys=True).encode("utf-8")
         return hashlib.sha256(raw).hexdigest()
