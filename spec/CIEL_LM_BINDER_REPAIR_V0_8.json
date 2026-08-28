@@ -1,0 +1,30 @@
+{
+  "schema": "CIELINGO_BINDER_REPAIR_SPEC_V0_8",
+  "created_unix_ns": 1787959847662858866,
+  "status": "FROZEN_BEFORE_PATCH",
+  "defects": [
+    "ATLAS_SHADOWING: load_atlas_cards selects controlled_24 while controlled_48 exists",
+    "SUBSTRING_OVERBINDING: fl in token or token in fl emits score=0.75 broad candidates"
+  ],
+  "repair": {
+    "atlas_priority": [
+      "controlled_48_slot_runtime_cards_v0_6a.jsonl",
+      "controlled_24_slot_runtime_cards_v0_5e.jsonl",
+      "trilingual_runtime_cards_v0_3b.jsonl"
+    ],
+    "matching": "normalized whole-token equality against lemma/surface_forms only",
+    "token_normalization": "lowercase plus boundary punctuation strip",
+    "substring_candidate_score_075": "removed"
+  },
+  "acceptance": [
+    "PL loader returns 48 controlled cards",
+    "token z produces no card candidate solely from substring overlap",
+    "token informacja produces no conjunction i candidate",
+    "\u017ar\u00f3d\u0142o, matches pl_source exact with score 1.0",
+    "no candidate score below 1.0 is emitted by match_cards_to_tokens",
+    "CIEL-LM project regression passes",
+    "relevant CIELingo regional tests pass"
+  ],
+  "authority": "local_candidate_patch",
+  "canon_allowed": false
+}
