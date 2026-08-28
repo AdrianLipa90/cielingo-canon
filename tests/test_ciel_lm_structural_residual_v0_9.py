@@ -15,6 +15,12 @@ FEATURES = {
     "case_role_link": 0.25,
     "conflict_penalty": 0.0,
 }
+ZERO_FEATURES = {
+    "operator_argument_link": 0.0,
+    "same_event_frame": 0.0,
+    "case_role_link": 0.0,
+    "conflict_penalty": 0.0,
+}
 
 
 def test_zero_init_reproduces_base_logits_exactly():
@@ -35,6 +41,14 @@ def test_training_mutates_expert_while_base_logits_remain_identical():
     assert expert.parameter_sha256() != expert_hash_before
     assert logits_sha256(base) == base_hash
     assert base == (0.5, -0.2, 1.7)
+
+
+def test_zero_structural_features_reproduce_base_after_training():
+    base = (0.5, -0.2, 1.7)
+    expert = LinearStructuralResidualExpert.zero_initialized(3)
+    expert.train_step(base, FEATURES, 1, learning_rate=0.1)
+    assert expert.residual_logits(ZERO_FEATURES) == (0.0, 0.0, 0.0)
+    assert expert.compose_logits(base, ZERO_FEATURES) == base
 
 
 def test_zero_gate_reproduces_base_after_expert_training():
