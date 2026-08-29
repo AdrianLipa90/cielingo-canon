@@ -5,7 +5,7 @@ def test_exact_smoke(tmp_path):
     assert True
 
 def conformance(atlas: Path):
-    a=carrier_diagnostics(['run','source'],atlas)
+    a=carrier_diagnostics(['source','file'],atlas)
     z=carrier_diagnostics(['zzzz_noncard','qqqq_noncard'],atlas)
     assert a['all_candidate_scores_exact'] and z['all_candidate_scores_exact']
     assert a['candidate_count']>=2
