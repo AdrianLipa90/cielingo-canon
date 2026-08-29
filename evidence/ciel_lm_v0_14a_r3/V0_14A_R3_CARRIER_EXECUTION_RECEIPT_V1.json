@@ -1,0 +1,40 @@
+{
+  "candidate_count": 109,
+  "canon_allowed": false,
+  "classification": "PASS_EXECUTION_INTEGRITY__BLOCK_VALIDATION_CARRIER_COVERAGE",
+  "gate": {
+    "all_candidate_scores_exact": true,
+    "source_hashes": true,
+    "training_nonzero_relation_windows": true,
+    "unique_nonzero_validation_vectors": true,
+    "validation_nonzero_relation_windows": false
+  },
+  "implementation_freeze_sha256": "041aa107d247aefd05bdfb602a6ce854082473f9fe82993ec5bd391513d25851",
+  "lm_quality_outcome_observed": false,
+  "next_rule": "do not lower carrier gate or introduce fuzzy matching on this result; perform post-hoc coverage localization only, then preregister any successor carrier before measuring a new universe",
+  "noema_fast_admission_after": "PASS",
+  "noema_fast_admission_before": "PASS",
+  "post_run_byte_replay": "4/4 PASS",
+  "prereg_sha256": "d84af508442d9647d041f76375853333ce7d5c07e0ca5bda166a5c17e711af89",
+  "report_sha256": "ddeda1eb87bb300ace785aaa327d0bf29c10b06a9f108e0515b3384bca92a1ac",
+  "schema": "CIEL_LM_V0_14A_R3_CARRIER_EXECUTION_RECEIPT_V1",
+  "source_archive_sha256": "fef25a4cb20380483fec5b3e84ad8a2d1465e6a53ecf6dfd9ec42ec67d82e9ef",
+  "source_universe_sha256": "9d5530ece47dc8132d2e015ab0f0c7d7e75155ee75ba2744ad602d1acde63d88",
+  "status": "BLOCK_CARRIER_ADMISSION",
+  "training": {
+    "all_candidate_scores_exact": true,
+    "nonzero_relation_windows": 20,
+    "operator_bound_candidates": 76,
+    "total_exact_candidates": 193,
+    "unique_nonzero_vectors": 10,
+    "windows": 64
+  },
+  "validation": {
+    "all_candidate_scores_exact": true,
+    "nonzero_relation_windows": 5,
+    "operator_bound_candidates": 10,
+    "total_exact_candidates": 35,
+    "unique_nonzero_vectors": 3,
+    "windows": 16
+  }
+}
