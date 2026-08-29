@@ -1,0 +1,52 @@
+{
+  "canon_allowed": false,
+  "created_unix_ns": 1787961998718267882,
+  "empirical_outcome_observed": false,
+  "environment": {
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41",
+    "python": "3.13.5",
+    "torch": "2.10.0+cpu"
+  },
+  "execution_surface_sha256": {
+    "protocols/V0_10_V2_FROZEN_BASE_STRUCTURAL_RESIDUAL_PREREGISTRATION.json": "d6dce9cd0c0b239e3870695bf0b452327f8dde4f7ae9367b9cf469bf4ef855bf",
+    "scripts/run_v0_10_frozen_base_residual.py": "92f3386ff791fefc7df2928b813e5ab5c3312b03836ad65a4d4ebb1914739edd",
+    "src/ciel_lm_text/corpus.py": "4959ea4436806595022feb67c5e16ce423261f7f3806061e74f6f48cc40e76b7",
+    "src/ciel_lm_text/model.py": "563074e138c6665c85853b547a0101541d8f6b2ac1cd057a7c408a7d461fe332",
+    "src/ciel_lm_text/residual.py": "56471891885dd44e2ba3851b3c22a30fa35e436d6e8c0b6257002cea4d3ca011",
+    "src/ciel_lm_text/structure.py": "051a86d507244656b19cc8552c32182c63cbd96c5b94e3a28ea1392f258863e4",
+    "src/ciel_lm_text/tokenizer.py": "98e6c93b0f988950d016caf9aa1376755b8e312ed90ca146dddf5414006b57fe",
+    "vendor/cielingo/src/cielingo_core/regional/simple_solver_utils.py": "8c0a0828747ed64c07c36fb4511fa140c6ee58d0529bd5bee6e1bf40ac1c5f72",
+    "vendor/lingophysics/src/lingophysics/attention_bias.py": "aba24aa4260ec84ef15a65b99082e09c4a5d0d1836b82bfd271690f98776a37b",
+    "vendor/lingophysics/src/lingophysics/transformer_features.py": "06427f977eb23a1f713bb741f20225dd499005651da6676765b6647cdb1f6bfe"
+  },
+  "expected_preregistration_sha256": "d6dce9cd0c0b239e3870695bf0b452327f8dde4f7ae9367b9cf469bf4ef855bf",
+  "implementation_choices": {
+    "base_gradient_clip_norm": 1.0,
+    "base_hash_check": "SHA256 over sorted frozen base state_dict tensors before and after both residual trainings",
+    "base_learning_rate": 0.0004,
+    "base_optimizer": "AdamW",
+    "base_training_start_rule": "random.Random(seed+9000).randint(0,max_train_start) repeated exactly 120 times with replacement",
+    "base_weight_decay": 0.01,
+    "decision_rule": "unchanged from V0.10 V2 preregistration",
+    "residual_application": "one 4-feature context vector -> one vocab residual vector, broadcast identically across all 24 next-token positions in that context",
+    "residual_learning_rate": 0.0004,
+    "residual_optimizer": "AdamW",
+    "residual_training_objective": "cross_entropy over all 24 target positions per registered training context",
+    "residual_training_steps": "exactly the same 120 context starts used to train the base model",
+    "residual_weight_decay": 0.0,
+    "shuffle_rule": "sort source context indices by SHA256(namespace|seed|split|context_index); output position k receives feature vector from sorted source index k",
+    "structural_alignment": "relation features computed from cleaned raw tokens at the exact encoded input-context positions; decoded <unk> tokens are not substituted into the structural channel",
+    "validation_window_rule": "16 unique rounded equally-spaced starts round(i*vmax/15), i=0..15; fail closed unless exactly 16 unique windows",
+    "zero_init_check": "exact torch.equal on every real and shuffled validation feature vector before residual training",
+    "zero_structural_post_training_check": "exact torch.equal for both trained real and shuffled residuals on every validation base-logit tensor"
+  },
+  "pre_freeze_validation": {
+    "pytest": "16/16 PASS",
+    "python_compile": "PASS",
+    "runner_self_test": "PASS"
+  },
+  "preregistration_sha256": "d6dce9cd0c0b239e3870695bf0b452327f8dde4f7ae9367b9cf469bf4ef855bf",
+  "registered_source_registry_sha256": "2fd6a0a297d9fd7b5dc768429f38d0ac1961c364ee595b21314b2ca1b35f03f5",
+  "schema": "CIEL_LM_V0_10_V2_IMPLEMENTATION_FREEZE_V1",
+  "status": "FROZEN_BEFORE_EMPIRICAL_EXECUTION"
+}
