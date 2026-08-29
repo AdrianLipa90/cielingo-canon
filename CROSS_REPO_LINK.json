@@ -1,0 +1,56 @@
+{
+  "schema": "CIEL_CROSS_REPO_LINK_V1",
+  "link_id": "cielingo-canon--ciel-semantic-model",
+  "local": {
+    "repository": "AdrianLipa90/cielingo-canon",
+    "role": "LANGUAGE_SEMANTIC_PRODUCER",
+    "release_identity": "v0.6",
+    "runtime_code_sha": "ab097f99d46eb446836833ac90b2bc3cf9d219e1",
+    "integration_paths": [
+      "src/cielingo_core/language_spaces/",
+      "src/cielingo_core/lingophysics/",
+      "src/cielingo_core/global_layer/contracts.py"
+    ]
+  },
+  "partner": {
+    "repository": "AdrianLipa90/Ciel-Semantic-Model-",
+    "role": "SEMANTIC_RUNTIME_CONSUMER",
+    "release_identity": "0.8.1",
+    "runtime_code_sha": "0a4a1b57217fc876ed0535829686cfed8ccd0d8f",
+    "integration_paths": [
+      "src/ciel_semantic_model/asir.py",
+      "src/ciel_semantic_model/aux_connector.py",
+      "src/ciel_semantic_model/aux_packet.py",
+      "src/ciel_semantic_model/dual_native_text_generation.py"
+    ]
+  },
+  "protocol": {
+    "native_semantic_state": "CIEL_NATIVE_SEMANTIC_STATE_V1",
+    "compile_request": "CIEL_AUX_PHASE_MEMORY_REQUEST_V2",
+    "compile_packet": "CIEL_AUX_PHASE_MEMORY_PACKET_V3",
+    "response_semantic_plan": "CIEL_RESPONSE_SEMANTIC_PLAN_V1",
+    "surface_plan": "CIEL_NATIVE_SURFACE_PLAN_V2",
+    "generation_operation": "cielingo.lingophysics.generate_surface"
+  },
+  "ownership": {
+    "language_grammar": "AdrianLipa90/cielingo-canon",
+    "lingophysics_sentence_equation": "AdrianLipa90/cielingo-canon",
+    "universal_roles_and_operators": "AdrianLipa90/cielingo-canon",
+    "asir_adapter": "AdrianLipa90/Ciel-Semantic-Model-",
+    "phase_and_memory_integration": "AdrianLipa90/Ciel-Semantic-Model-"
+  },
+  "extension_points": {
+    "case_port_frame": {
+      "status": "CANDIDATE_INTERFACE",
+      "owner": "AdrianLipa90/cielingo-canon",
+      "consumer": "AdrianLipa90/Ciel-Semantic-Model-",
+      "shape": "OP[CASE:operator_role=entity]"
+    }
+  },
+  "authority": {
+    "crosslink_grants_canon": false,
+    "crosslink_grants_runtime_execution": false,
+    "crosslink_grants_noema_writeback": false
+  },
+  "compatibility_contract": "COMPATIBILITY.md"
+}
