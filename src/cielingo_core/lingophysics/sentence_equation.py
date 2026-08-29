@@ -9,6 +9,7 @@ from typing import Any
 from cielingo_core.global_layer.contracts import MeaningEquation
 from cielingo_core.global_layer.global_algorithm_v02 import GlobalAlgorithmV02Result, run_global_algorithm_v02
 from cielingo_core.lingophysics.case_port_frame import extract_polish_case_port_frames
+from cielingo_core.lingophysics.operator_signatures import get_operator_signature, type_case_port_frame
 from cielingo_core.regional.base import RegionalSolveResult
 from cielingo_core.regional.regional_to_global import regional_result_to_meaning_equation
 
@@ -122,9 +123,46 @@ def _case_role_terms(result: RegionalSolveResult) -> list[SentenceEquationTerm]:
     frames = extract_polish_case_port_frames(result.text, list(result.segments.tokens))
     terms: list[SentenceEquationTerm] = []
     for frame in frames:
+        report = type_case_port_frame(frame)
+        signature = get_operator_signature(frame.operator)
+        normalized = {
+            (
+                binding.grammatical_case,
+                binding.operator_role,
+                binding.entity,
+                binding.token_indices,
+            ): binding
+            for binding in report.universal_roles
+        }
         for position, port in enumerate(frame.ports):
             indices = ",".join(str(index) for index in port.token_indices)
             adposition = port.adposition or ""
+            binding = normalized.get(
+                (port.grammatical_case, port.operator_role, port.entity, port.token_indices)
+            )
+            notes = [
+                f"frame_id={frame.frame_id}",
+                f"operator={frame.operator}",
+                f"case={port.grammatical_case.value}",
+                f"operator_role={port.operator_role}",
+                f"entity={port.entity}",
+                f"token_indices={indices}",
+                f"surface_form={port.surface_form}",
+                f"adposition={adposition}",
+                f"case_basis={port.basis}",
+                f"evidence_basis={frame.evidence_basis}",
+                f"direction_status={frame.direction_status}",
+                f"signature_known={str(report.signature_known).lower()}",
+                f"signature_valid={str(report.valid).lower()}",
+                f"signature_id={report.signature_id or ''}",
+                f"signature_commitment={signature.signature_commitment if signature else ''}",
+                "candidate_only=true",
+            ]
+            if binding is not None:
+                notes.extend([
+                    f"universal_role={binding.universal_role.value}",
+                    f"normalization_basis={binding.normalization_basis}",
+                ])
             terms.append(SentenceEquationTerm(
                 term_id=f"role_{frame.frame_id}_{position}",
                 kind=EquationTermKind.ROLE,
@@ -134,20 +172,7 @@ def _case_role_terms(result: RegionalSolveResult) -> list[SentenceEquationTerm]:
                 ),
                 value=clamp01(port.confidence),
                 source="CasePortFrame",
-                notes=[
-                    f"frame_id={frame.frame_id}",
-                    f"operator={frame.operator}",
-                    f"case={port.grammatical_case.value}",
-                    f"operator_role={port.operator_role}",
-                    f"entity={port.entity}",
-                    f"token_indices={indices}",
-                    f"surface_form={port.surface_form}",
-                    f"adposition={adposition}",
-                    f"case_basis={port.basis}",
-                    f"evidence_basis={frame.evidence_basis}",
-                    f"direction_status={frame.direction_status}",
-                    "candidate_only=true",
-                ],
+                notes=notes,
             ))
     return terms
 
@@ -278,5 +303,6 @@ def calculate_sentence_equation(result: RegionalSolveResult) -> SentenceEquation
         notes=[
             "Sentence equation is computed from regional SurfaceSolution and GLOBAL v0.2.",
             "CasePortFrame candidates preserve grammatical case separately from operator-specific role.",
+            "Operator signatures gate optional UniversalRole normalization by operator role, never by case alone.",
         ],
     )
