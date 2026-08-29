@@ -1,0 +1,23 @@
+{
+  "authoritative_implementation_commit": "720b51fd5f22ad35e70dfdfbb397e4161e1753ff",
+  "authoritative_prereg_sha256": "303c23e1afc8c86c6a122561ada4eafc3cf8235ee60d5f7637b7676e60875a47",
+  "authoritative_runner_sha256": "ed64917b1ae9ef6499e4615dc2cd1596574b134d1036aa54da01e8b771202a01",
+  "canon_allowed": false,
+  "created_unix_ns": 1788031322432317431,
+  "disposition": {
+    "reason": "frozen runner bytes cannot be independently replayed from persisted source witness",
+    "successor": "CIEL_LM_V0_12C_SOURCE_WITNESSED_REEXECUTION",
+    "successor_constraint": "commit complete preregistration, runner source, tests, and implementation freeze before any LM outcome",
+    "v0_12b_execution_allowed": false
+  },
+  "finding": {
+    "empirical_result_exists": false,
+    "exact_runner_source_recovered": false,
+    "freeze_commit_added_only": "experiments/ciel_lm_v0_12b/V0_12B_IMPLEMENTATION_FREEZE_V1.json",
+    "implementation_freeze_commit_contains_runner_source": false,
+    "semantically_similar_local_draft_executed": false
+  },
+  "no_outcome_observed": true,
+  "schema": "CIEL_LM_V0_12B_EXECUTION_BLOCK_RECEIPT_V1",
+  "status": "BLOCK_EXECUTION_SOURCE_WITNESS_MISSING"
+}
