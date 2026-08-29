@@ -1,0 +1,13 @@
+{
+  "schema": "CIEL_LM_V0_12B_ATTEMPT1_INTERRUPTION_RECEIPT_V1",
+  "status": "INTERRUPTED_AFTER_7_OF_12__NO_EMPIRICAL_RESULT",
+  "reason": "container execution window terminated the foreground process before completion",
+  "completed_seed_rows": 7,
+  "expected_seed_rows": 12,
+  "partial_log_sha256": "b8228128f09dbe1b83fabbc59afc831cf5433c5a7e5ee411946c85128aa07cd6",
+  "final_report_created": false,
+  "result_promotion_allowed": false,
+  "rerun_requirement": "fresh NOEMA admission + frozen-byte replay + exact runner restart from seed 1; do not combine partial and rerun rows",
+  "created_unix_ns": 1787989778652869321,
+  "canon_allowed": false
+}
