@@ -1,0 +1,31 @@
+{
+  "schema": "CIEL_LM_V0_11B_RESULT_AUDIT_V1",
+  "classification": "PASS_EXECUTION_INTEGRITY__BLOCK_BASE_ADVANTAGE__PASS_RELATION_SPECIFICITY_ENDPOINT",
+  "frozen_gate": "BLOCK_PILOT_MECHANISM",
+  "base_endpoint": {
+    "mean_delta_nll": -0.00020415335893630981,
+    "positive_seeds": 0,
+    "signflip_p": 1.0,
+    "min_leave_one_out": -0.0002174512906508012,
+    "status": "BLOCK"
+  },
+  "relation_specificity_endpoint": {
+    "mean_delta_nll": 0.00008473296960194905,
+    "positive_seeds": 10,
+    "signflip_p": 0.00732421875,
+    "min_leave_one_out": 0.00007245757363059305,
+    "status": "PASS_ENDPOINT"
+  },
+  "mean_nll": {
+    "base": 7.394537813961506,
+    "real_relations": 7.394741967320442,
+    "shuffled_relations": 7.394826700290044
+  },
+  "invariants": {
+    "all_zero_equivalence": true,
+    "all_base_hashes_unchanged": true
+  },
+  "carrier_status": "PASS_CARRIER_ADMISSION",
+  "retuning_allowed_on_v0_11b": false,
+  "canon_allowed": false
+}
