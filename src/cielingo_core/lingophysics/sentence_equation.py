@@ -1,11 +1,4 @@
-"""Sentence equation calculator for CIELingo 0.5K.
-
-This layer computes a bounded, auditable equation object from regional
-SurfaceSolution and MeaningEquation candidates.
-
-It is not full grammar, not SOURCE validation, not NOEMA writeback and not
-runtime execution.
-"""
+"""Sentence equation calculator for CIELingo 0.5K."""
 
 from __future__ import annotations
 
@@ -15,6 +8,7 @@ from typing import Any
 
 from cielingo_core.global_layer.contracts import MeaningEquation
 from cielingo_core.global_layer.global_algorithm_v02 import GlobalAlgorithmV02Result, run_global_algorithm_v02
+from cielingo_core.lingophysics.case_port_frame import extract_polish_case_port_frames
 from cielingo_core.regional.base import RegionalSolveResult
 from cielingo_core.regional.regional_to_global import regional_result_to_meaning_equation
 
@@ -122,7 +116,47 @@ class SentenceEquation:
         }
 
 
-def _terms_from_regional_result(result: RegionalSolveResult, meaning: MeaningEquation, global_result: GlobalAlgorithmV02Result) -> list[SentenceEquationTerm]:
+def _case_role_terms(result: RegionalSolveResult) -> list[SentenceEquationTerm]:
+    if result.language_id != "pl":
+        return []
+    frames = extract_polish_case_port_frames(result.text, list(result.segments.tokens))
+    terms: list[SentenceEquationTerm] = []
+    for frame in frames:
+        for position, port in enumerate(frame.ports):
+            indices = ",".join(str(index) for index in port.token_indices)
+            adposition = port.adposition or ""
+            terms.append(SentenceEquationTerm(
+                term_id=f"role_{frame.frame_id}_{position}",
+                kind=EquationTermKind.ROLE,
+                symbol=(
+                    f"{frame.operator}[{port.grammatical_case.value}:"
+                    f"{port.operator_role}={port.entity}]"
+                ),
+                value=clamp01(port.confidence),
+                source="CasePortFrame",
+                notes=[
+                    f"frame_id={frame.frame_id}",
+                    f"operator={frame.operator}",
+                    f"case={port.grammatical_case.value}",
+                    f"operator_role={port.operator_role}",
+                    f"entity={port.entity}",
+                    f"token_indices={indices}",
+                    f"surface_form={port.surface_form}",
+                    f"adposition={adposition}",
+                    f"case_basis={port.basis}",
+                    f"evidence_basis={frame.evidence_basis}",
+                    f"direction_status={frame.direction_status}",
+                    "candidate_only=true",
+                ],
+            ))
+    return terms
+
+
+def _terms_from_regional_result(
+    result: RegionalSolveResult,
+    meaning: MeaningEquation,
+    global_result: GlobalAlgorithmV02Result,
+) -> list[SentenceEquationTerm]:
     terms: list[SentenceEquationTerm] = []
 
     slot_ids = sorted(result.surface_solution.slot_projection)
@@ -146,6 +180,8 @@ def _terms_from_regional_result(result: RegionalSolveResult, meaning: MeaningEqu
             value=clamp01(op.strength),
             source="MeaningEquation.operators",
         ))
+
+    terms.extend(_case_role_terms(result))
 
     for key, value in result.surface_solution.local_j.items():
         terms.append(SentenceEquationTerm(
@@ -187,11 +223,13 @@ def _terms_from_regional_result(result: RegionalSolveResult, meaning: MeaningEqu
 def _expression_from_terms(terms: list[SentenceEquationTerm]) -> str:
     slots = [t.symbol for t in terms if t.kind == EquationTermKind.SLOT]
     ops = [t.symbol for t in terms if t.kind == EquationTermKind.OPERATOR]
+    roles = [t.symbol for t in terms if t.kind == EquationTermKind.ROLE]
     js = [t.symbol for t in terms if t.kind == EquationTermKind.J]
     signals = [t.symbol for t in terms if t.kind == EquationTermKind.SIGNAL and t.value > 0]
     return "SentenceEquation := " + " + ".join([
         "Slots(" + ",".join(slots or ["∅"]) + ")",
         "Ops(" + ",".join(ops or ["∅"]) + ")",
+        "Roles(" + ",".join(roles or ["∅"]) + ")",
         "J(" + ",".join(js or ["∅"]) + ")",
         "Signals(" + ",".join(signals or ["∅"]) + ")",
     ])
@@ -235,6 +273,6 @@ def calculate_sentence_equation(result: RegionalSolveResult) -> SentenceEquation
         current_update_allowed=False,
         notes=[
             "Sentence equation is computed from regional SurfaceSolution and GLOBAL v0.2.",
-            "No SOURCE/canon promotion; no NOEMA writeback; no runtime execution.",
+            "CasePortFrame candidates preserve grammatical case separately from operator-specific role.",
         ],
     )
