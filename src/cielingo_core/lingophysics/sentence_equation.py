@@ -68,12 +68,12 @@ class SentenceEquation:
     residue_pressure: float
     source_pressure: float
     consent_pressure: float
-    role_multimap: MeaningRoleMultimap | None = None
     canon_allowed: bool = False
     source_promotion_allowed: bool = False
     noema_writeback_allowed: bool = False
     current_update_allowed: bool = False
     notes: list[str] = field(default_factory=list)
+    role_multimap: MeaningRoleMultimap | None = None
 
     def validate(self) -> list[str]:
         issues: list[str] = []
@@ -340,7 +340,6 @@ def calculate_sentence_equation(result: RegionalSolveResult) -> SentenceEquation
         residue_pressure=round(residue_pressure, 6),
         source_pressure=round(source_pressure, 6),
         consent_pressure=round(consent_pressure, 6),
-        role_multimap=role_multimap,
         canon_allowed=False,
         source_promotion_allowed=False,
         noema_writeback_allowed=False,
@@ -351,4 +350,5 @@ def calculate_sentence_equation(result: RegionalSolveResult) -> SentenceEquation
             "Operator signatures gate optional UniversalRole normalization by operator role, never by case alone.",
             "MeaningRoleMultimap preserves zero-or-more normalized role bindings without collapsing duplicate roles.",
         ],
+        role_multimap=role_multimap,
     )
