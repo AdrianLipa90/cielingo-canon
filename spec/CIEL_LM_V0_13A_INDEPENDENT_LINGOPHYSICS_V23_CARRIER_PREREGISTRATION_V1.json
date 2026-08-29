@@ -1,0 +1,72 @@
+{
+  "schema": "CIEL_LM_V0_13A_INDEPENDENT_LINGOPHYSICS_V23_CARRIER_ADMISSION_PREREGISTRATION_V1",
+  "status": "FROZEN_BEFORE_CARRIER_MEASUREMENT",
+  "namespace": "CIEL_LM_V0_13_REPLICATION",
+  "goal": "admit exact PL+EN structural carrier on an independent Lingophysics v2.3 document domain before any V0.13B LM outcome",
+  "parent_v0_12b": {
+    "status": "PASS_SEMANTIC_VECTOR_SPECIFICITY_CANDIDATE",
+    "report_sha256": "7cbd7f3ab316d4f0df4713ee7b04eba08552c989fa6592a0ff78b2e5f3d5fd3b",
+    "prereg_sha256": "303c23e1afc8c86c6a122561ada4eafc3cf8235ee60d5f7637b7676e60875a47"
+  },
+  "source": {
+    "archive_filename": "CIEL-Omega-ApokalypOS-codex-ciel-sync-2026-05-12.zip",
+    "archive_sha256": "fef25a4cb20380483fec5b3e84ad8a2d1465e6a53ecf6dfd9ec42ec67d82e9ef",
+    "archive_library_file_id": "file_00000000941072439cb015507717f9a3",
+    "internal_prefix": "CIEL-Omega-ApokalypOS-codex-ciel-sync-2026-05-12/src/ciel_lingophysics_lns_repo_v2_3/docs/",
+    "candidate_rule": "all direct docs/*.md under Lingophysics v2.3 minus every document whose SHA256 occurs in the complete V0.12 56-file source manifest",
+    "candidate_count": 46,
+    "excluded_old_sha_count": 1,
+    "excluded_old_paths": ["38_AUXILIARY_LOSSES_AND_ATTENTION_BIAS.md"],
+    "source_universe_sha256": "2af89d02f73dfef05080dd0c0c54ad0785037819800bcf57b52eb90e68882685",
+    "old_v0_12_source_count": 56
+  },
+  "selection": {
+    "rule": "rank candidate relative paths by SHA256(namespace|relative_path); lowest 7 are whole-file validation holdout; remaining candidates are training domain",
+    "heldout_files": ["24_PREDICATE_VALENCY_AND_EVENT_FRAMES.md","04_ALGORITHMS.md","40_CONFLICT_AMBIGUITY_UNRESOLVED_REGISTRY.md","44_ENERGY_AWARE_GENERATION_PIPELINE.md","05_BILINGUAL_PL_EN_BOOTSTRAP.md","45_LANGUAGE_FAMILY_GRAMMAR_ALGORITHMS.md","06_VALIDATION_PATTERNS.md"],
+    "heldout_file_sha256": {
+      "24_PREDICATE_VALENCY_AND_EVENT_FRAMES.md":"f046b176ac8fc30295859d641cebceffb94d0d1669310dd6f7c81a8e0ce4a385",
+      "04_ALGORITHMS.md":"006c2ac0a0bf7569e457fb843cfd1af6039427d131da339aed05e49df4efbc96",
+      "40_CONFLICT_AMBIGUITY_UNRESOLVED_REGISTRY.md":"9579cfaeaba2bad51147c32812519a3d6529647bed20ce32230de4993fa7912d",
+      "44_ENERGY_AWARE_GENERATION_PIPELINE.md":"f053e8e91840580c0c99f7bceb407ac154459534cbc40c0d4313423cb0dd5a93",
+      "05_BILINGUAL_PL_EN_BOOTSTRAP.md":"c18638b227f646c8b97d692f8d6d4dca1a6f7eeef4dffb5209b41498c232b59c",
+      "45_LANGUAGE_FAMILY_GRAMMAR_ALGORITHMS.md":"99f8217500fb8ffd3598e5f306031d6c4791a55d565c440e2262e5f9de8d1be8",
+      "06_VALIDATION_PATTERNS.md":"3c7a4ff86b89acd9d5866bc106f239389214e3844622da2bf5885dd770687845"
+    },
+    "train_file_count": 39,
+    "validation_file_count": 7
+  },
+  "carrier": {
+    "implementation_sha256": "114b7d75f8d42eee11c0d37c26a54f7bbd5ec5cb6533e85312944dbb94cf395b",
+    "languages": ["pl","en"],
+    "atlas": "controlled_48_slot_v0_6a",
+    "matching": "normalized whole-token equality only",
+    "fuzzy_or_substring_matching": false,
+    "phase_compatibility_component_included": false,
+    "feature_order": ["operator_argument_link","same_event_frame","case_role_link","conflict_penalty"],
+    "feature_aggregation": "mean additive relation component over ordered non-self token pairs in each 24-token context",
+    "block_size": 24
+  },
+  "probe": {
+    "validation_windows": 16,
+    "validation_window_rule": "16 unique rounded equally-spaced starts over concatenated 7-file heldout token stream",
+    "training_probe_windows": 64,
+    "training_probe_rule": "64 unique rounded equally-spaced starts over concatenated 39-file train token stream",
+    "lm_training_or_quality_outcome_allowed": false
+  },
+  "admission_gate": {
+    "validation_nonzero_relation_windows_min": 8,
+    "training_nonzero_relation_windows_min": 16,
+    "unique_nonzero_validation_vectors_min": 2,
+    "all_candidate_scores_must_equal": 1.0,
+    "all_source_hashes_must_match": true,
+    "pass": "all conditions true",
+    "block": "otherwise; no V0.13B replication benchmark may execute"
+  },
+  "independence": {
+    "content_sha_overlap_with_v0_12_candidates": 0,
+    "outcome_observed_before_freeze": false
+  },
+  "evidence_boundary": "Carrier coverage is measured before any V0.13B language-model outcome.",
+  "canon_allowed": false,
+  "local_full_prereg_sha256": "d57b102398f677f8f40421a270571deebaa5a029702bb76c7ff78e78bcf51f03"
+}
