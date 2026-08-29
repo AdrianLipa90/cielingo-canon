@@ -19,6 +19,7 @@
     "runtime_code_sha": "0a4a1b57217fc876ed0535829686cfed8ccd0d8f",
     "integration_paths": [
       "src/ciel_semantic_model/asir.py",
+      "src/ciel_semantic_model/case_port_bridge.py",
       "src/ciel_semantic_model/aux_connector.py",
       "src/ciel_semantic_model/aux_packet.py",
       "src/ciel_semantic_model/dual_native_text_generation.py"
@@ -41,10 +42,15 @@
   },
   "extension_points": {
     "case_port_frame": {
-      "status": "CANDIDATE_INTERFACE",
+      "status": "IMPLEMENTED_CANDIDATE_INTERFACE",
       "owner": "AdrianLipa90/cielingo-canon",
       "consumer": "AdrianLipa90/Ciel-Semantic-Model-",
-      "shape": "OP[CASE:operator_role=entity]"
+      "shape": "OP[CASE:operator_role=entity]",
+      "producer_path": "src/cielingo_core/lingophysics/case_port_frame.py",
+      "transport": "SentenceEquation.terms[kind=role,source=CasePortFrame]",
+      "consumer_path": "src/ciel_semantic_model/case_port_bridge.py",
+      "edge_attachment": "ASIREdge.parked_fields.case_port_roles",
+      "activation": "explicit_adapter_until_cross_repo_ci_passes"
     }
   },
   "authority": {
