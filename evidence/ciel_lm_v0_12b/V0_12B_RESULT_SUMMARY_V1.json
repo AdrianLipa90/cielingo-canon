@@ -1,0 +1,12 @@
+{
+  "schema": "CIEL_LM_V0_12B_RESULT_SUMMARY_V1",
+  "frozen_status": "PASS_SEMANTIC_VECTOR_SPECIFICITY_CANDIDATE",
+  "classification": "PASS_EXECUTION_INTEGRITY__PASS_SEMANTIC_VECTOR_SPECIFICITY_CANDIDATE__BASE_ADVANTAGE_NOT_DEMONSTRATED",
+  "primary": {"mean_delta_semantic":0.00017793228228886923,"positive_seeds":11,"signflip_p":0.00048828125,"min_leave_one_out":0.00016298890113830566},
+  "secondary_base": {"mean_delta_base":-6.031244993209839e-05,"positive_seeds":4,"signflip_p":0.76220703125},
+  "secondary_localization": {"mean_delta_localization":0.00010694066683451335,"positive_seeds":8,"signflip_p":0.017578125},
+  "carrier_admission": {"status":"PASS","validation_nonzero":13,"training_nonzero":52,"validation_unique_nonzero":7,"validation_candidates":58,"validation_operator_bound":32},
+  "report_sha256": "7cbd7f3ab316d4f0df4713ee7b04eba08552c989fa6592a0ff78b2e5f3d5fd3b",
+  "independent_replication_required": true,
+  "canon_allowed": false
+}
