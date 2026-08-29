@@ -1,0 +1,69 @@
+{
+  "schema": "CIEL_LM_V0_10_V2_RUNNER_IMPLEMENTATION_FREEZE",
+  "status": "FROZEN_BEFORE_RUNNER_CODE",
+  "parent_github_freeze_sha256": "51ade35ba904ed5354aaa7efd37c6c19468333a17cb7ae4781fe2e564bf01e9b",
+  "empirical_execution": false,
+  "outcome_observed": false,
+  "source_inputs": {
+    "full_preregistration_required": true,
+    "full_preregistration_sha256": "d6dce9cd0c0b239e3870695bf0b452327f8dde4f7ae9367b9cf469bf4ef855bf",
+    "external_source_root_required": true,
+    "all_56_registered_source_hashes_must_match": true
+  },
+  "training_windows": {
+    "count": 120,
+    "rng": "python_random_Random(seed + 910000)",
+    "sampling": "randint(0, len(train_ids)-block_size-1) with replacement",
+    "same_starts_for_base_and_both_residual_arms": true
+  },
+  "base_training": {
+    "loss_positions": "all shifted next-token positions in each 24-token window",
+    "optimizer": "AdamW",
+    "gradient_clip_norm": 1.0
+  },
+  "residual_training": {
+    "updates": 120,
+    "one_update_per_registered_training_context": true,
+    "base_logits": "frozen base LM final context position only",
+    "target": "single token immediately following the 24-token context",
+    "optimizer": "canonical V0.9A LinearStructuralResidualExpert.train_step",
+    "base_model_forward": "eval mode and torch.no_grad"
+  },
+  "structure_mapping": {
+    "language": "pl",
+    "candidate_threshold": 0.999999,
+    "max_exact_cards_per_token": 4,
+    "ambiguity_action": "neutralize structural cards for that token",
+    "token_alignment_mismatch": "fail_closed",
+    "operator_token": "any exact card has operator_bindings",
+    "concept_token": "otherwise",
+    "roles": "sorted union of exact-card operator_bindings",
+    "phase_conflict": false,
+    "case_gauge": "unset",
+    "aggregation": "mean pair_bias_components over every ordered non-self token pair",
+    "feature_order": [
+      "operator_argument_link",
+      "same_event_frame",
+      "case_role_link",
+      "conflict_penalty"
+    ]
+  },
+  "validation_windows": {
+    "count": 16,
+    "max_start": "len(validation_ids)-block_size-1",
+    "starts": "round(i*max_start/15) for i=0..15",
+    "require_unique_16": true,
+    "metric_position": "final next-token only"
+  },
+  "shuffle": {
+    "ordering_key": "SHA256(namespace|seed|split|context_index)",
+    "permutation_application": "feature vectors only; base logits, targets and context order remain fixed"
+  },
+  "invariants": [
+    "zero-init exact-base on all 16 validation contexts before residual training",
+    "base state_dict SHA256 identical before and after both residual trainings",
+    "post-training zero-structural exact-base on all 16 validation contexts for both residual experts",
+    "real and shuffled experts start from exact zero independently"
+  ],
+  "canon_allowed": false
+}
