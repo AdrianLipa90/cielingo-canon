@@ -1,0 +1,19 @@
+{
+  "canon_allowed": false,
+  "carrier_replay_training_nonzero": 52,
+  "carrier_replay_validation_nonzero": 13,
+  "current_task": "CIEL_LM_V0_12D_WINDOW_ALIGNED_SOURCE_WITNESSED",
+  "full_local_report_sha256": "765f54897870a281e95631fe1be36c728ac2414c1426f5aab59ef9e0dfe4dbe5",
+  "noema_aux_runtime_instance_id": "72e93f4c176e880656427faa4bc0a92f",
+  "noema_fast_admission_after": "PASS",
+  "noema_fast_admission_before": "PASS",
+  "noema_rehydration_during_run": false,
+  "noema_runtime_instance_id": "51c54aa9753841ca560d08063d7b1e9f",
+  "result_status": "PASS_SEMANTIC_VECTOR_SPECIFICITY_CANDIDATE",
+  "schema": "CIEL_LM_V0_12D_EXECUTION_RECEIPT_V1",
+  "self_test_post_run": "PASS",
+  "source_manifest_sha256": "b7dc41d5a2f074244e4fb0a581bb9df1ca186e5bd7a5ea21ad873b6bace59fe3",
+  "source_witness_replay": "7/7 PASS",
+  "status": "PASS_EXECUTION_INTEGRITY",
+  "tests_post_run": "9/9 PASS"
+}
