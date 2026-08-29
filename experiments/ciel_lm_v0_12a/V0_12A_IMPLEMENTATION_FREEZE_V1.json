@@ -1,0 +1,13 @@
+{
+  "schema": "CIEL_LM_V0_12A_IMPLEMENTATION_FREEZE_V1",
+  "status": "FROZEN_BEFORE_CARRIER_MEASUREMENT",
+  "implementation_freeze_sha256": "8670332dbf40a6a6accf8826b1ab9c809ffc5aebf032057b0d98c4f4b9104e68",
+  "prereg_sha256": "53c68e6a47a81f947a1d9b1f5b0b79bcbc4d2a5c23b632c0ffaa7f6fc6c1d603",
+  "runner_sha256": "f29f4dcb996d620f3ee835b39636af46f058fda8cc26481c6947a3b2e48de037",
+  "carrier_sha256": "114b7d75f8d42eee11c0d37c26a54f7bbd5ec5cb6533e85312944dbb94cf395b",
+  "corpus_sha256": "4959ea4436806595022feb67c5e16ce423261f7f3806061e74f6f48cc40e76b7",
+  "self_test": "PASS",
+  "runner_mutation_after_freeze_allowed": false,
+  "lm_quality_outcome_allowed": false,
+  "canon_allowed": false
+}
