@@ -51,6 +51,23 @@
       "consumer_path": "src/ciel_semantic_model/case_port_bridge.py",
       "edge_attachment": "ASIREdge.parked_fields.case_port_roles",
       "activation": "explicit_adapter_until_cross_repo_ci_passes"
+    },
+    "operator_signature_typing": {
+      "status": "IMPLEMENTED_CANDIDATE_INTERFACE",
+      "owner": "AdrianLipa90/cielingo-canon",
+      "consumer": "AdrianLipa90/Ciel-Semantic-Model-",
+      "producer_path": "src/cielingo_core/lingophysics/operator_signatures.py",
+      "shape": "operator -> allowed(CASE,operator_role,adposition?) -> optional UniversalRole",
+      "transport_fields": [
+        "signature_known",
+        "signature_valid",
+        "signature_id",
+        "signature_commitment",
+        "universal_role",
+        "normalization_basis"
+      ],
+      "consumer_path": "src/ciel_semantic_model/case_port_bridge.py",
+      "consumer_admission": "signature-bearing roles require known+valid+sha256 commitment; legacy roles cannot promote UniversalRole"
     }
   },
   "authority": {
