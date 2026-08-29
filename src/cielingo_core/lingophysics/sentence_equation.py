@@ -226,13 +226,17 @@ def _expression_from_terms(terms: list[SentenceEquationTerm]) -> str:
     roles = [t.symbol for t in terms if t.kind == EquationTermKind.ROLE]
     js = [t.symbol for t in terms if t.kind == EquationTermKind.J]
     signals = [t.symbol for t in terms if t.kind == EquationTermKind.SIGNAL and t.value > 0]
-    return "SentenceEquation := " + " + ".join([
+    parts = [
         "Slots(" + ",".join(slots or ["∅"]) + ")",
         "Ops(" + ",".join(ops or ["∅"]) + ")",
-        "Roles(" + ",".join(roles or ["∅"]) + ")",
+    ]
+    if roles:
+        parts.append("Roles(" + ",".join(roles) + ")")
+    parts.extend([
         "J(" + ",".join(js or ["∅"]) + ")",
         "Signals(" + ",".join(signals or ["∅"]) + ")",
     ])
+    return "SentenceEquation := " + " + ".join(parts)
 
 
 def calculate_sentence_equation(result: RegionalSolveResult) -> SentenceEquation:
