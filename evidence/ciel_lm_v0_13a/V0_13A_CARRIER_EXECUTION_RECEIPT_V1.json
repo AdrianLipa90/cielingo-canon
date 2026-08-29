@@ -1,0 +1,14 @@
+{
+  "schema": "CIEL_LM_V0_13A_CARRIER_EXECUTION_RECEIPT_V1",
+  "status": "BLOCK_CARRIER_ADMISSION",
+  "prereg_sha256": "d57b102398f677f8f40421a270571deebaa5a029702bb76c7ff78e78bcf51f03",
+  "implementation_freeze_sha256": "0fc0d12e7b2e52775bd0dd0ea4fe27d580e32519d13f2665f2654d6155fd7402",
+  "report_sha256": "35aa3f6e79a6d06be5285bf3003f02d0248e4a8163a821f8863d3e13175eff77",
+  "frozen_byte_replay": "5/5 PASS",
+  "training": {"windows":64,"nonzero_relation_windows":24,"unique_nonzero_vectors":4,"total_exact_candidates":98,"operator_bound_candidates":29},
+  "validation": {"windows":16,"nonzero_relation_windows":7,"unique_nonzero_vectors":2,"total_exact_candidates":32,"operator_bound_candidates":8},
+  "gate": {"source_hashes":"PASS","all_candidate_scores_exact":true,"validation_nonzero_relation_windows":false,"training_nonzero_relation_windows":true,"unique_nonzero_validation_vectors":true},
+  "v0_13b_lm_executed": false,
+  "postrun_noema": {"status":"ACTIVE","fast_admission_status":"PASS","working_state":"ACTIVE","tether_runtime_instance_id":"ad2260aed17d382736c163213ae18701","guard_failures":[]},
+  "canon_allowed": false
+}
