@@ -237,35 +237,75 @@ class RelationHypergraph:
         if len(set(incidence_ids)) != len(incidence_ids):
             issues.append("relation hypergraph incidence IDs must be unique")
 
-        entity_set = set(entity_ids)
-        event_set = set(event_ids)
         event_by_id = {event.event_id: event for event in self.events}
         entity_by_id = {entity.entity_id: entity for entity in self.entities}
-        event_incidence_count = {event_id: 0 for event_id in event_ids}
+        event_incidences: dict[str, list[RelationIncidence]] = {
+            event_id: [] for event_id in event_ids
+        }
 
         for entity in self.entities:
             issues.extend(entity.validate())
         for event in self.events:
             issues.extend(event.validate())
+            signature = get_operator_signature(event.operator)
+            if signature is None:
+                issues.append(f"relation event {event.event_id} has unknown operator signature")
+                continue
+            if event.signature_id != signature.signature_id:
+                issues.append(f"relation event {event.event_id} signature ID mismatch")
+            if event.signature_commitment != signature.signature_commitment:
+                issues.append(f"relation event {event.event_id} signature commitment mismatch")
+            if event.relation_family != signature.relation_family:
+                issues.append(f"relation event {event.event_id} relation family mismatch")
+            if event.directional != signature.directional or event.symmetric != signature.symmetric:
+                issues.append(f"relation event {event.event_id} directionality mismatch")
+
         for incidence in self.incidences:
             issues.extend(incidence.validate())
-            if incidence.event_id not in event_set:
+            event = event_by_id.get(incidence.event_id)
+            entity = entity_by_id.get(incidence.entity_id)
+            if event is None:
                 issues.append(f"incidence {incidence.incidence_id} has unknown event")
                 continue
-            if incidence.entity_id not in entity_set:
+            if entity is None:
                 issues.append(f"incidence {incidence.incidence_id} has unknown entity")
                 continue
-            event_incidence_count[incidence.event_id] += 1
-            event = event_by_id[incidence.event_id]
-            entity = entity_by_id[incidence.entity_id]
+            event_incidences[event.event_id].append(incidence)
             if incidence.source_frame_id != event.source_frame_id:
                 issues.append(f"incidence {incidence.incidence_id} source frame mismatch")
             if incidence.token_indices != entity.token_indices:
                 issues.append(f"incidence {incidence.incidence_id} entity token-index mismatch")
 
-        for event_id, count in event_incidence_count.items():
-            if count == 0:
-                issues.append(f"relation event {event_id} has no incidences")
+        for event in self.events:
+            attached = event_incidences.get(event.event_id, [])
+            if not attached:
+                issues.append(f"relation event {event.event_id} has no incidences")
+                continue
+            signature = get_operator_signature(event.operator)
+            if signature is None:
+                continue
+            if len(attached) != len(signature.ports):
+                issues.append(f"relation event {event.event_id} incidence arity mismatch")
+            matched_incidence_ids: set[str] = set()
+            for spec in signature.ports:
+                matches = [
+                    incidence
+                    for incidence in attached
+                    if incidence.grammatical_case == spec.grammatical_case.value
+                    and incidence.operator_role == spec.operator_role
+                    and (
+                        not spec.allowed_adpositions
+                        or (incidence.adposition or "") in spec.allowed_adpositions
+                    )
+                ]
+                if len(matches) != 1:
+                    issues.append(
+                        f"relation event {event.event_id} must realize exactly one {spec.port_key} incidence"
+                    )
+                else:
+                    matched_incidence_ids.add(matches[0].incidence_id)
+            if matched_incidence_ids != {incidence.incidence_id for incidence in attached}:
+                issues.append(f"relation event {event.event_id} contains unexpected incidence")
 
         if not _is_sha256(self.commitment):
             issues.append("relation hypergraph commitment must be SHA-256")
