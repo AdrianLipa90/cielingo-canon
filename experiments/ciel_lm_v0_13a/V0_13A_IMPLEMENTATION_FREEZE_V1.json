@@ -1,0 +1,22 @@
+{
+  "schema":"CIEL_LM_V0_13A_IMPLEMENTATION_FREEZE_V1",
+  "status":"FROZEN_BEFORE_CARRIER_MEASUREMENT",
+  "prereg_sha256":"ed737e37d2ccc66cd552e1907a3f8127c806f76ba3fc9a677ea848ae0af3ff79",
+  "source_repository":"AdrianLipa90/GREMLIN",
+  "source_commit_sha":"770c90ebfebc6118fc10187cfa91d2fe845102a1",
+  "source_tree_sha":"baed30c3f759821d2f36db04ceb37967362f6057",
+  "probe_sha256":"4a9cfff48a5162fb794df7294261b30ae43f515d6b6cd45cfb78200eb37597c2",
+  "carrier_sha256":"8de43fe687732cdcfa2bbd2c53c8b0f73e47c382d25ec9266689ac561db9d6c7",
+  "atlas_sha256":"c3eaf295517fa8116528de150be8ec434b8fa2565ca84d7f946c21ef2d651050",
+  "cleaner":"remove fenced code blocks with re.S; replace [#*_`|=<>\\]+ by space; collapse whitespace; strip",
+  "file_concatenation_order":"lexicographic relative path independently for train and validation streams",
+  "tokenization":"whitespace split after cleaner",
+  "block_size":24,
+  "validation_windows":16,
+  "training_windows":64,
+  "start_rule":"round(i*(n_tokens-block)/(windows-1)); all starts must be unique",
+  "fail_fast":"validation gate may be evaluated before materializing train files; train materialization occurs only if validation conditions pass",
+  "probe_mutation_after_freeze_allowed":false,
+  "lm_quality_outcome_allowed":false,
+  "canon_allowed":false
+}
