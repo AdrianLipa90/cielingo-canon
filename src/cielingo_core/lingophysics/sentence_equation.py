@@ -11,6 +11,7 @@ from cielingo_core.global_layer.global_algorithm_v02 import GlobalAlgorithmV02Re
 from cielingo_core.global_layer.role_multimap import MeaningRoleBinding, MeaningRoleMultimap
 from cielingo_core.lingophysics.case_port_frame import extract_polish_case_port_frames
 from cielingo_core.lingophysics.operator_signatures import type_case_port_frame
+from cielingo_core.lingophysics.relation_hypergraph import RelationHypergraph, build_relation_hypergraph
 from cielingo_core.regional.base import RegionalSolveResult
 from cielingo_core.regional.regional_to_global import regional_result_to_meaning_equation
 
@@ -74,6 +75,7 @@ class SentenceEquation:
     current_update_allowed: bool = False
     notes: list[str] = field(default_factory=list)
     role_multimap: MeaningRoleMultimap | None = None
+    relation_hypergraph: RelationHypergraph | None = None
 
     def validate(self) -> list[str]:
         issues: list[str] = []
@@ -86,6 +88,8 @@ class SentenceEquation:
                 issues.append(f"{name} must be in [0,1]")
         if self.role_multimap is not None:
             issues.extend(self.role_multimap.validate())
+        if self.relation_hypergraph is not None:
+            issues.extend(self.relation_hypergraph.validate())
         if self.canon_allowed:
             issues.append("SentenceEquation must not grant canon")
         if self.source_promotion_allowed:
@@ -121,6 +125,8 @@ class SentenceEquation:
         }
         if self.role_multimap is not None:
             out["role_multimap"] = self.role_multimap.to_dict()
+        if self.relation_hypergraph is not None:
+            out["relation_hypergraph"] = self.relation_hypergraph.to_dict()
         return out
 
 
@@ -317,6 +323,7 @@ def calculate_sentence_equation(result: RegionalSolveResult) -> SentenceEquation
     global_result = run_global_algorithm_v02(meaning)
     terms = _terms_from_regional_result(result, meaning, global_result)
     role_multimap = _role_multimap_from_result(result, equation_id=equation_id)
+    relation_hypergraph = build_relation_hypergraph(result, equation_id=equation_id)
 
     j_values = [t.value for t in terms if t.kind == EquationTermKind.J]
     j_total = clamp01(sum(j_values) / max(1, len(j_values)))
@@ -349,6 +356,8 @@ def calculate_sentence_equation(result: RegionalSolveResult) -> SentenceEquation
             "CasePortFrame candidates preserve grammatical case separately from operator-specific role.",
             "Operator signatures gate optional UniversalRole normalization by operator role, never by case alone.",
             "MeaningRoleMultimap preserves zero-or-more normalized role bindings without collapsing duplicate roles.",
+            "RelationHypergraph preserves n-ary relation events and typed CasePort incidences without binary collapse.",
         ],
         role_multimap=role_multimap,
+        relation_hypergraph=relation_hypergraph,
     )
