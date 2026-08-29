@@ -1,0 +1,229 @@
+{
+  "canon_allowed": false,
+  "cross_parent_overlap": [
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 13,
+          "parent_start": 36
+        }
+      ],
+      "v0_13_start": 47
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 12,
+          "parent_start": 109
+        }
+      ],
+      "v0_13_start": 121
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 20,
+          "parent_start": 146
+        }
+      ],
+      "v0_13_start": 150
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 10,
+          "parent_start": 146
+        },
+        {
+          "overlap_tokens": 2,
+          "parent_start": 182
+        }
+      ],
+      "v0_13_start": 160
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 3,
+          "parent_start": 182
+        },
+        {
+          "overlap_tokens": 8,
+          "parent_start": 219
+        }
+      ],
+      "v0_13_start": 203
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 11,
+          "parent_start": 219
+        },
+        {
+          "overlap_tokens": 1,
+          "parent_start": 255
+        }
+      ],
+      "v0_13_start": 232
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 9,
+          "parent_start": 255
+        },
+        {
+          "overlap_tokens": 2,
+          "parent_start": 292
+        }
+      ],
+      "v0_13_start": 270
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 23,
+          "parent_start": 292
+        }
+      ],
+      "v0_13_start": 291
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 15,
+          "parent_start": 292
+        }
+      ],
+      "v0_13_start": 301
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 19,
+          "parent_start": 328
+        }
+      ],
+      "v0_13_start": 333
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 20,
+          "parent_start": 365
+        }
+      ],
+      "v0_13_start": 369
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 14,
+          "parent_start": 401
+        }
+      ],
+      "v0_13_start": 391
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 10,
+          "parent_start": 401
+        },
+        {
+          "overlap_tokens": 1,
+          "parent_start": 438
+        }
+      ],
+      "v0_13_start": 415
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 3,
+          "parent_start": 401
+        },
+        {
+          "overlap_tokens": 8,
+          "parent_start": 438
+        }
+      ],
+      "v0_13_start": 422
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 2,
+          "parent_start": 401
+        },
+        {
+          "overlap_tokens": 9,
+          "parent_start": 438
+        }
+      ],
+      "v0_13_start": 423
+    },
+    {
+      "parent_overlaps": [
+        {
+          "overlap_tokens": 11,
+          "parent_start": 474
+        }
+      ],
+      "v0_13_start": 487
+    }
+  ],
+  "finding": "V0.13 validation start indices are disjoint from V0.12D starts as preregistered, but 24-token windows are not mutually disjoint and also overlap parent windows at the token level.",
+  "interpretation_boundary": "This audit does not alter the frozen V0.13 BLOCK verdict. It limits claims of data-level independence and motivates future validation on fresh external text or a prospectively non-overlapping fold design.",
+  "schema": "CIEL_LM_V0_13_POSTHOC_WINDOW_OVERLAP_AUDIT_V1",
+  "status": "POSTHOC_DATA_OVERLAP_LIMITATION",
+  "v0_12d_parent_windows": {
+    "count": 16,
+    "unique_token_positions": 384,
+    "within_set_overlap_pairs": 0
+  },
+  "v0_13_windows": {
+    "count": 16,
+    "duplicate_token_exposures": 73,
+    "pairs": [
+      {
+        "a": 150,
+        "b": 160,
+        "overlap_tokens": 14
+      },
+      {
+        "a": 270,
+        "b": 291,
+        "overlap_tokens": 3
+      },
+      {
+        "a": 291,
+        "b": 301,
+        "overlap_tokens": 14
+      },
+      {
+        "a": 369,
+        "b": 391,
+        "overlap_tokens": 2
+      },
+      {
+        "a": 415,
+        "b": 422,
+        "overlap_tokens": 17
+      },
+      {
+        "a": 415,
+        "b": 423,
+        "overlap_tokens": 16
+      },
+      {
+        "a": 422,
+        "b": 423,
+        "overlap_tokens": 23
+      }
+    ],
+    "unique_token_positions": 311,
+    "within_set_overlap_pairs": 7
+  }
+}
