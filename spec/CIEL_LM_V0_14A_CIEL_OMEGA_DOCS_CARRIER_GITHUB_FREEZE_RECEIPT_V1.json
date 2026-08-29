@@ -1,0 +1,16 @@
+{
+  "schema":"CIEL_LM_V0_14A_CIEL_OMEGA_DOCS_CARRIER_GITHUB_FREEZE_RECEIPT_V1",
+  "status":"FROZEN_BEFORE_CARRIER_MEASUREMENT",
+  "local_full_prereg_sha256":"db7a588c8d3e76f35c86056d4d4dae91a5ba3997ed7acb97453ee32e49915770",
+  "namespace":"CIEL_LM_V0_14_CIEL_OMEGA_DOCS_REPLICATION",
+  "source_archive_sha256":"fef25a4cb20380483fec5b3e84ad8a2d1465e6a53ecf6dfd9ec42ec67d82e9ef",
+  "source_universe_sha256":"9d5530ece47dc8132d2e015ab0f0c7d7e75155ee75ba2744ad602d1acde63d88",
+  "candidate_count":109,
+  "selection_rule":"all archive docs/**/*.md outside Lingophysics v2.3 whose content SHA256 is absent from complete V0.12 and V0.13 source manifests; exact-content duplicates collapse to lexicographically first path; rank remaining paths by SHA256(namespace|relative_path); lowest 7 are validation holdout",
+  "heldout_files":["docs/operations/README.md","docs/object_cards/satellites/SAT-P3-0001.md","docs/integration/SAPIENS_SURFACE_BINDING.md","docs/MASTER_PLAN_4_ALL_AGENTS_ATTENTION.md","docs/operations/OFFLINE_DEPENDENCY_BUNDLE_V1.md","docs/architecture/POST_MERGE_RECONCILIATION.md","docs/integration/ORBITAL_INFRASTRUCTURE_RULES.md"],
+  "carrier":{"implementation_sha256":"114b7d75f8d42eee11c0d37c26a54f7bbd5ec5cb6533e85312944dbb94cf395b","languages":["pl","en"],"matching":"normalized whole-token equality only","block_size":24,"phase_compatibility_component_included":false},
+  "probe":{"validation_windows":16,"training_probe_windows":64,"lm_training_or_quality_outcome_allowed":false},
+  "admission_gate":{"validation_nonzero_relation_windows_min":8,"training_nonzero_relation_windows_min":16,"unique_nonzero_validation_vectors_min":2,"all_candidate_scores_must_equal":1.0,"all_source_hashes_must_match":true},
+  "carrier_measurement_observed_before_freeze":false,
+  "canon_allowed":false
+}
