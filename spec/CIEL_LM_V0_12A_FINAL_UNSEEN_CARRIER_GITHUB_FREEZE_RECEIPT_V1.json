@@ -1,0 +1,37 @@
+{
+  "schema": "CIEL_LM_V0_12A_FINAL_UNSEEN_CARRIER_GITHUB_FREEZE_RECEIPT_V1",
+  "status": "FROZEN_BEFORE_CARRIER_MEASUREMENT",
+  "local_full_prereg_sha256": "53c68e6a47a81f947a1d9b1f5b0b79bcbc4d2a5c23b632c0ffaa7f6fc6c1d603",
+  "source_universe_count": 56,
+  "source_universe_manifest_sha256": "b7dc41d5a2f074244e4fb0a581bb9df1ca186e5bd7a5ea21ad873b6bace59fe3",
+  "previously_heldout_count": 49,
+  "eligible_never_heldout_count": 7,
+  "selection_rule": "use all seven remaining source files never used as held-out through V0.11B; no outcome or carrier-coverage ranking",
+  "heldout_files": [
+    "cielingo/docs/architecture/CIELINGO_REGIONAL_LANGUAGE_SEPARATION_REFACTOR_v0_5L.md",
+    "cielingo/docs/architecture/DOCTOR_2_LINGOPHYSICS_DOCTOR_v0_1.md",
+    "cielingo/docs/architecture/CIELINGO_GLOBAL_FILESENSE_EXECUTION_v0_4.md",
+    "cielingo/docs/beta_knot/BETA_KNOT_DOCTOR_PLACEMENT_DECISION_v0_2.md",
+    "cielingo/docs/architecture/CIELINGO_0_5L_FIX_NOEMA_SURFACE_LS_ROUTER_TEST_v0_1.md",
+    "cielingo/docs/architecture/CIELINGO_CARD_MIGRATION_POLICY_v0_2.md",
+    "cielingo/docs/architecture/CONTROLLED_48_SLOT_ATLAS_DOCTOR_HARDENING_v0_6A.md"
+  ],
+  "carrier": {
+    "languages": ["pl", "en"],
+    "atlas": "controlled_48_slot_v0_6a union by language",
+    "matching": "normalized whole-token equality only",
+    "fuzzy_or_substring_matching": false,
+    "feature_order": ["operator_argument_link", "same_event_frame", "case_role_link", "conflict_penalty"],
+    "phase_compatibility_component_included": false
+  },
+  "probe": {"block_size": 24, "validation_windows": 16, "training_probe_windows": 64, "lm_quality_outcome_allowed": false},
+  "admission_gate": {
+    "validation_nonzero_relation_windows_min": 8,
+    "training_nonzero_relation_windows_min": 16,
+    "unique_nonzero_validation_vectors_min": 2,
+    "all_candidate_scores_must_equal": 1.0,
+    "all_source_hashes_must_match": true
+  },
+  "successor_if_pass": "V0.12B preregistered mask-preserving semantic-vector specificity benchmark on the same frozen holdout files with new seeds",
+  "canon_allowed": false
+}
