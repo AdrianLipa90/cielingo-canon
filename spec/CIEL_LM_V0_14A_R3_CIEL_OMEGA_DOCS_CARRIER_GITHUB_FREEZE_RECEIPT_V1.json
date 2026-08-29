@@ -1,0 +1,97 @@
+{
+  "admission_gate": {
+    "all_candidate_scores_must_equal": 1.0,
+    "all_source_hashes_must_match": true,
+    "training_nonzero_relation_windows_min": 16,
+    "unique_nonzero_validation_vectors_min": 2,
+    "validation_nonzero_relation_windows_min": 8
+  },
+  "canon_allowed": false,
+  "carrier_contract": {
+    "aggregation": "component-wise arithmetic mean over all block_size*(block_size-1)=552 ordered non-self token pairs; unmatched/missing predicates contribute 0",
+    "atlas_sha256": "c3eaf295517fa8116528de150be8ec434b8fa2565ca84d7f946c21ef2d651050",
+    "block_size": 24,
+    "candidate_score": 1.0,
+    "card_filter": "language_id in {pl,en}",
+    "concept_token": "any exact card candidate for token has empty runtime.operator_bindings",
+    "feature_order": [
+      "operator_argument_link",
+      "same_event_frame",
+      "case_role_link",
+      "conflict_penalty"
+    ],
+    "forms": "lemma plus surface_forms; normalize by Unicode NFKC, casefold, strip leading/trailing non-word characters while retaining letters/digits/underscore/hyphen internally",
+    "languages": [
+      "pl",
+      "en"
+    ],
+    "matching": "normalized whole-token equality only",
+    "operator_token": "any exact card candidate for token has nonempty runtime.operator_bindings",
+    "ordered_nonself_pair_components": {
+      "case_role_link": {
+        "predicate": "one token exposes a nonempty case_gauge field and either token exposes a nonempty role field",
+        "weight": 0.55
+      },
+      "conflict_penalty": {
+        "predicate": "either token exposes phase_conflict=true",
+        "weight": -0.9
+      },
+      "operator_argument_link": {
+        "predicate": "exactly one token is operator_token and the other is concept_token",
+        "weight": 0.7
+      },
+      "same_event_frame": {
+        "predicate": "token slot-role sets have nonempty intersection",
+        "weight": 0.4
+      }
+    },
+    "phase_compatibility_component_included": false,
+    "slot_roles": "set of integer slot_id values across exact card candidates"
+  },
+  "cleaner_contract": {
+    "markdown_decode": "UTF-8 with replacement on decode errors",
+    "tokenization": "cleaned_text.split()",
+    "whitespace": "collapse all Unicode whitespace runs to one ASCII space and strip"
+  },
+  "implementation_requirements": [
+    "commit cleaner source witness before measurement",
+    "commit carrier source witness before measurement",
+    "commit runner source witness before measurement",
+    "commit implementation freeze binding all source witnesses before measurement",
+    "self-test PASS before measurement"
+  ],
+  "namespace": "CIEL_LM_V0_14_CIEL_OMEGA_DOCS_PROVENANCE_COMPLETE_R3",
+  "outcome_observed_before_freeze": false,
+  "parents": {
+    "v0_14a_r2_prereg_sha256": "bb282d1ccafd310994940d33ae4a7670b49d05189ca77cd351a0c9ae24dad671",
+    "v0_14a_r2_status": "BLOCK_MISSING_BOUND_HELPER_BYTES",
+    "v0_14a_status": "BLOCK_MISSING_FROZEN_RUNNER_BYTES"
+  },
+  "probe": {
+    "lm_training_or_quality_outcome_allowed": false,
+    "training_probe_windows": 64,
+    "training_window_rule": "unique rounded equally-spaced starts over concatenated non-heldout cleaned token stream",
+    "validation_window_rule": "unique rounded equally-spaced starts over concatenated heldout cleaned token stream",
+    "validation_windows": 16
+  },
+  "purpose": "provenance-complete successor to blocked V0.14A and R2; preserve exact source universe, holdouts and carrier admission gate while replacing unavailable helper-byte dependencies with fully specified and subsequently committed source witnesses",
+  "schema": "CIEL_LM_V0_14A_R3_CIEL_OMEGA_DOCS_CARRIER_PREREGISTRATION_V1",
+  "source": {
+    "archive_sha256": "fef25a4cb20380483fec5b3e84ad8a2d1465e6a53ecf6dfd9ec42ec67d82e9ef",
+    "candidate_count": 109,
+    "heldout_files": [
+      "docs/operations/README.md",
+      "docs/object_cards/satellites/SAT-P3-0001.md",
+      "docs/integration/SAPIENS_SURFACE_BINDING.md",
+      "docs/MASTER_PLAN_4_ALL_AGENTS_ATTENTION.md",
+      "docs/operations/OFFLINE_DEPENDENCY_BUNDLE_V1.md",
+      "docs/architecture/POST_MERGE_RECONCILIATION.md",
+      "docs/integration/ORBITAL_INFRASTRUCTURE_RULES.md"
+    ],
+    "selection_status": "INHERITED_EXACT_FROM_R2_RECOVERED_UNIVERSE",
+    "source_hash_verification": "recompute the 109-entry path->SHA256 map from the bound source archive and require exact source_universe_sha256 before any carrier measurement",
+    "source_universe_commitment": "SHA256(canonical JSON object mapping every recovered root docs/**/*.md relative path to raw-file SHA256; json.dumps(sort_keys=True,separators=(comma,colon)))",
+    "source_universe_sha256": "9d5530ece47dc8132d2e015ab0f0c7d7e75155ee75ba2744ad602d1acde63d88"
+  },
+  "status": "FROZEN_BEFORE_R3_IMPLEMENTATION_AND_CARRIER_MEASUREMENT"
+}
