@@ -1,0 +1,48 @@
+{
+  "canon_allowed": false,
+  "classification": "PASS_EXECUTION_INTEGRITY__PASS_BOUND_CONTEXT_CARRIER_ADMISSION__NO_LM_OUTCOME",
+  "gate": {
+    "all_candidate_scores_exact": true,
+    "source_hashes": "PASS",
+    "training_nonzero_carrier_windows": true,
+    "unique_nonzero_validation_vectors": true,
+    "validation_nonzero_carrier_windows": true
+  },
+  "implementation_freeze_sha256": "d009d4631d9723ac895f75eb2031e5d2fcea01b94c18ba6dde3f088f77654c77",
+  "lm_quality_outcome_observed": false,
+  "postrun_frozen_byte_replay": "PASS",
+  "postrun_noema": {
+    "aux_runtime_instance_id": "b2c277909290221897bb54c60a276020",
+    "fast_admission": "PASS",
+    "seq": 5325,
+    "tether_runtime_instance_id": "7a2d9e938312ea1111beab49eded10fb"
+  },
+  "prereg_sha256": "b9887f115ff5c2b53f897e5fbc636ccd9414adc2c1ddd7f6a8765faed06ae811",
+  "report_sha256": "c39bef56ca2409e598430a840deacbebc8c0f68f815ca04d893722188a593967",
+  "schema": "CIEL_LM_V0_15A_CARRIER_EXECUTION_RECEIPT_V1",
+  "status": "PASS_CARRIER_ADMISSION",
+  "training": {
+    "all_candidate_scores_exact": true,
+    "bound_token_positions": 88,
+    "component_nonzero_counts": [48,23,8,0,0],
+    "exact_candidate_windows": 48,
+    "legacy_relation_nonzero_windows": 23,
+    "nonzero_carrier_windows": 48,
+    "operator_bound_candidates": 37,
+    "total_exact_candidates": 91,
+    "unique_nonzero_vectors": 12,
+    "windows": 64
+  },
+  "validation": {
+    "all_candidate_scores_exact": true,
+    "bound_token_positions": 24,
+    "component_nonzero_counts": [11,5,1,0,0],
+    "exact_candidate_windows": 11,
+    "legacy_relation_nonzero_windows": 5,
+    "nonzero_carrier_windows": 11,
+    "operator_bound_candidates": 6,
+    "total_exact_candidates": 26,
+    "unique_nonzero_vectors": 8,
+    "windows": 16
+  }
+}
