@@ -1,0 +1,17 @@
+{
+  "canon_allowed": false,
+  "entries": {
+    "corpus.py": "4959ea4436806595022feb67c5e16ce423261f7f3806061e74f6f48cc40e76b7",
+    "model.py": "563074e138c6665c85853b547a0101541d8f6b2ac1cd057a7c408a7d461fe332",
+    "residual.py": "959c82adaa9c96b8c33108401b9a3fd73e42e06e7889fc49228eced3f22b4e62",
+    "test_v0_12d_window_alignment.py": "1505ef673fbe23e110157cd28996e0758a8798f0bd2b5f41ba0349854d432ef4",
+    "tokenizer.py": "98e6c93b0f988950d016caf9aa1376755b8e312ed90ca146dddf5414006b57fe",
+    "v0_12c_runner.py": "c6d9c83e0fd14f63b491d750f8c0939d8c4d0d23cc5a35a364e4d95be31bd418",
+    "v0_12d_runner.py": "a0c369fb417cdbce9c47fde80009d167145425eb8691e043d3d69cb4a73fb425"
+  },
+  "matched": 7,
+  "schema": "CIEL_LM_V0_12D_SOURCE_WITNESS_REPLAY_V1",
+  "source_manifest_sha256": "b7dc41d5a2f074244e4fb0a581bb9df1ca186e5bd7a5ea21ad873b6bace59fe3",
+  "status": "PASS",
+  "total": 7
+}
