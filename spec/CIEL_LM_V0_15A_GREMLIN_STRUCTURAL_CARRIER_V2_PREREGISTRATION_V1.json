@@ -1,0 +1,78 @@
+{
+  "admission_gate": {
+    "all_anchor_candidate_scores_equal_1": true,
+    "block": "otherwise; no V0.15B LM-quality benchmark may execute",
+    "pass": "all admission conditions true",
+    "source_commit_and_blob_hashes_exact": true,
+    "training_nonzero_relation_windows_min": 32,
+    "unique_nonzero_validation_vectors_min": 4,
+    "validation_nonzero_relation_windows_min": 12,
+    "validation_syntax_nonzero_windows_min": 8,
+    "validation_syntax_only_windows_min": 4
+  },
+  "aggregation": "component-wise arithmetic mean over 552 ordered non-self token pairs in each 24-token window; missing predicates contribute 0",
+  "anchor_layer": {
+    "anchor_operator_argument_weight": 0.7,
+    "anchor_shared_slot_weight": 0.4,
+    "atlas_sha256": "c3eaf295517fa8116528de150be8ec434b8fa2565ca84d7f946c21ef2d651050",
+    "candidate_score": 1.0,
+    "languages": ["pl", "en"],
+    "matching": "normalized whole-token equality only",
+    "phase_compatibility_component_included": false
+  },
+  "canon_allowed": false,
+  "cleaner": {
+    "decode": "UTF-8 errors=replace",
+    "normalization": "Unicode NFKC + casefold + strip leading/trailing non-word characters, retaining letters/digits/underscore/hyphen internally",
+    "tokenization": "cleaned_text.split()",
+    "whitespace": "collapse Unicode whitespace runs to one ASCII space and strip"
+  },
+  "feature_order": ["anchor_operator_argument", "anchor_shared_slot", "syntax_operator_argument", "syntax_scope"],
+  "fresh_source": {
+    "commit_sha": "f775cd5f0b2619692e6d2250e2c6204776b6ce24",
+    "dev_content_exclusion_file": "spec/CIEL_LM_V0_15A_DEV_CONTENT_EXCLUSION_V1.json",
+    "dev_content_exclusion_sha256": "59a0c6cbd3365c4ece728b8cf1e67294c16b68bfa230b8382c7089616c47a722",
+    "minimum_candidate_documents": 10,
+    "repository": "AdrianLipa90/GREMLIN",
+    "selection_rule": "recursively enumerate .md blobs at the frozen commit; decode UTF-8 with replacement; discard documents empty after whitespace collapse; collapse exact raw-content duplicates to lexicographically first path; exclude raw-content SHA256 values in the frozen CIEL-Omega development exclusion set",
+    "source_universe_commitment": "SHA256(canonical JSON path->raw-content-SHA256 map over post-dedupe/post-exclusion candidates, json.dumps(sort_keys=True,separators=(comma,colon)))",
+    "split_rule": "rank remaining paths by SHA256(namespace|relative_path); holdout_count=min(7,max(3,floor(candidate_count/5))); lowest holdout_count paths are validation; all others training",
+    "tree_sha": "15d9f5db9655f7f6b8d821671d7b9f5b503e8a1e"
+  },
+  "implementation_requirements": [
+    "commit full cleaner/carrier/runner source witnesses before any GREMLIN document carrier measurement",
+    "commit implementation freeze binding all source witnesses before measurement",
+    "synthetic-only self-test before measurement",
+    "no code, vocabulary, thresholds, source selection, or weights changes after implementation freeze"
+  ],
+  "namespace": "CIEL_LM_V0_15_GREMLIN_STRUCTURAL_CARRIER_V2",
+  "outcome_observed_before_freeze": false,
+  "parent": {
+    "development_universe": "CIEL-Omega 109-file R3 universe",
+    "development_universe_must_not_be_reused_for_confirmation": true,
+    "v0_14a_r3_classification": "PASS_EXECUTION_INTEGRITY__BLOCK_VALIDATION_CARRIER_COVERAGE",
+    "v0_14a_r3_report_sha256": "ddeda1eb87bb300ace785aaa327d0bf29c10b06a9f108e0515b3384bca92a1ac"
+  },
+  "probe": {
+    "block_size": 24,
+    "insufficient_token_stream": "BLOCK_SOURCE_INSUFFICIENT_FOR_FROZEN_WINDOWS",
+    "lm_training_or_quality_outcome_allowed": false,
+    "training_probe_windows": 64,
+    "training_window_rule": "64 unique rounded equally-spaced starts over concatenated training cleaned token stream",
+    "validation_window_rule": "16 unique rounded equally-spaced starts over concatenated heldout cleaned token stream",
+    "validation_windows": 16
+  },
+  "schema": "CIEL_LM_V0_15A_GREMLIN_STRUCTURAL_CARRIER_V2_PREREGISTRATION_V1",
+  "status": "FROZEN_BEFORE_GREMLIN_TREE_CONTENT_INSPECTION_AND_CARRIER_IMPLEMENTATION",
+  "syntax_layer": {
+    "action": ["create","update","write","read","check","verify","run","build","load","save","send","return","add","remove","fix","repair","commit","merge","route","bind","validate","reject","allow","block","freeze","generate","parse","map","compare","compute","search","fetch","open","close","list","record","create_file","update_file","utwórz","zaktualizuj","napisz","odczytaj","sprawdź","zweryfikuj","uruchom","zbuduj","załaduj","zapisz","wyślij","zwróć","dodaj","usuń","napraw","scal","trasuj","zwiąż","waliduj","odrzuć","zezwól","zablokuj","zamroź","generuj","parsuj","mapuj","porównaj","oblicz","szukaj","pobierz","otwórz","zamknij","wypisz","zapisz"],
+    "argument_eligibility": "normalized length>=2; not syntax operator; not stopword; not punctuation-only/markdown-marker-only",
+    "condition": ["if","when","unless","while","until","provided","assuming","jeśli","jeżeli","gdy","dopóki","chyba że"],
+    "modal": ["must","should","may","might","can","cannot","need","needs","required","requires","trzeba","musi","muszą","powinien","powinna","powinno","powinni","może","można","wymaga","wymagane"],
+    "negation": ["not","no","never","without","neither","nor","nie","bez","nigdy"],
+    "rule_provenance": "SYNTAX_RULE; no candidate confidence score is assigned to syntax-only relations",
+    "stopwords": ["the","a","an","and","or","to","of","in","on","for","with","from","by","as","is","are","be","was","were","this","that","it","its","do","does","i","lub","oraz","do","z","w","na","dla","od","przez","jako","jest","są","być","to","ten","ta","te","się"],
+    "syntax_operator_argument": "for each syntax operator token i, connect to the first eligible subsequent token j within distance 1..3; symmetric pair contribution weight 0.7",
+    "syntax_scope": "for negation/modal/condition token i, connect to each eligible subsequent token j until the first raw token ending in one of . ; : ! ? or distance 6, whichever comes first; symmetric pair contribution weight 0.35"
+  }
+}
