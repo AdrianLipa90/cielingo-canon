@@ -1,0 +1,33 @@
+{
+  "canon_allowed": false,
+  "carrier_outcome_observed": false,
+  "created_unix_ns": 1787962624304951226,
+  "environment": {"python": "3.13.5"},
+  "execution_surface_sha256": {
+    "protocols/CIEL_LM_V0_11A_MULTILINGUAL_CARRIER_PREREGISTRATION_V1.json": "3f3a2967ed1fa73d2b901e9b6126a5cf3de921b977e09b138e85b9331f2779a3",
+    "scripts/run_v0_11a_carrier_admission.py": "9fdb9558837d291c82b8e64d8d9f1067fff44db336c23097b608a90030bc9b1c",
+    "vendor/cielingo/simple_solver_utils.py": "8c0a0828747ed64c07c36fb4511fa140c6ee58d0529bd5bee6e1bf40ac1c5f72",
+    "vendor/lingophysics/attention_bias.py": "aba24aa4260ec84ef15a65b99082e09c4a5d0d1836b82bfd271690f98776a37b",
+    "vendor/lingophysics/transformer_features.py": "06427f977eb23a1f713bb741f20225dd499005651da6676765b6647cdb1f6bfe"
+  },
+  "implementation": {
+    "atlas_union": "48 PL + 48 EN controlled cards",
+    "candidate_deduplication": "(card_id, token_indices)",
+    "feature_roles": "sorted union of exact-card operator_bindings",
+    "feature_token_operator_rule": "token is OPERATOR_CARD iff at least one exact bound card has operator_bindings; otherwise CONCEPT_CARD",
+    "lingophysics_weights": {"case_role_link":0.55,"conflict_penalty":0.9,"operator_argument_link":0.7,"phase_compatibility":0.45,"same_event_frame":0.4},
+    "matching": "exact normalized whole-token via repaired simple_solver_utils",
+    "ordered_nonself_mean": true,
+    "phase_compatibility_excluded_from_carrier": true,
+    "reported_feature_order": ["operator_argument_link","same_event_frame","case_role_link","conflict_penalty"]
+  },
+  "pre_freeze_validation": {
+    "atlas_union_count": 96,
+    "python_compile": "PASS",
+    "synthetic_conformance": "PASS",
+    "synthetic_run_source_vector": [0.4666666666666666,0.0,0.0,0.0]
+  },
+  "prereg_sha256": "3f3a2967ed1fa73d2b901e9b6126a5cf3de921b977e09b138e85b9331f2779a3",
+  "schema": "CIEL_LM_V0_11A_CARRIER_IMPLEMENTATION_FREEZE_V1",
+  "status": "FROZEN_BEFORE_CARRIER_MEASUREMENT"
+}
