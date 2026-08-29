@@ -1,0 +1,23 @@
+{
+  "arms": ["base","bound_only","real_5d","semantic_control_5d"],
+  "atlas_sha256": "c3eaf295517fa8116528de150be8ec434b8fa2565ca84d7f946c21ef2d651050",
+  "base_advantage_not_required_for_primary": true,
+  "base_model": {"block_size":24,"d_model":96,"dropout":0.1,"freeze_after_training":true,"grad_clip_norm":1.0,"learning_rate":0.0004,"n_heads":4,"n_layers":2,"training_steps":120,"weight_decay":0.01},
+  "canon_allowed": false,
+  "endpoints": {"diagnostic_bound":"delta_bound=NLL_base-NLL_bound_only","diagnostic_tail":"delta_tail=NLL_bound_only-NLL_real","primary_semantic":"delta_semantic=NLL_semantic_control-NLL_real","secondary_base":"delta_base=NLL_base-NLL_real"},
+  "evaluation": {"alignment_rule":"for each frozen V0.15A 24-token validation window, evaluate next-token loss on the first 23 tokens predicting the following 23 tokens; carrier features use all 24 window tokens","carrier_window_tokens":24,"lm_transitions_per_window":23,"same_windows_all_arms":true,"validation_windows":16},
+  "independent_replication_required_after_primary_pass": true,
+  "namespace": "CIEL_LM_V0_15B_BOUND_CONTEXT_SEMANTIC_SPECIFICITY",
+  "no_retuning_after_result": true,
+  "parent_carrier": {"v0_15a_prereg_sha256":"b9887f115ff5c2b53f897e5fbc636ccd9414adc2c1ddd7f6a8765faed06ae811","v0_15a_report_sha256":"c39bef56ca2409e598430a840deacbebc8c0f68f815ca04d893722188a593967","v0_15a_status":"PASS_CARRIER_ADMISSION","validation_legacy_relation_nonzero_windows":5,"validation_nonzero_carrier_windows":11},
+  "primary_pass_gate": {"all_invariants_pass":true,"exact_one_sided_signflip_p_max":0.05,"mean_delta_semantic_positive":true,"min_leave_one_out_delta_semantic_positive":true,"positive_delta_semantic_seeds_min":9},
+  "residual_expert": {"bias":false,"feature_dim":5,"learning_rate":0.0004,"training_steps":120,"weight_decay":0.0,"zero_initialized":true,"zero_structural_invariant":"R(0)==0 for every expert state"},
+  "schema": "CIEL_LM_V0_15B_BOUND_CONTEXT_SEMANTIC_SPECIFICITY_PREREGISTRATION_V1",
+  "seeds": [2971740367,1419543792,1295738280,2361908707,1366481774,68628622,157669346,1487148095,3062411152,4262170990,3942878923,239463005],
+  "semantic_control": {"bound_context_component":"preserved exactly at each sample","fixed_points_allowed":false,"legacy_tail":"indices with any nonzero feature[1:5] are sorted by SHA256(namespace|seed|split|index), then legacy tails are cyclically shifted by one among that ordered nonzero set","nonzero_legacy_count_min_per_split":2,"support_mask_preserved":true,"zero_legacy_tail_indices":"remain zero"},
+  "source": {"archive_sha256":"fef25a4cb20380483fec5b3e84ad8a2d1465e6a53ecf6dfd9ec42ec67d82e9ef","heldout_files":["docs/science/HYPOTHESES.md","docs/science/RELATIONAL_ORBITAL_DYNAMICS_SPEC_V0.md","docs/desktop/CIEL_DESKTOP_BOOTSTRAP_ON_SOT.md","docs/object_cards/satellites/SAT-AUDIO-0001.md","docs/architecture/DOCS_INDEX_MD_REPLACEMENT.md","docs/architecture/HYPERSPACE_INDEX_JSON_REPLACEMENT.md","docs/architecture/CONFLICT_AUDIT_POST_MERGE.md"],"universe_sha256":"9d5530ece47dc8132d2e015ab0f0c7d7e75155ee75ba2744ad602d1acde63d88"},
+  "source_witnesses": {"carrier_v15_py_sha256":"afc858497c76d2afcf89af8fee5c01afe7a79060469552f21fe0a801610b1614","corpus_py_sha256":"4959ea4436806595022feb67c5e16ce423261f7f3806061e74f6f48cc40e76b7","model_py_sha256":"563074e138c6665c85853b547a0101541d8f6b2ac1cd057a7c408a7d461fe332","tokenizer_py_sha256":"98e6c93b0f988950d016caf9aa1376755b8e312ed90ca146dddf5414006b57fe"},
+  "status": "FROZEN_BEFORE_RUNNER_IMPLEMENTATION_AND_LM_OUTCOME",
+  "tokenizer": {"build_on_training_text_only":true,"max_vocab":5000,"min_freq":1},
+  "training_start_rule": "for each seed use random.Random(seed+9000), 120 starts uniformly over positions with 25 tokens available; same starts for all arms"
+}
