@@ -1,0 +1,15 @@
+{
+  "schema": "CIEL_LM_V0_14A_PROVENANCE_BLOCK_V1",
+  "status": "BLOCK_MISSING_FROZEN_RUNNER_BYTES",
+  "prereg_local_full_sha256": "db7a588c8d3e76f35c86056d4d4dae91a5ba3997ed7acb97453ee32e49915770",
+  "implementation_freeze_sha256": "b36baa0d9aaa4c51395e5e71e4e682fde7e0b251659002532beb2242c1ecf41d",
+  "required_runner_sha256": "330e40b165776b45bf71b93c56bd7f39659665ab5c466299839481d98bb37dbd",
+  "implementation_commit": "5b7171b0178ccdd4cbb3638eb38454057a1948bb",
+  "github_commit_contains_runner_source": false,
+  "current_container_exact_runner_found": false,
+  "library_exact_runner_found": false,
+  "carrier_measurement_executed": false,
+  "lm_quality_outcome_observed": false,
+  "replacement_rule": "A replacement experiment may reuse the preregistered source archive, seven holdouts and admission gate only under a new namespace, with complete runner source witness committed before carrier measurement.",
+  "canon_allowed": false
+}
