@@ -8,6 +8,7 @@ axes. A signature validates an operator-local port such as
 
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import asdict, dataclass
 from hashlib import sha256
 import json
@@ -135,10 +136,13 @@ class OperatorTypingReport:
     frame_id: str
     operator: str
     signature_id: str | None
+    signature_commitment: str | None
     signature_known: bool
     valid: bool
+    frame_issues: tuple[str, ...]
     missing_ports: tuple[str, ...]
     unexpected_ports: tuple[str, ...]
+    duplicate_ports: tuple[str, ...]
     adposition_mismatches: tuple[str, ...]
     universal_roles: tuple[UniversalRoleBinding, ...]
     candidate_only: bool = True
@@ -149,10 +153,13 @@ class OperatorTypingReport:
             "frame_id": self.frame_id,
             "operator": self.operator,
             "signature_id": self.signature_id,
+            "signature_commitment": self.signature_commitment,
             "signature_known": self.signature_known,
             "valid": self.valid,
+            "frame_issues": list(self.frame_issues),
             "missing_ports": list(self.missing_ports),
             "unexpected_ports": list(self.unexpected_ports),
+            "duplicate_ports": list(self.duplicate_ports),
             "adposition_mismatches": list(self.adposition_mismatches),
             "universal_roles": [binding.to_dict() for binding in self.universal_roles],
             "candidate_only": self.candidate_only,
@@ -259,18 +266,26 @@ def get_operator_signature(operator: str) -> OperatorSignature | None:
 
 def type_case_port_frame(frame: CasePortFrame) -> OperatorTypingReport:
     """Validate one CasePortFrame against its operator-local typed signature."""
+    frame_issues = tuple(frame.validate())
     signature = get_operator_signature(frame.operator)
+    port_keys = [
+        f"{port.grammatical_case.value}:{port.operator_role}" for port in frame.ports
+    ]
+    counts = Counter(port_keys)
+    duplicate_ports = tuple(sorted(key for key, count in counts.items() if count > 1))
+
     if signature is None:
         return OperatorTypingReport(
             frame_id=frame.frame_id,
             operator=frame.operator,
             signature_id=None,
+            signature_commitment=None,
             signature_known=False,
             valid=False,
+            frame_issues=frame_issues,
             missing_ports=(),
-            unexpected_ports=tuple(
-                f"{port.grammatical_case.value}:{port.operator_role}" for port in frame.ports
-            ),
+            unexpected_ports=tuple(port_keys),
+            duplicate_ports=duplicate_ports,
             adposition_mismatches=(),
             universal_roles=(),
         )
@@ -311,7 +326,13 @@ def type_case_port_frame(frame: CasePortFrame) -> OperatorTypingReport:
                 )
             )
 
-    valid = not missing and not unexpected and not adposition_mismatches
+    valid = not (
+        frame_issues
+        or missing
+        or unexpected
+        or duplicate_ports
+        or adposition_mismatches
+    )
     if not valid:
         bindings = []
 
@@ -319,10 +340,13 @@ def type_case_port_frame(frame: CasePortFrame) -> OperatorTypingReport:
         frame_id=frame.frame_id,
         operator=frame.operator,
         signature_id=signature.signature_id,
+        signature_commitment=signature.signature_commitment,
         signature_known=True,
         valid=valid,
+        frame_issues=frame_issues,
         missing_ports=missing,
         unexpected_ports=unexpected,
+        duplicate_ports=duplicate_ports,
         adposition_mismatches=tuple(adposition_mismatches),
         universal_roles=tuple(bindings),
     )
