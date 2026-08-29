@@ -1,0 +1,53 @@
+{
+  "schema": "CIEL_LM_V0_11B_POSTHOC_CONTROL_CONFOUND_RECEIPT_V1",
+  "status": "POSTHOC_CONTROL_CONFOUND_FOUND",
+  "frozen_verdict": "BLOCK_PILOT_MECHANISM",
+  "original_relation_specificity_endpoint": {
+    "mean_delta_nll": 8.473296960194905e-05,
+    "min_leave_one_out": 7.245757363059305e-05,
+    "positive_seeds": 10,
+    "signflip_p": 0.00732421875,
+    "status": "PASS_ENDPOINT"
+  },
+  "finding": {
+    "net_delta_shuffle_sum": 0.01626873016357422,
+    "true_zero_fraction_of_net_relation_specificity": 2.5026379037458235,
+    "true_nonzero_fraction_of_net_relation_specificity": -1.5026379037458233,
+    "true_zero_shuffled_nonzero": {
+      "name": "true_zero_shuf_nonzero",
+      "n": 50,
+      "per_seed_counts": [4,5,5,3,3,4,4,5,5,5,4,3],
+      "mean_delta_base": 0.0,
+      "mean_delta_shuffle": 0.0008142948150634766,
+      "positive_seed_delta_base": 0,
+      "positive_seed_delta_shuffle": 12,
+      "signflip_p_delta_base": 1.0,
+      "signflip_p_delta_shuffle": 0.000244140625,
+      "delta_shuffle_sum": 0.04071474075317383,
+      "fraction_of_net_delta_shuffle": 2.5026379037458235
+    },
+    "true_nonzero_all": {
+      "name": "true_nonzero",
+      "n": 96,
+      "per_seed_counts": [8,8,8,8,8,8,8,8,8,8,8,8],
+      "mean_delta_base": -0.00040830671787261963,
+      "mean_delta_shuffle": -0.0002546459436416626,
+      "positive_seed_delta_base": 0,
+      "positive_seed_delta_shuffle": 0,
+      "signflip_p_delta_base": 1.0,
+      "signflip_p_delta_shuffle": 1.0,
+      "delta_shuffle_sum": -0.02444601058959961,
+      "fraction_of_net_delta_shuffle": -1.5026379037458233
+    },
+    "interpretation_status": "CONTROL_CONFOUND",
+    "mechanism": "deterministic global feature permutation moves nonzero structural vectors into validation windows whose true carrier is zero; real arm leaves those windows at exact base while shuffled arm perturbs them"
+  },
+  "successor_requirement": {
+    "control": "support-preserving shuffle",
+    "zero_support_invariant": "true-zero validation windows remain zero under shuffled control",
+    "nonzero_permutation": "permute relation vectors only among nonzero windows, with a derangement when more than one nonzero vector is available",
+    "quality_claim_before_successor": "BLOCKED"
+  },
+  "canon_allowed": false,
+  "created_unix_ns": 1787989348198746915
+}
