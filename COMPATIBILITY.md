@@ -11,6 +11,22 @@ This file pins the cross-repository runtime pair. The listed SHAs identify the e
 
 Supported Python matrix for the semantic runtime: `3.11`, `3.12`, `3.13`.
 
+## Machine-readable cross-repository link
+
+`CROSS_REPO_LINK.json` exposes this supported pair to tooling. It records repository roles, integration paths, protocol identities, ownership boundaries and candidate interface extension points. The same `link_id` is mirrored by `AdrianLipa90/Ciel-Semantic-Model-` with local and partner roles reversed.
+
+The language-side ownership path is:
+
+```text
+language_spaces -> Lingophysics -> MeaningEquation/native semantics
+```
+
+The paired semantic-runtime consumption path is:
+
+```text
+native semantics -> ASIR -> PhaseNav/MemoryFabric integration
+```
+
 ## Required protocol and schema identities
 
 | Contract | Required identity |
