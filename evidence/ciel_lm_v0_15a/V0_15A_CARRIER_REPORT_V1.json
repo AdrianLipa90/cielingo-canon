@@ -1,0 +1,40 @@
+{
+  "schema": "CIEL_LM_V0_15A_BOUND_CONTEXT_CARRIER_REPORT_V1",
+  "status": "PASS_CARRIER_ADMISSION",
+  "source_universe_sha256": "9d5530ece47dc8132d2e015ab0f0c7d7e75155ee75ba2744ad602d1acde63d88",
+  "train_tokens": 39993,
+  "validation_tokens": 2163,
+  "training": {
+    "windows": 64,
+    "nonzero_carrier_windows": 48,
+    "unique_nonzero_vectors": 12,
+    "exact_candidate_windows": 48,
+    "total_exact_candidates": 91,
+    "bound_token_positions": 88,
+    "operator_bound_candidates": 37,
+    "legacy_relation_nonzero_windows": 23,
+    "component_nonzero_counts": [48,23,8,0,0],
+    "all_candidate_scores_exact": true
+  },
+  "validation": {
+    "windows": 16,
+    "nonzero_carrier_windows": 11,
+    "unique_nonzero_vectors": 8,
+    "exact_candidate_windows": 11,
+    "total_exact_candidates": 26,
+    "bound_token_positions": 24,
+    "operator_bound_candidates": 6,
+    "legacy_relation_nonzero_windows": 5,
+    "component_nonzero_counts": [11,5,1,0,0],
+    "all_candidate_scores_exact": true
+  },
+  "gate": {
+    "source_hashes": "PASS",
+    "all_candidate_scores_exact": true,
+    "validation_nonzero_carrier_windows": true,
+    "training_nonzero_carrier_windows": true,
+    "unique_nonzero_validation_vectors": true
+  },
+  "lm_quality_outcome_observed": false,
+  "canon_allowed": false
+}
