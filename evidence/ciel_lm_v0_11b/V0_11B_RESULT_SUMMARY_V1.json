@@ -1,0 +1,29 @@
+{
+  "schema": "CIEL_LM_V0_11B_RESULT_SUMMARY_V1",
+  "status": "BLOCK_PILOT_MECHANISM",
+  "prereg_sha256": "9e674e359dde3ec81f304567a8bc8eb9257e08856e775ba938ec30f7e18c39e1",
+  "report_sha256": "e1d3aa832bdfabde13e1515ab6b8bcf9e38741865ef02c5c4c02d672811ab347",
+  "rows": [
+    {"seed":794161126,"delta_base":-0.00016495585441589355,"delta_shuffle":0.00012233853340148926},
+    {"seed":2965078580,"delta_base":-0.0003165602684020996,"delta_shuffle":-0.00011584162712097168},
+    {"seed":3991745567,"delta_base":-0.00023323297500610352,"delta_shuffle":0.0001271069049835205},
+    {"seed":1631010326,"delta_base":-0.00023165345191955566,"delta_shuffle":-0.00004172325134277344},
+    {"seed":2335381256,"delta_base":-0.00033026933670043945,"delta_shuffle":0.000042945146560668945},
+    {"seed":2026107779,"delta_base":-0.0000578761100769043,"delta_shuffle":0.00007072091102600098},
+    {"seed":1576255357,"delta_base":-0.00011271238327026367,"delta_shuffle":0.00021976232528686523},
+    {"seed":3792018960,"delta_base":-0.0001996457576751709,"delta_shuffle":0.0001703202724456787},
+    {"seed":1041915137,"delta_base":-0.00014194846153259277,"delta_shuffle":0.0001430809497833252},
+    {"seed":2871421180,"delta_base":-0.0003396570682525635,"delta_shuffle":0.000008255243301391602},
+    {"seed":3455976581,"delta_base":-0.00017747282981872559,"delta_shuffle":0.00016412138938903809},
+    {"seed":3534560302,"delta_base":-0.00014385581016540527,"delta_shuffle":0.00010570883750915527}
+  ],
+  "aggregate": {
+    "mean_delta_base": -0.00020415335893630981,
+    "positive_delta_base_seeds": 0,
+    "signflip_p_base": 1.0,
+    "mean_delta_shuffle": 0.00008473296960194905,
+    "positive_delta_shuffle_seeds": 10,
+    "signflip_p_shuffle": 0.00732421875
+  },
+  "canon_allowed": false
+}
