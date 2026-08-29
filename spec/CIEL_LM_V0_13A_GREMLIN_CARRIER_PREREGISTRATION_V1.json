@@ -1,0 +1,67 @@
+{
+  "admission_gate": {
+    "all_candidate_scores_exact_1": true,
+    "source_blob_sha_match": true,
+    "training_nonzero_min": 16,
+    "validation_nonzero_min": 8,
+    "validation_unique_nonzero_min": 2
+  },
+  "canon_allowed": false,
+  "carrier": {
+    "atlas": "controlled_48_slot_v0_6a",
+    "block_size": 24,
+    "feature_order": [
+      "operator_argument_link",
+      "same_event_frame",
+      "case_role_link",
+      "conflict_penalty"
+    ],
+    "languages": [
+      "pl",
+      "en"
+    ],
+    "matching": "normalized whole-token exact only",
+    "phase_compatibility_included": false
+  },
+  "heldout_files": [
+    "spec/GREMLIN_BESTIARY_V0_1.md",
+    "docs/QHTRI_TORUS_CHARACTER_KERNEL_V0_2.md",
+    "spec/GREMLIN_BESTIARY_VECTOR_LIVE_V0_4.md",
+    "docs/TRIPLE_PULSE_BOOT_V1.md"
+  ],
+  "holdout_selection": "lowest 4 SHA256(namespace|path), computed before content materialization or carrier measurement",
+  "lm_quality_outcome_allowed": false,
+  "namespace": "CIEL_LM_V0_13_GREMLIN_INDEPENDENT_CARRIER",
+  "probe": {
+    "training_windows": 64,
+    "validation_windows": 16,
+    "window_rule": "unique rounded equally-spaced starts over concatenated cleaned token streams"
+  },
+  "schema": "CIEL_LM_V0_13A_GREMLIN_CARRIER_PREREGISTRATION_V1",
+  "source": {
+    "commit_sha": "770c90ebfebc6118fc10187cfa91d2fe845102a1",
+    "repository": "AdrianLipa90/GREMLIN",
+    "tree_sha": "baed30c3f759821d2f36db04ceb37967362f6057"
+  },
+  "status": "FROZEN_BEFORE_CORPUS_CONTENT_MATERIALIZATION_AND_CARRIER_MEASUREMENT",
+  "successor": "V0.13B allowed only after PASS_CARRIER_ADMISSION; no retuning based on carrier values",
+  "universe_blob_sha": {
+    "README.md": "4116b9286dcd79f51e1bb00db64b8e8c6d093cfd",
+    "docs/QHTRI_M0_M11_RELATIONAL_ISOMORPHISM_SCAN_V0_1.md": "c211d3a41b082fb5d513bd945142c64d3327d49a",
+    "docs/QHTRI_PHASE_XOR_BELZEBUB_CORRECTION_V0_1.md": "449674027fd582696a7e4645d694b5fa937f411d",
+    "docs/QHTRI_TORUS_CHARACTER_KERNEL_V0_2.md": "a3e8b1ef2a9ea1eeff2c48a29ff028bb9c2aedab",
+    "docs/TRIPLE_PULSE_BOOT_V1.md": "b578d2c2df251729ce10ab5479b73383d9c25a1f",
+    "spec/GREMLIN_BELZEBUB_FLAVOR_INFORMATION_AUDIT_V1_6.md": "3cf9bc35fa818fb5fd9c02b7ec4092b8e3533d28",
+    "spec/GREMLIN_BESTIARY_V0_1.md": "fcd8318368c149cd941412dece53ab674d45a184",
+    "spec/GREMLIN_BESTIARY_VECTOR_LIVE_V0_4.md": "2237589bb563914e0bcda265aa84f72c9d91a4d4",
+    "spec/GREMLIN_BESTIARY_VECTOR_SPECIES_V0_3.md": "bbe65ce8175e70d38793f5ab597917331f650f7d",
+    "spec/GREMLIN_COMPLEX_OVERLAP_FRAME_BRIDGE_V2_3.md": "13b05218a2a64238dcb6a69d455cd8f297682a68",
+    "spec/GREMLIN_CONNECTION_PATH_HOLONOMY_V0_9.md": "bf1a716fd750f3e7dca7931e4b7b74a23360ea32",
+    "spec/GREMLIN_DUAL_CHANNEL_ENTANGLEMENT_PROBE_V1_2.md": "756de4b2bc60ad5490d9e7fd286a59b12e9761c1",
+    "spec/GREMLIN_EPISTEMIC_SUPPORT_BUNDLE_V0_6.md": "c75c5159cbd6ea051809c054ebbcd71b7cc6c3e5",
+    "spec/GREMLIN_HERMITIAN_ORIENTED_EXCHANGE_V1_4.md": "9676a77eca8a0e51c354f0a0efc1ae40a2f5af2e",
+    "spec/GREMLIN_INTENTION_FLAVOR_BRIDGE_V1_7.md": "e2cb5f48874882919ea5b793808171c4906e54b7",
+    "spec/GREMLIN_INTENTION_MASS_FLAVOR_FACTORIZATION_V1_8.md": "67ae5fb9d9d55ede1f95ccedefbf443078704744"
+  },
+  "universe_rule": "README.md + all docs/*.md + first 11 spec/*.md in lexicographic order"
+}
