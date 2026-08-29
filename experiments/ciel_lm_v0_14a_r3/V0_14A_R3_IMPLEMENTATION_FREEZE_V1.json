@@ -1,0 +1,33 @@
+{
+  "bound_files_sha256": {
+    "controlled_48_slot_atlas": "c3eaf295517fa8116528de150be8ec434b8fa2565ca84d7f946c21ef2d651050",
+    "experiments/ciel_lm_v0_14a_r3/carrier.py": "8c05cb65a9b9bc7eb281687bb91c0f9e81c2118660b4f103d6bd798f06f19349",
+    "experiments/ciel_lm_v0_14a_r3/cleaner.py": "347df598de8df4e18ba7b8f8ae94531d5d224b4253d59f1027b10926edc6a018",
+    "experiments/ciel_lm_v0_14a_r3/runner.py": "d63d0acb4a76c44b804cbfa6a2e4c6b3a2d67cd118027480a7d372563d88d520",
+    "source_archive": "fef25a4cb20380483fec5b3e84ad8a2d1465e6a53ecf6dfd9ec42ec67d82e9ef"
+  },
+  "candidate_count": 109,
+  "canon_allowed": false,
+  "carrier_measurement_observed": false,
+  "github_blob_sha": {
+    "carrier.py": "c10d8ecf3e3dfe70c717d436c67ca69023ca2a0f",
+    "cleaner.py": "7be3d77920bac7194f64ac13cf67864af58bb939",
+    "runner.py": "54181c41f30d8884f2630031139fae69dab095d8"
+  },
+  "lm_quality_outcome_observed": false,
+  "prereg_sha256": "d84af508442d9647d041f76375853333ce7d5c07e0ca5bda166a5c17e711af89",
+  "runner_mutation_after_freeze_allowed": false,
+  "schema": "CIEL_LM_V0_14A_R3_IMPLEMENTATION_FREEZE_V1",
+  "self_test": {
+    "status": "PASS",
+    "synthetic_only": true,
+    "vector": [
+      0.007608695652173913,
+      0.0014492753623188406,
+      0.0,
+      0.0
+    ]
+  },
+  "source_universe_sha256": "9d5530ece47dc8132d2e015ab0f0c7d7e75155ee75ba2744ad602d1acde63d88",
+  "status": "FROZEN_BEFORE_CARRIER_MEASUREMENT"
+}
