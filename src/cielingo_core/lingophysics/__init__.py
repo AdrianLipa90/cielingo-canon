@@ -19,6 +19,13 @@ from .relation_entity_card_bindings import (
     RelationEntityCardBindings,
     build_relation_entity_card_bindings,
 )
+from .relation_entity_name_bindings import (
+    NAME_BINDING_BASIS,
+    RELATION_ENTITY_NAME_BINDINGS_SCHEMA,
+    RelationEntityNameBinding,
+    RelationEntityNameBindings,
+    build_relation_entity_name_bindings,
+)
 from .relation_hypergraph import (
     RELATION_HYPERGRAPH_SCHEMA,
     RelationEntityNode,
@@ -36,6 +43,8 @@ __all__ = [
     'UniversalRoleBinding', 'get_operator_signature', 'type_case_port_frame', 'type_polish_case_port_frames',
     'CARD_BINDING_BASIS', 'RELATION_ENTITY_CARD_BINDINGS_SCHEMA', 'RelationEntityCardBinding',
     'RelationEntityCardBindings', 'build_relation_entity_card_bindings',
+    'NAME_BINDING_BASIS', 'RELATION_ENTITY_NAME_BINDINGS_SCHEMA', 'RelationEntityNameBinding',
+    'RelationEntityNameBindings', 'build_relation_entity_name_bindings',
     'RELATION_HYPERGRAPH_SCHEMA', 'RelationEntityNode', 'RelationEventNode', 'RelationHypergraph',
     'RelationIncidence', 'build_relation_hypergraph',
     'SurfaceSolutionDoctor', 'SentenceEquationDoctor', 'LocalJDoctor', 'RegionalSeparationDoctor',
