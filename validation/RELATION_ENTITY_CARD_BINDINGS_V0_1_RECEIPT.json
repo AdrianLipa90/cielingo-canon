@@ -1,0 +1,41 @@
+{
+  "schema": "CIEL_RELATION_ENTITY_CARD_BINDINGS_VALIDATION_RECEIPT_V0_1",
+  "branch_head": "390e2a2c038f1a85c3e7d675af794918a2b5cf3c",
+  "tested_blob_sha": "ded4fb06379950fc9a1181fed3d5cfe6c9cc51e8",
+  "module": "src/cielingo_core/lingophysics/relation_entity_card_bindings.py",
+  "execution_scope": "ISOLATED_EXACT_MODULE_HARNESS",
+  "module_status": "PASS",
+  "passed": 8,
+  "failed": 0,
+  "checks": [
+    "complete bound/unbound/implicit partition",
+    "book shared card identity preserved with slot_id provenance",
+    "implicit entity receives no lexical card binding",
+    "same slot with distinct card identities fails closed as ambiguity",
+    "exact token-index continuity required",
+    "duplicate evidence for the same card identity consolidates deterministically",
+    "receipt commitment detects card-identity mutation",
+    "equation-id continuity is enforced"
+  ],
+  "sentence_equation_integration": {
+    "status": "UNTESTED_FULL_REPOSITORY_EXECUTION",
+    "implemented": true,
+    "tests_added": [
+      "tests/test_relation_entity_card_bindings.py",
+      "tests/test_relation_hypergraph.py"
+    ],
+    "note": "SentenceEquation appends relation_entity_card_bindings after relation_hypergraph and validates equation/language/entity/token continuity. These integration tests were not promoted to PASS without executing the repository package."
+  },
+  "hosted_ci": {
+    "status": "NOT_RUN",
+    "reason": "No new hosted workflow was added because recent repository Actions jobs have repeatedly terminated before recorded test steps."
+  },
+  "boundaries": [
+    "No benchmark ground-truth action mapping is consumed.",
+    "card_id is the lexical identity key; slot_id is provenance metadata only.",
+    "A relation entity binds only on exact token-index continuity and exactly one distinct card_id.",
+    "Ambiguous and missing identities remain explicit and fail closed per entity.",
+    "The receipt remains candidate-only and grants no canon, SOURCE, NOEMA writeback, or execution authority."
+  ],
+  "candidate_only": true
+}
