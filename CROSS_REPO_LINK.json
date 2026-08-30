@@ -117,7 +117,7 @@
       "provenance_only": "slot_id",
       "graph_binding": "relation_hypergraph_commitment",
       "consumer_path": "src/ciel_semantic_model/relation_entity_card_bridge.py",
-      "consumer_admission": "exact graph commitment + exact entity partition + token continuity; ambiguous and unbound identity remain fail-closed",
+      "consumer_admission": "exact graph commitment + exact entity partition + token continuity + exact source-language atlas corroboration before world grounding; ambiguous, unbound, and uncorroborated identity remain fail-closed",
       "asir_receipt": "ASIRGraph.scope_manifest.relation_entity_grounding",
       "projection": "RESOLVED_WORLD_ENTITY_CROSS_INDEX_ONLY"
     }
