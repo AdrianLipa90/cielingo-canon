@@ -1,0 +1,128 @@
+name: CIELingo benchmark producer artifact
+
+on:
+  pull_request:
+    branches:
+      - feat/relation-event-hypergraph-v0.1
+    paths:
+      - 'src/**'
+      - 'data/lingophysics/src/**'
+      - 'tests/**'
+      - '.github/workflows/benchmark-analysis-artifact.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  producer-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Run exact CIELingo component gate
+        env:
+          PYTHONPATH: src:data/lingophysics/src
+        run: >-
+          python -m pytest -q
+          tests/test_response_semantics.py
+          tests/test_native_surface_generation.py
+          tests/test_dual_native_surface_generation.py
+          tests/test_native_roundtrip_adapter.py
+          tests/test_canonical_lingophysics_adapter.py
+          tests/test_canonical_token_normalization.py
+          tests/test_case_port_frame.py
+          tests/test_case_port_legacy_stability.py
+          tests/test_operator_signatures.py
+          tests/test_operator_signature_fail_closed.py
+          tests/test_meaning_role_multimap.py
+          tests/test_relation_hypergraph.py
+      - name: Checkout pinned public benchmark dataset
+        uses: actions/checkout@v4
+        with:
+          repository: AdrianLipa90/Ciel-GREMLIN-Benchmark
+          ref: b48a00d2e3d7d0a903e44cf351af9e90b0573b75
+          path: benchmark
+      - name: Build ground-truth-blind CIELingo analysis bundle
+        env:
+          PYTHONPATH: src:data/lingophysics/src
+          CIELINGO_SOURCE_SHA: 43375f58d46ca99ed6e8536fc65ceb02816f5c3e
+          BENCHMARK_SHA: b48a00d2e3d7d0a903e44cf351af9e90b0573b75
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          from cielingo_core.language_spaces.pl.solver import PolishRegionalSolver
+          from cielingo_core.lingophysics.sentence_equation import calculate_sentence_equation
+
+          repo_root = Path.cwd()
+          source = Path('benchmark/dataset/golden_v0_1.jsonl')
+          output = Path('benchmark/artifacts/cielingo_analysis.jsonl')
+          output.parent.mkdir(parents=True, exist_ok=True)
+          rows = []
+          for line in source.read_text(encoding='utf-8').splitlines():
+              if not line.strip():
+                  continue
+              raw = json.loads(line)
+              surface = {
+                  'task_id': str(raw['task_id']),
+                  'language': str(raw['language']),
+                  'user_input': str(raw['user_input']),
+              }
+              raw = None
+              if surface['language'].lower() not in {'pl', 'polish'}:
+                  analysis = {
+                      'schema': 'CIELINGO_BENCHMARK_ANALYSIS_V0_1',
+                      'status': 'LANGUAGE_UNSUPPORTED_BY_PINNED_CIEL',
+                      'language': surface['language'],
+                      'text': surface['user_input'],
+                      'ground_truth_used': False,
+                  }
+              else:
+                  result = PolishRegionalSolver(repo_root).solve(surface['user_input'])
+                  equation = calculate_sentence_equation(result)
+                  issues = equation.validate()
+                  if issues:
+                      raise AssertionError(f"{surface['task_id']}: SentenceEquation invalid: {issues}")
+                  analysis = {
+                      'schema': 'CIELINGO_BENCHMARK_ANALYSIS_V0_1',
+                      'status': 'CIELINGO_ANALYSIS_COMPLETE',
+                      'language': surface['language'],
+                      'text': surface['user_input'],
+                      'sentence_equation': equation.to_dict(),
+                      'ground_truth_used': False,
+                  }
+              rows.append({'task_id': surface['task_id'], 'analysis': analysis})
+
+          with output.open('w', encoding='utf-8', newline='\n') as handle:
+              for row in rows:
+                  handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True, separators=(',', ':')) + '\n')
+          assert len(rows) == 60
+          assert len({row['task_id'] for row in rows}) == 60
+          digest = hashlib.sha256(output.read_bytes()).hexdigest()
+          provenance = {
+              'schema': 'CIELINGO_BENCHMARK_ANALYSIS_PROVENANCE_V0_1',
+              'source_sha': os.environ['CIELINGO_SOURCE_SHA'],
+              'benchmark_sha': os.environ['BENCHMARK_SHA'],
+              'task_count': len(rows),
+              'bundle_sha256': digest,
+              'ground_truth_used': False,
+          }
+          Path('benchmark/artifacts/cielingo_analysis_provenance.json').write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + '\n', encoding='utf-8'
+          )
+          print(json.dumps(provenance, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cielingo-benchmark-analysis-${{ github.event.pull_request.head.sha }}
+          path: |
+            benchmark/artifacts/cielingo_analysis.jsonl
+            benchmark/artifacts/cielingo_analysis_provenance.json
+          if-no-files-found: error
