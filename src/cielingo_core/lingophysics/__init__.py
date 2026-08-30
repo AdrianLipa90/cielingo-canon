@@ -1,6 +1,12 @@
 """CIELingo lingophysics package."""
 from __future__ import annotations
 
+from .action_intent_frame import (
+    ACTION_INTENT_FRAME_SCHEMA,
+    ActionIntentFrame,
+    ActionIntentPort,
+    extract_polish_action_intent_frames,
+)
 from .case_port_frame import CasePort, CasePortCase, CasePortFrame, extract_polish_case_port_frames
 from .operator_signatures import (
     OPERATOR_SIGNATURES,
@@ -43,6 +49,7 @@ from .doctor import SurfaceSolutionDoctor, SentenceEquationDoctor, LocalJDoctor,
 from .sentence_equation import EquationTermKind, SentenceEquationTerm, SentenceEquation
 
 __all__ = [
+    'ACTION_INTENT_FRAME_SCHEMA', 'ActionIntentFrame', 'ActionIntentPort', 'extract_polish_action_intent_frames',
     'CasePort', 'CasePortCase', 'CasePortFrame', 'extract_polish_case_port_frames',
     'OPERATOR_SIGNATURES', 'OperatorPortSpec', 'OperatorSignature', 'OperatorTypingReport',
     'UniversalRoleBinding', 'get_operator_signature', 'type_case_port_frame', 'type_polish_case_port_frames',
