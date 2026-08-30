@@ -1,0 +1,81 @@
+{
+  "schema": "CIEL_NAMED_ENTITY_GROUNDING_PROJECTION_V0_1",
+  "status": "PROJECTED_PENDING_FULL_REPOSITORY_EXECUTION",
+  "candidate_only": true,
+  "canon_allowed": false,
+  "benchmark": {
+    "repository": "AdrianLipa90/Ciel-GREMLIN-Benchmark",
+    "dataset": "dataset/golden_v0_1.jsonl",
+    "dataset_task_count": 60,
+    "ground_truth_access": false,
+    "inputs_used": [
+      "task_id",
+      "language",
+      "user_input",
+      "world_state",
+      "allowed_tools",
+      "metadata"
+    ]
+  },
+  "current_typed_surface": {
+    "typed_task_count": 8,
+    "task_ids": [
+      "F5-007",
+      "F6-001",
+      "F6-002",
+      "F6-004",
+      "F6-005",
+      "F6-006",
+      "F6-007",
+      "F6-008"
+    ]
+  },
+  "identity_projection": {
+    "fully_grounded_relation_identity_count": 7,
+    "fully_grounded_task_ids": [
+      "F5-007",
+      "F6-001",
+      "F6-002",
+      "F6-004",
+      "F6-005",
+      "F6-006",
+      "F6-007"
+    ],
+    "unresolved_relation_identity_count": 1,
+    "unresolved_task_ids": ["F6-008"],
+    "unresolved_reason": "pronoun recipient has no antecedent and is neither card identity nor producer-admitted named entity"
+  },
+  "execution_surface_projection": {
+    "operator_identity_tool_shape_complete_count": 6,
+    "task_ids": [
+      "F5-007",
+      "F6-001",
+      "F6-002",
+      "F6-004",
+      "F6-005",
+      "F6-006"
+    ],
+    "typed_but_action_payload_incomplete": ["F6-007"],
+    "reason": "ADDRESSES carries addressee relation identity but not the requested action/utterance payload",
+    "safe_stop_identity_case": ["F6-008"]
+  },
+  "identity_mechanisms": {
+    "concept_identity": "shared card_id; slot_id provenance only",
+    "named_entity_identity": "producer-admitted capitalized relation entity plus bounded Polish case-form grounding",
+    "implicit_identity": "explicit speaker binding only",
+    "ambiguous_or_missing_identity": "FAIL_CLOSED"
+  },
+  "validation": {
+    "named_entity_morphology_logic_harness": "9/9 PASS after fixing -ia DAT/GEN stem candidate",
+    "producer_tests": "COMMITTED_UNEXECUTED",
+    "consumer_tests": "COMMITTED_UNEXECUTED",
+    "hosted_repo_suite": "UNTESTED"
+  },
+  "next_bottlenecks": [
+    "general action/tool operator surface for F1-F4 and F5",
+    "negation and conditional scope transport",
+    "evidence admission",
+    "English relation parser",
+    "ADDRESSES action payload transport"
+  ]
+}
