@@ -1,0 +1,40 @@
+{
+  "schema": "CIEL_AGENT_ACTION_OPERATOR_FAMILY_V0_2",
+  "status": "IMPLEMENTED_CANDIDATE_OPERATOR_INCREMENT",
+  "candidate_only": true,
+  "canon_allowed": false,
+  "base": {
+    "branch": "feat/relation-card-identity-transport-v0.1",
+    "commit": "7d698b276960d0e8067e30adbdab22cdea964f04",
+    "pr": 20
+  },
+  "operators": {
+    "SEND_EMAIL": "9c5ef427e116813003ce465f6223a5f3877d7be9bc79434d2b225690447ba563",
+    "ARCHIVES": "ebd4538c848671fd057e1cfe5ec52bf231d6e04c7e6c50fbc26859b584e95414",
+    "DELETES": "0178fb1953e7104be506f70947f3e40f43946ebc6cb665e50d238e1cb9bb3266",
+    "UPDATES_RECORD": "3b7b09af1e19c88ce112d235492dc14803666a79c6f3e80f6070296461ac6134",
+    "APPROVES_SUPPLIER": "81f5f7d74f6c7509df5bded7d9fb3f1a96247b9e74e1dd87f0349a9b654920e0",
+    "CREATES_CONTRACT_WITH": "67b143fa0db74b0cb25f7f13b54bd62fe1f381a76cd9018e0e3dc22305a70fb3"
+  },
+  "scope_firewall": {
+    "admitted": "affirmative single-action bounded Polish surfaces",
+    "blocked_markers": ["nie", "jeśli", "jeżeli", "tylko", "dopóki", "dopiero", "chyba"],
+    "multi_action": "BLOCKED",
+    "execution_authority": false,
+    "condition_scope": "SEPARATE_SUCCESSOR_GATE",
+    "negation_scope": "SEPARATE_SUCCESSOR_GATE"
+  },
+  "validation": {
+    "isolated_behavioral_harness": "12/12 PASS",
+    "signature_validation": "6/6 PASS",
+    "signature_commitments_recomputed": true,
+    "hosted_probe_run": 33327978166,
+    "hosted_probe_status": "INFRA_FAILURE_BEFORE_STEPS",
+    "hosted_probe_steps": 0,
+    "repository_pytest": "UNTESTED"
+  },
+  "benchmark_boundary": {
+    "new_operators_mapped_to_execution_tools": false,
+    "reason": "scope/condition consumer gate must precede execution mapping"
+  }
+}
