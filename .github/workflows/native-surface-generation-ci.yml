@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - feat/operator-signatures-v0.1
   push:
     branches:
       - main
@@ -45,7 +46,7 @@ jobs:
           NativeResponseSemanticPlannerEndpoint,
           NativeSurfaceGenerationEndpoint,
           PlannedLingophysicsRoundTripAdapter)"
-      - name: Run semantic planning and generation invariant suite
+      - name: Run semantic planning, typed relation and generation invariant suite
         env:
           PYTHONPATH: src:data/lingophysics/src
         run: >-
@@ -56,3 +57,9 @@ jobs:
           tests/test_native_roundtrip_adapter.py
           tests/test_canonical_lingophysics_adapter.py
           tests/test_canonical_token_normalization.py
+          tests/test_case_port_frame.py
+          tests/test_case_port_legacy_stability.py
+          tests/test_operator_signatures.py
+          tests/test_operator_signature_fail_closed.py
+          tests/test_meaning_role_multimap.py
+          tests/test_relation_hypergraph.py
