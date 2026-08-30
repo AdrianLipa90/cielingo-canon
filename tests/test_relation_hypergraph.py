@@ -1,11 +1,16 @@
 from __future__ import annotations
 
-from dataclasses import replace
+from dataclasses import fields, replace
+from hashlib import sha256
+import json
 from pathlib import Path
 
 from cielingo_core.language_spaces.pl.solver import PolishRegionalSolver
 from cielingo_core.lingophysics import build_relation_hypergraph
-from cielingo_core.lingophysics.sentence_equation import calculate_sentence_equation
+from cielingo_core.lingophysics.sentence_equation import (
+    SentenceEquation,
+    calculate_sentence_equation,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -13,6 +18,19 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 def _solve(text: str):
     return PolishRegionalSolver(REPO_ROOT).solve(text)
+
+
+def _rehash(graph):
+    changed = replace(graph, commitment="")
+    commitment = sha256(
+        json.dumps(
+            changed.to_binding_dict(),
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    return replace(changed, commitment=commitment)
 
 
 def test_gives_builds_one_nary_event_with_three_typed_incidences() -> None:
@@ -36,6 +54,17 @@ def test_gives_builds_one_nary_event_with_three_typed_incidences() -> None:
     assert by_role["giver"].universal_role == "AGENT"
     assert by_role["recipient"].universal_role == "RECIPIENT"
     assert by_role["transferred_object"].universal_role == "THEME"
+
+
+def test_missing_gives_port_fails_even_with_recomputed_commitment() -> None:
+    graph = build_relation_hypergraph(_solve("Daję Zosi książkę"), equation_id="eq-gives")
+    assert graph is not None
+    changed = replace(graph, incidences=graph.incidences[:-1])
+    changed = _rehash(changed)
+    issues = changed.validate()
+    assert "relation hypergraph commitment mismatch" not in issues
+    assert any("incidence arity mismatch" in issue for issue in issues)
+    assert any("must realize exactly one ACC:transferred_object" in issue for issue in issues)
 
 
 def test_implicit_first_person_is_preserved_as_entity_node() -> None:
@@ -100,6 +129,14 @@ def test_sentence_equation_serializes_relation_hypergraph_additively() -> None:
     serialized = equation.to_dict()
     assert serialized["relation_hypergraph"]["commitment"] == equation.relation_hypergraph.commitment
     assert equation.validate() == []
+
+
+def test_sentence_equation_appends_hypergraph_without_parent_abi_reordering() -> None:
+    assert [field.name for field in fields(SentenceEquation)][-3:] == [
+        "notes",
+        "role_multimap",
+        "relation_hypergraph",
+    ]
 
 
 def test_non_relational_legacy_sentence_does_not_gain_hypergraph_field() -> None:

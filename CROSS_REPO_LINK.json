@@ -21,6 +21,8 @@
       "src/ciel_semantic_model/asir.py",
       "src/ciel_semantic_model/case_port_bridge.py",
       "src/ciel_semantic_model/role_multimap_bridge.py",
+      "src/ciel_semantic_model/signature_contract_mirror.py",
+      "src/ciel_semantic_model/relation_hypergraph_bridge.py",
       "src/ciel_semantic_model/aux_connector.py",
       "src/ciel_semantic_model/aux_packet.py",
       "src/ciel_semantic_model/dual_native_text_generation.py"
@@ -39,8 +41,11 @@
     "lingophysics_sentence_equation": "AdrianLipa90/cielingo-canon",
     "universal_roles_and_operators": "AdrianLipa90/cielingo-canon",
     "meaning_role_multimap": "AdrianLipa90/cielingo-canon",
+    "relation_hypergraph": "AdrianLipa90/cielingo-canon",
     "asir_adapter": "AdrianLipa90/Ciel-Semantic-Model-",
     "role_multimap_validation": "AdrianLipa90/Ciel-Semantic-Model-",
+    "signature_receipt_validation": "AdrianLipa90/Ciel-Semantic-Model-",
+    "relation_hypergraph_validation": "AdrianLipa90/Ciel-Semantic-Model-",
     "phase_and_memory_integration": "AdrianLipa90/Ciel-Semantic-Model-"
   },
   "extension_points": {
@@ -70,7 +75,8 @@
         "normalization_basis"
       ],
       "consumer_path": "src/ciel_semantic_model/case_port_bridge.py",
-      "consumer_admission": "typed CasePort requires known+valid signature+sha256 commitment; legacy CasePort cannot promote UniversalRole"
+      "consumer_contract_mirror": "src/ciel_semantic_model/signature_contract_mirror.py",
+      "consumer_admission": "typed CasePort requires exact operator-specific signature_id + signature_commitment; legacy CasePort cannot promote UniversalRole"
     },
     "meaning_role_multimap": {
       "status": "IMPLEMENTED_CANDIDATE_INTERFACE",
@@ -82,6 +88,19 @@
       "consumer_path": "src/ciel_semantic_model/role_multimap_bridge.py",
       "consumer_admission": "UniversalRole normalization requires a matching binding in an independently recomputed valid role_multimap commitment",
       "asir_receipt": "ASIRGraph.scope_manifest.meaning_role_multimap"
+    },
+    "relation_hypergraph": {
+      "status": "IMPLEMENTED_CANDIDATE_INTERFACE",
+      "owner": "AdrianLipa90/cielingo-canon",
+      "consumer": "AdrianLipa90/Ciel-Semantic-Model-",
+      "schema": "CIEL_RELATION_HYPERGRAPH_V0_1",
+      "producer_path": "src/cielingo_core/lingophysics/relation_hypergraph.py",
+      "transport": "SentenceEquation.relation_hypergraph",
+      "consumer_path": "src/ciel_semantic_model/relation_hypergraph_bridge.py",
+      "producer_admission": "signature-valid CasePortFrame with exact operator signature incidence set and deterministic graph commitment",
+      "consumer_admission": "exact signature mirror + exact event port arity + complete typed CasePort incidence continuity + corroborated UniversalRole bindings + recomputed graph commitment",
+      "asir_receipt": "ASIRGraph.scope_manifest.relation_hypergraph",
+      "projection": "NARY_IR_PRESERVED_WITH_TOKEN_NODE_CROSS_INDEX"
     }
   },
   "authority": {
