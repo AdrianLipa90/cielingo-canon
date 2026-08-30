@@ -4,19 +4,37 @@ from pathlib import Path
 from typing import Any
 from cielingo_core.regional.base import CardCandidate
 
+_ATLAS_RELATIVE_PATHS = (
+    "cards/generated_examples/controlled_24_slot_runtime_cards_v0_5e.jsonl",
+    "cards/generated_examples/trilingual_runtime_cards_v0_3b.jsonl",
+    "cards/generated_examples/agent_tool_runtime_cards_v0_1.jsonl",
+)
+
 def load_atlas_cards(repo_root: Path, language_id: str) -> list[dict[str, Any]]:
-    paths = [
-        repo_root / "cards/generated_examples/controlled_24_slot_runtime_cards_v0_5e.jsonl",
-        repo_root / "cards/generated_examples/trilingual_runtime_cards_v0_3b.jsonl",
-    ]
-    path = next((p for p in paths if p.exists()), None)
-    if path is None: return []
-    rows = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if line.strip():
+    """Load all available runtime-atlas layers for one language.
+
+    Earlier layers have deterministic precedence when the same ``card_id`` is
+    repeated. Distinct card identities from later layers are additive. This is
+    intentionally a layered composition, not a first-existing-file fallback.
+    """
+    rows: list[dict[str, Any]] = []
+    seen_card_ids: set[str] = set()
+    for relative_path in _ATLAS_RELATIVE_PATHS:
+        path = repo_root / relative_path
+        if not path.exists():
+            continue
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
             row = json.loads(line)
-            if row.get("language_id") == language_id:
-                rows.append(row)
+            if row.get("language_id") != language_id:
+                continue
+            card_id = str(row.get("card_id") or "").strip()
+            if card_id and card_id in seen_card_ids:
+                continue
+            rows.append(row)
+            if card_id:
+                seen_card_ids.add(card_id)
     return rows
 
 def simple_space_segment(text: str) -> list[str]:
