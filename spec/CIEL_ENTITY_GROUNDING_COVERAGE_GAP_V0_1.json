@@ -1,0 +1,49 @@
+{
+  "schema": "CIEL_ENTITY_GROUNDING_COVERAGE_GAP_V0_1",
+  "status": "MEASURED_GAP",
+  "candidate_only": true,
+  "canon_allowed": false,
+  "producer_branch": "feat/action-operator-coverage-v0.2",
+  "atlas_sources": [
+    "cards/generated_examples/controlled_24_slot_runtime_cards_v0_5e.jsonl",
+    "cards/generated_examples/trilingual_runtime_cards_v0_3b.jsonl"
+  ],
+  "identity_findings": {
+    "cross_language_card_id": "USABLE_CANDIDATE_IDENTITY",
+    "slot_id": "NOT_SAFE_AS_CONCEPT_IDENTITY",
+    "reason": [
+      "multiple distinct concepts share broad slot IDs",
+      "many unresolved concepts use slot_id=999",
+      "the same concept can retain one shared card_id across language-local lemmas"
+    ],
+    "observed_examples": [
+      "concept:work is shared across EN work and PL praca",
+      "PL concept:motion and concept:force also occupy broad slot 2",
+      "multiple unrelated concepts use slot_id=999"
+    ]
+  },
+  "benchmark_surface_gap": {
+    "benchmark_repository": "AdrianLipa90/Ciel-GREMLIN-Benchmark",
+    "dataset": "dataset/golden_v0_1.jsonl",
+    "relation_surface_typed_tasks_after_v0_2": 8,
+    "execution_ready_tasks_before_grounding_successor": 0,
+    "required_concept_card_ids_not_present_in_current_trilingual_atlas": [
+      "concept:book",
+      "concept:cat",
+      "concept:geometry",
+      "concept:graph",
+      "concept:module",
+      "concept:system"
+    ]
+  },
+  "successor_contract": {
+    "resolver_identity_key": "card_id",
+    "slot_id_may_be_preserved_as_metadata": true,
+    "exact_surface_match_remains_allowed": true,
+    "implicit_speaker_binding_remains_allowed": true,
+    "ambiguous_or_missing_card_identity": "FAIL_CLOSED",
+    "benchmark_ground_truth_access": false,
+    "manual_benchmark_alias_dictionary": false,
+    "ontology_expansion": "SEPARATE_DATA_LANE"
+  }
+}
