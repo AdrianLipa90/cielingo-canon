@@ -96,6 +96,7 @@ class RelationEntityCardBinding:
 class RelationEntityCardBindings:
     equation_id: str
     language_id: str
+    relation_hypergraph_commitment: str
     bindings: tuple[RelationEntityCardBinding, ...]
     ambiguous_entity_ids: tuple[str, ...]
     unbound_entity_ids: tuple[str, ...]
@@ -110,6 +111,7 @@ class RelationEntityCardBindings:
         *,
         equation_id: str,
         language_id: str,
+        relation_hypergraph_commitment: str,
         bindings: tuple[RelationEntityCardBinding, ...] | list[RelationEntityCardBinding],
         ambiguous_entity_ids: tuple[str, ...] | list[str] = (),
         unbound_entity_ids: tuple[str, ...] | list[str] = (),
@@ -118,6 +120,7 @@ class RelationEntityCardBindings:
         provisional = cls(
             equation_id=equation_id,
             language_id=language_id,
+            relation_hypergraph_commitment=relation_hypergraph_commitment,
             bindings=tuple(bindings),
             ambiguous_entity_ids=tuple(ambiguous_entity_ids),
             unbound_entity_ids=tuple(unbound_entity_ids),
@@ -136,6 +139,8 @@ class RelationEntityCardBindings:
             issues.append("card bindings equation_id is required")
         if not self.language_id:
             issues.append("card bindings language_id is required")
+        if not _is_sha256(self.relation_hypergraph_commitment):
+            issues.append("card bindings relation_hypergraph_commitment must be SHA-256")
         if not self.candidate_only:
             issues.append("card bindings v0.1 must remain candidate-only")
 
@@ -182,6 +187,49 @@ class RelationEntityCardBindings:
             issues.append("card bindings commitment mismatch")
         return issues
 
+    def validate_against_hypergraph(self, graph: RelationHypergraph) -> list[str]:
+        """Validate exact graph↔card-receipt continuity without inferring identity."""
+        issues: list[str] = []
+        if self.equation_id != graph.equation_id:
+            issues.append("relation entity card bindings equation_id mismatch")
+        if self.language_id != graph.language_id:
+            issues.append("relation entity card bindings language mismatch")
+        if self.relation_hypergraph_commitment != graph.commitment:
+            issues.append("relation entity card bindings hypergraph commitment mismatch")
+
+        graph_by_id = {entity.entity_id: entity for entity in graph.entities}
+        graph_entity_ids = set(graph_by_id)
+        receipt_entity_ids = (
+            {binding.entity_id for binding in self.bindings}
+            | set(self.ambiguous_entity_ids)
+            | set(self.unbound_entity_ids)
+            | set(self.implicit_entity_ids)
+        )
+        if receipt_entity_ids != graph_entity_ids:
+            issues.append("relation entity card bindings entity partition mismatch")
+
+        for binding in self.bindings:
+            entity = graph_by_id.get(binding.entity_id)
+            if entity is None:
+                issues.append(f"card binding {binding.binding_id} references unknown entity")
+                continue
+            if entity.implicit:
+                issues.append(f"card binding {binding.binding_id} cannot bind implicit entity")
+            if binding.token_indices != entity.token_indices:
+                issues.append(f"card binding {binding.binding_id} token-index mismatch")
+
+        for entity_id in self.implicit_entity_ids:
+            entity = graph_by_id.get(entity_id)
+            if entity is None or not entity.implicit:
+                issues.append("card bindings implicit partition contains explicit/unknown entity")
+        for entity_id in (
+            set(self.ambiguous_entity_ids) | set(self.unbound_entity_ids)
+        ):
+            entity = graph_by_id.get(entity_id)
+            if entity is not None and entity.implicit:
+                issues.append("card bindings explicit partition contains implicit entity")
+        return issues
+
     def binding_for_entity(self, entity_id: str) -> RelationEntityCardBinding | None:
         matches = [binding for binding in self.bindings if binding.entity_id == entity_id]
         if len(matches) > 1:
@@ -193,6 +241,7 @@ class RelationEntityCardBindings:
             "schema": self.schema,
             "equation_id": self.equation_id,
             "language_id": self.language_id,
+            "relation_hypergraph_commitment": self.relation_hypergraph_commitment,
             "bindings": [binding.to_dict() for binding in self.bindings],
             "ambiguous_entity_ids": list(self.ambiguous_entity_ids),
             "unbound_entity_ids": list(self.unbound_entity_ids),
@@ -294,21 +343,15 @@ def build_relation_entity_card_bindings(
     receipt = RelationEntityCardBindings.create(
         equation_id=equation_id,
         language_id=result.language_id,
+        relation_hypergraph_commitment=relation_hypergraph.commitment,
         bindings=bindings,
         ambiguous_entity_ids=ambiguous,
         unbound_entity_ids=unbound,
         implicit_entity_ids=implicit,
     )
-
-    graph_entity_ids = {entity.entity_id for entity in relation_hypergraph.entities}
-    receipt_entity_ids = (
-        {binding.entity_id for binding in receipt.bindings}
-        | set(receipt.ambiguous_entity_ids)
-        | set(receipt.unbound_entity_ids)
-        | set(receipt.implicit_entity_ids)
-    )
-    if receipt_entity_ids != graph_entity_ids:
-        raise ValueError("card bindings do not partition relation-hypergraph entities")
+    issues = receipt.validate_against_hypergraph(relation_hypergraph)
+    if issues:
+        raise ValueError("; ".join(issues))
     return receipt
 
 
