@@ -26,6 +26,11 @@ from .relation_entity_name_bindings import (
     RelationEntityNameBindings,
     build_relation_entity_name_bindings,
 )
+from .relation_identity_packet import (
+    RELATION_IDENTITY_PACKET_SCHEMA,
+    RelationIdentityPacket,
+    build_relation_identity_packet,
+)
 from .relation_hypergraph import (
     RELATION_HYPERGRAPH_SCHEMA,
     RelationEntityNode,
@@ -45,6 +50,7 @@ __all__ = [
     'RelationEntityCardBindings', 'build_relation_entity_card_bindings',
     'NAME_BINDING_BASIS', 'RELATION_ENTITY_NAME_BINDINGS_SCHEMA', 'RelationEntityNameBinding',
     'RelationEntityNameBindings', 'build_relation_entity_name_bindings',
+    'RELATION_IDENTITY_PACKET_SCHEMA', 'RelationIdentityPacket', 'build_relation_identity_packet',
     'RELATION_HYPERGRAPH_SCHEMA', 'RelationEntityNode', 'RelationEventNode', 'RelationHypergraph',
     'RelationIncidence', 'build_relation_hypergraph',
     'SurfaceSolutionDoctor', 'SentenceEquationDoctor', 'LocalJDoctor', 'RegionalSeparationDoctor',
