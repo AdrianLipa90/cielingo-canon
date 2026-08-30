@@ -1,0 +1,50 @@
+{
+  "schema": "CIEL_RELATION_SURFACE_COVERAGE_V0_2",
+  "status": "IMPLEMENTED_CANDIDATE_SURFACE_INCREMENT",
+  "candidate_only": true,
+  "canon_allowed": false,
+  "benchmark": {
+    "repository": "AdrianLipa90/Ciel-GREMLIN-Benchmark",
+    "dataset": "dataset/golden_v0_1.jsonl",
+    "dataset_task_count": 60,
+    "polish_task_count": 35
+  },
+  "producer_base": {
+    "repository": "AdrianLipa90/cielingo-canon",
+    "commit": "43375f58d46ca99ed6e8536fc65ceb02816f5c3e",
+    "typed_task_coverage_total": 2,
+    "typed_task_coverage_polish": 2
+  },
+  "v0_2_measurement": {
+    "typed_task_coverage_total": 8,
+    "typed_task_coverage_polish": 8,
+    "matched_task_ids": [
+      "F5-007",
+      "F6-001",
+      "F6-002",
+      "F6-004",
+      "F6-005",
+      "F6-006",
+      "F6-007",
+      "F6-008"
+    ],
+    "new_surface_variants": [
+      "GIVES imperative: Daj",
+      "NAMES present tense: nazywa",
+      "SPEAKS_ABOUT alternate order: rozmawia z ... o ...",
+      "CONNECTED_WITH participle family: połączony/połączona/połączone/połączeni"
+    ]
+  },
+  "validation": {
+    "isolated_exact_typed_subsystem_plus_v0_2_tests": "29/29 PASS",
+    "prior_invariants_preserved": "24/24 PASS",
+    "new_regressions": "5/5 PASS"
+  },
+  "scope_boundary": {
+    "producer_surface_typing": "IN_SCOPE",
+    "world_entity_grounding": "SEPARATE_SUCCESSOR_LAYER",
+    "condition_scope": "SEPARATE_SUCCESSOR_LAYER",
+    "evidence_admission": "SEPARATE_SUCCESSOR_LAYER",
+    "english_relation_parser": "SEPARATE_SUCCESSOR_LAYER"
+  }
+}
