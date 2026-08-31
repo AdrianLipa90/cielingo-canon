@@ -15,12 +15,12 @@ def test_cielingo_core_subpackages_are_lazy() -> None:
     _purge_cielingo()
     package = importlib.import_module("cielingo_core")
 
-    assert "cielingo_core.alignment" not in sys.modules
+    assert "cielingo_core.global_layer" not in sys.modules
 
-    alignment = package.alignment
+    global_layer = package.global_layer
 
-    assert alignment.__name__ == "cielingo_core.alignment"
-    assert "cielingo_core.alignment" in sys.modules
+    assert global_layer.__name__ == "cielingo_core.global_layer"
+    assert "cielingo_core.global_layer" in sys.modules
 
 
 def test_global_layer_public_exports_are_lazy() -> None:
