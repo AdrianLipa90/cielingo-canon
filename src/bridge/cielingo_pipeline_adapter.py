@@ -18,8 +18,6 @@ from __future__ import annotations
 from hashlib import sha256
 from typing import Any
 
-from bridge.cielingo_bridge import CIELingoBridge
-
 
 def _extract_intention(engine_state: dict[str, Any], intention_text: str) -> str:
     """Extract or infer intention text from engine state."""
@@ -96,6 +94,10 @@ class CIELingoPipelineAdapter:
     """Adapter that enriches CielEngine step() output with CIELingo bridge state."""
 
     def __init__(self, repo_root: str = "."):
+        # Import the heavy bridge only when an adapter instance is constructed.
+        # Importing this module alone stays a narrow, provenance-verifiable bind.
+        from bridge.cielingo_bridge import CIELingoBridge
+
         self.bridge = CIELingoBridge(repo_root=repo_root)
         self.processed_count = 0
 
