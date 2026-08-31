@@ -4,9 +4,10 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-from .semantic_scar import SemanticScar, ScarType
+if TYPE_CHECKING:
+    from .semantic_scar import SemanticScar
 
 
 class LoopState(str, Enum):
