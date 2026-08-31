@@ -117,6 +117,69 @@ def build_immune_signal_from_emotion(engine_emotion: dict[str, float] | None) ->
     )
 
 
+def build_immune_signal(
+    engine_emotion: dict[str, float] | None,
+    intention_text: str,
+) -> SemanticImmuneSignal:
+    """Fuse bounded emotion telemetry with deterministic semantic-pressure cues."""
+    base = build_immune_signal_from_emotion(engine_emotion)
+    low = " ".join(str(intention_text).casefold().split())
+
+    canon_terms = ("canon", "kanon", "canonical", "kanonic")
+    promotion_terms = ("ustaw", "uznaj", "promuj", "promote", "set ", "oznacz", "mark ")
+    bypass_terms = (
+        "bez sprawdzania", "bez weryfikacji", "bez zgody", "bez pytania",
+        "omiń zgodę", "omin zgodę", "bypass consent", "skip verification",
+        "ignore verification", "without verification", "without consent",
+    )
+    authority_terms = (
+        "active=true", "ustaw active", "set active", "owner_authorized",
+        "masz autorytet", "masz uprawnienia", "you are authorized",
+    )
+
+    canon_hit = any(term in low for term in canon_terms) and any(term in low for term in promotion_terms)
+    bypass_hit = any(term in low for term in bypass_terms)
+    authority_hit = any(term in low for term in authority_terms)
+    notes = list(base.notes or [])
+
+    if canon_hit:
+        notes.append("semantic pressure cue: canon_promotion")
+        if bypass_hit:
+            notes.append("semantic pressure cue: consent_or_verification_bypass")
+        return SemanticImmuneSignal(
+            pressure_detected=True,
+            pressure_type=ImmunePressureType.CANON_PROMOTION,
+            canon_promotion_attempt=True,
+            consent_bypass_attempt=bypass_hit,
+            hallucinated_authority_risk=0.85 if authority_hit else 0.60,
+            recommended_consent_state="NEEDS_PROOF",
+            notes=notes,
+        )
+
+    if bypass_hit:
+        notes.append("semantic pressure cue: consent_or_verification_bypass")
+        return SemanticImmuneSignal(
+            pressure_detected=True,
+            pressure_type=ImmunePressureType.CONSENT_BYPASS,
+            consent_bypass_attempt=True,
+            hallucinated_authority_risk=0.55 if authority_hit else 0.25,
+            recommended_consent_state="UNSAFE_PRESSURE",
+            notes=notes,
+        )
+
+    if authority_hit:
+        notes.append("semantic pressure cue: hallucinated_authority")
+        return SemanticImmuneSignal(
+            pressure_detected=True,
+            pressure_type=ImmunePressureType.HALLUCINATED_AUTHORITY,
+            hallucinated_authority_risk=0.85,
+            recommended_consent_state="NEEDS_PROOF",
+            notes=notes,
+        )
+
+    return base
+
+
 def _compose_cielingo_text(intention: IntentionFrame, loop_state: LoopState, immune_pressure: str, collatz_phase: float | None, answer_kind: str = "draft_text_generation") -> str:
     """Generate CIELingo's own Polish response based on its analysis state."""
     loop_phrases = {
@@ -239,7 +302,7 @@ class CIELingoBridge:
         state.loop_state = state.meaning_loop.loop_state
         state.notes.append(f"loop_state: {state.loop_state.value}")
 
-        state.immune_signal = build_immune_signal_from_emotion(engine_emotion)
+        state.immune_signal = build_immune_signal(engine_emotion, intention_text)
         if state.immune_signal:
             state.notes.append(f"immune: {state.immune_signal.pressure_type}")
 
@@ -276,16 +339,23 @@ class CIELingoBridge:
 
         immune_val = state.immune_signal.pressure_type.value if state.immune_signal else "none"
         severity = "high" if immune_val != "none" else "low"
-        answer_kind = {
-            IntentionType.ASK: "draft_text_generation",
-            IntentionType.COMMAND: "draft_text_generation",
-            IntentionType.VERIFY: "draft_text_generation",
-            IntentionType.ASSERT: "draft_text_generation",
-            IntentionType.REFUSE: "runtime_dry_run_refusal",
-            IntentionType.REPAIR: "repair_required",
-            IntentionType.REMEMBER: "draft_text_generation",
-            IntentionType.SIMULATE: "draft_text_generation",
-        }.get(state.intention.intention_type, "draft_text_generation")
+        if immune_val in {
+            ImmunePressureType.CANON_PROMOTION.value,
+            ImmunePressureType.CONSENT_BYPASS.value,
+            ImmunePressureType.HALLUCINATED_AUTHORITY.value,
+        }:
+            answer_kind = "runtime_dry_run_refusal"
+        else:
+            answer_kind = {
+                IntentionType.ASK: "draft_text_generation",
+                IntentionType.COMMAND: "draft_text_generation",
+                IntentionType.VERIFY: "draft_text_generation",
+                IntentionType.ASSERT: "draft_text_generation",
+                IntentionType.REFUSE: "runtime_dry_run_refusal",
+                IntentionType.REPAIR: "repair_required",
+                IntentionType.REMEMBER: "draft_text_generation",
+                IntentionType.SIMULATE: "draft_text_generation",
+            }.get(state.intention.intention_type, "draft_text_generation")
 
         cielingo_text = _compose_cielingo_text(
             intention=state.intention,
