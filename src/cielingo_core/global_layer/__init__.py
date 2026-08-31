@@ -1,37 +1,113 @@
-"""CIELingo global_layer package."""
+"""CIELingo global_layer package.
+
+Public symbols are resolved lazily so importing one GLOBAL component does not
+initialize unrelated semantic/runtime modules.
+"""
 from __future__ import annotations
 
-from .card_field_policy import FieldPolicy, CardFieldRule
-from .card_migration_policy import CardMigrationDecision
-from .card_runtime_schema import CardOntologyClass, CardValidationStatus, ConsentEffect, MemoryEffect, RiskProfile, ResidueProfile, NoemaHolonomicMarker, RuntimeCardExtension, CielingoRuntimeCard
-from .card_validator import ValidationSeverity, CardValidationIssue, CardValidationResult
-from .common_functional_frame import FunctionalRole, FunctionalOperator, FunctionalSlot, ContextFrame, CommonFunctionalFrame
-from .concept_validation_matrix import ValidationStatus, ConceptValidationRow, ConceptValidationMatrix
-from .contracts import SourceBindingType, EntryStatus, UniversalRole, UniversalOperatorType, LexicalSlot, LanguageSlotEntry, UniversalOperator, MeaningEquation, SlotProjection, AlignmentResidue, SurfaceSolution, HolonomicJReport, ApocalypOSLinguisticSignal
-from .controlled_atlas_24 import AtlasAlignmentRecord
-from .generative_audit import GenerativeAuditResult, GenerativeAuditReport
-from .global_algorithm_v02 import GlobalAlgorithmV02Result
-from .global_codecs import GlobalEncodeReport, RegionalRealizationRequest
-from .global_dry_test_reference import GlobalDryTestReference
-from .intention_action_scaling import IntentionActionScaling
-from .intention_frame import IntentionType, IntentionFrame
-from .j_decomposition import PhaseBand, JDecomposition
-from .lingophysics_algorithm import LingophysicalState
-from .meaning_action import MeaningAction, MeaningBlockAction
-from .meaning_loop import LoopState, MeaningLoop
-from .meaning_signal_bridge import GlobalSignalSeverity, GlobalMeaningSignal
-from .operator_algebra import OperatorKind, OperatorDomain, RelationalOperator
-from .paraphrase_style import StyleRegister, ParaphraseCandidate, ParaphraseStyleProbeReport
-from .query_generation import QueryIntention, QueryUnderstandingResult, DraftAnswerCandidate, QueryGenerationDryRunReport
-from .residue_taxonomy import ResidueType, TypedResidue
-from .response_contract import AllowedResponseContract
-from .runtime_adapter_export import RuntimeAdapterReferenceExportBundle
-from .runtime_adapter_interface import RuntimeAdapterAction, RuntimeAdapterReference
-from .runtime_bridge_dry_run import RuntimeDryRunDecision, RuntimeBridgeDryRunResult
-from .self_feed_audit import SelfFeedAuditEventKind, SelfFeedAuditEvent, SelfFeedAuditLog, RuntimeDryRunExportBundle
-from .semantic_immune_signal import PressureType, SemanticImmuneSignal
-from .semantic_scar import ScarType, SemanticScar
-from .slot_taxonomy import SlotFamily, SlotMode, SlotTaxonomyRecord
-from .trilingual_card_seed import TrilingualAlignmentRecord
+from importlib import import_module
 
-__all__ = ['FieldPolicy', 'CardFieldRule', 'CardMigrationDecision', 'CardOntologyClass', 'CardValidationStatus', 'ConsentEffect', 'MemoryEffect', 'RiskProfile', 'ResidueProfile', 'NoemaHolonomicMarker', 'RuntimeCardExtension', 'CielingoRuntimeCard', 'ValidationSeverity', 'CardValidationIssue', 'CardValidationResult', 'FunctionalRole', 'FunctionalOperator', 'FunctionalSlot', 'ContextFrame', 'CommonFunctionalFrame', 'ValidationStatus', 'ConceptValidationRow', 'ConceptValidationMatrix', 'SourceBindingType', 'EntryStatus', 'UniversalRole', 'UniversalOperatorType', 'LexicalSlot', 'LanguageSlotEntry', 'UniversalOperator', 'MeaningEquation', 'SlotProjection', 'AlignmentResidue', 'SurfaceSolution', 'HolonomicJReport', 'ApocalypOSLinguisticSignal', 'AtlasAlignmentRecord', 'GenerativeAuditResult', 'GenerativeAuditReport', 'GlobalAlgorithmV02Result', 'GlobalEncodeReport', 'RegionalRealizationRequest', 'GlobalDryTestReference', 'IntentionActionScaling', 'IntentionType', 'IntentionFrame', 'PhaseBand', 'JDecomposition', 'LingophysicalState', 'MeaningAction', 'MeaningBlockAction', 'LoopState', 'MeaningLoop', 'GlobalSignalSeverity', 'GlobalMeaningSignal', 'OperatorKind', 'OperatorDomain', 'RelationalOperator', 'StyleRegister', 'ParaphraseCandidate', 'ParaphraseStyleProbeReport', 'QueryIntention', 'QueryUnderstandingResult', 'DraftAnswerCandidate', 'QueryGenerationDryRunReport', 'ResidueType', 'TypedResidue', 'AllowedResponseContract', 'RuntimeAdapterReferenceExportBundle', 'RuntimeAdapterAction', 'RuntimeAdapterReference', 'RuntimeDryRunDecision', 'RuntimeBridgeDryRunResult', 'SelfFeedAuditEventKind', 'SelfFeedAuditEvent', 'SelfFeedAuditLog', 'RuntimeDryRunExportBundle', 'PressureType', 'SemanticImmuneSignal', 'ScarType', 'SemanticScar', 'SlotFamily', 'SlotMode', 'SlotTaxonomyRecord', 'TrilingualAlignmentRecord']
+_EXPORTS = {
+    "FieldPolicy": "card_field_policy",
+    "CardFieldRule": "card_field_policy",
+    "CardMigrationDecision": "card_migration_policy",
+    "CardOntologyClass": "card_runtime_schema",
+    "CardValidationStatus": "card_runtime_schema",
+    "ConsentEffect": "card_runtime_schema",
+    "MemoryEffect": "card_runtime_schema",
+    "RiskProfile": "card_runtime_schema",
+    "ResidueProfile": "card_runtime_schema",
+    "NoemaHolonomicMarker": "card_runtime_schema",
+    "RuntimeCardExtension": "card_runtime_schema",
+    "CielingoRuntimeCard": "card_runtime_schema",
+    "ValidationSeverity": "card_validator",
+    "CardValidationIssue": "card_validator",
+    "CardValidationResult": "card_validator",
+    "FunctionalRole": "common_functional_frame",
+    "FunctionalOperator": "common_functional_frame",
+    "FunctionalSlot": "common_functional_frame",
+    "ContextFrame": "common_functional_frame",
+    "CommonFunctionalFrame": "common_functional_frame",
+    "ValidationStatus": "concept_validation_matrix",
+    "ConceptValidationRow": "concept_validation_matrix",
+    "ConceptValidationMatrix": "concept_validation_matrix",
+    "SourceBindingType": "contracts",
+    "EntryStatus": "contracts",
+    "UniversalRole": "contracts",
+    "UniversalOperatorType": "contracts",
+    "LexicalSlot": "contracts",
+    "LanguageSlotEntry": "contracts",
+    "UniversalOperator": "contracts",
+    "MeaningEquation": "contracts",
+    "SlotProjection": "contracts",
+    "AlignmentResidue": "contracts",
+    "SurfaceSolution": "contracts",
+    "HolonomicJReport": "contracts",
+    "ApocalypOSLinguisticSignal": "contracts",
+    "AtlasAlignmentRecord": "controlled_atlas_24",
+    "GenerativeAuditResult": "generative_audit",
+    "GenerativeAuditReport": "generative_audit",
+    "GlobalAlgorithmV02Result": "global_algorithm_v02",
+    "GlobalEncodeReport": "global_codecs",
+    "RegionalRealizationRequest": "global_codecs",
+    "GlobalDryTestReference": "global_dry_test_reference",
+    "IntentionActionScaling": "intention_action_scaling",
+    "IntentionType": "intention_frame",
+    "IntentionFrame": "intention_frame",
+    "PhaseBand": "j_decomposition",
+    "JDecomposition": "j_decomposition",
+    "LingophysicalState": "lingophysics_algorithm",
+    "MeaningAction": "meaning_action",
+    "MeaningBlockAction": "meaning_action",
+    "LoopState": "meaning_loop",
+    "MeaningLoop": "meaning_loop",
+    "GlobalSignalSeverity": "meaning_signal_bridge",
+    "GlobalMeaningSignal": "meaning_signal_bridge",
+    "OperatorKind": "operator_algebra",
+    "OperatorDomain": "operator_algebra",
+    "RelationalOperator": "operator_algebra",
+    "StyleRegister": "paraphrase_style",
+    "ParaphraseCandidate": "paraphrase_style",
+    "ParaphraseStyleProbeReport": "paraphrase_style",
+    "QueryIntention": "query_generation",
+    "QueryUnderstandingResult": "query_generation",
+    "DraftAnswerCandidate": "query_generation",
+    "QueryGenerationDryRunReport": "query_generation",
+    "ResidueType": "residue_taxonomy",
+    "TypedResidue": "residue_taxonomy",
+    "AllowedResponseContract": "response_contract",
+    "RuntimeAdapterReferenceExportBundle": "runtime_adapter_export",
+    "RuntimeAdapterAction": "runtime_adapter_interface",
+    "RuntimeAdapterReference": "runtime_adapter_interface",
+    "RuntimeDryRunDecision": "runtime_bridge_dry_run",
+    "RuntimeBridgeDryRunResult": "runtime_bridge_dry_run",
+    "SelfFeedAuditEventKind": "self_feed_audit",
+    "SelfFeedAuditEvent": "self_feed_audit",
+    "SelfFeedAuditLog": "self_feed_audit",
+    "RuntimeDryRunExportBundle": "self_feed_audit",
+    "PressureType": "semantic_immune_signal",
+    "SemanticImmuneSignal": "semantic_immune_signal",
+    "ScarType": "semantic_scar",
+    "SemanticScar": "semantic_scar",
+    "SlotFamily": "slot_taxonomy",
+    "SlotMode": "slot_taxonomy",
+    "SlotTaxonomyRecord": "slot_taxonomy",
+    "TrilingualAlignmentRecord": "trilingual_card_seed",
+}
+
+__all__ = list(_EXPORTS)
+
+
+def __getattr__(name: str):
+    """Resolve and cache a public GLOBAL symbol on first access."""
+    module_name = _EXPORTS.get(name)
+    if module_name is None:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    module = import_module(f"{__name__}.{module_name}")
+    value = getattr(module, name)
+    globals()[name] = value
+    return value
+
+
+def __dir__() -> list[str]:
+    return sorted(set(globals()) | set(__all__))
