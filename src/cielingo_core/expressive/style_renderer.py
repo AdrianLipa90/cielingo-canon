@@ -7,11 +7,13 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from hashlib import sha256
 import json
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-from cielingo_core.global_layer.response_contract import AllowedResponseContract
 from cielingo_core.global_layer.marker_scan import forbidden_claims_after_required_markers
-from cielingo_core.language_spaces.pl.response_realizer import RegionalResponseDraft
+
+if TYPE_CHECKING:
+    from cielingo_core.global_layer.response_contract import AllowedResponseContract
+    from cielingo_core.language_spaces.pl.response_realizer import RegionalResponseDraft
 
 
 class ExpressiveStyle(str, Enum):
