@@ -1,48 +1,30 @@
 """Adapted Polish regional solver for CIELingo 0.5O.
 
-Adds Polish v0.2 regional diagnostics:
-- case_hint candidates, not full cases;
-- role_candidate objects, not final semantic roles;
-- negation-scope candidates, not complete logical scope;
-- imperative/action-force candidates, not runtime authorization;
-- source_required candidates, not SOURCE;
-- canon_attempt/canon_block candidates, not canon;
-- bounded PL J components, not physical Kuramoto measurements.
-
-This is still not a full Polish parser or morphology engine.
+Adds Polish v0.2 regional diagnostics while keeping heavy regional dependencies
+lazy until the solver is actually asked to segment/solve text. The public
+``cards`` attribute remains available and hydrates the atlas on first access.
 """
 
 from __future__ import annotations
 
 from hashlib import sha256
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-from cielingo_core.global_layer.contracts import SurfaceSolution
-from cielingo_core.regional.base import RegionalSolveResult, SurfaceSegments
-from cielingo_core.regional.simple_solver_utils import (
-    build_local_j,
-    build_projection,
-    load_atlas_cards,
-    match_cards_to_tokens,
-    simple_space_segment,
-)
-from cielingo_core.language_spaces.pl.grammar import analyze_polish_tokens
-from cielingo_core.language_spaces.pl.j_holonomy import build_pl_kuramoto_holonomy, attach_kuramoto_report_to_local_j
-from cielingo_core.language_spaces.pl.case_hints import case_hints_to_notes, infer_case_hints
-from cielingo_core.language_spaces.pl.canon_phrase import canon_phrases_to_notes, detect_canon_phrases
-from cielingo_core.language_spaces.pl.imperative_force import detect_imperative_force, imperative_force_to_notes
-from cielingo_core.language_spaces.pl.negation_scope import detect_negation_scope, negation_scope_to_notes
-from cielingo_core.language_spaces.pl.polish_j_components import compute_polish_j_components, polish_j_components_to_notes
-from cielingo_core.language_spaces.pl.role_inference import infer_role_candidates, role_candidates_to_notes
-from cielingo_core.language_spaces.pl.source_phrase import detect_source_phrases, source_phrases_to_notes
+if TYPE_CHECKING:
+    from cielingo_core.regional.base import RegionalSolveResult, SurfaceSegments
 
 
 def _pl_v02_diagnostics(tokens: list[str]) -> tuple[list[dict[str, object]], dict[str, float]]:
-    """Compute PL v0.2 diagnostic notes and bounded local_j.
+    """Compute PL v0.2 diagnostic notes and bounded local_j."""
+    from cielingo_core.language_spaces.pl.case_hints import case_hints_to_notes, infer_case_hints
+    from cielingo_core.language_spaces.pl.canon_phrase import canon_phrases_to_notes, detect_canon_phrases
+    from cielingo_core.language_spaces.pl.imperative_force import detect_imperative_force, imperative_force_to_notes
+    from cielingo_core.language_spaces.pl.negation_scope import detect_negation_scope, negation_scope_to_notes
+    from cielingo_core.language_spaces.pl.polish_j_components import compute_polish_j_components, polish_j_components_to_notes
+    from cielingo_core.language_spaces.pl.role_inference import infer_role_candidates, role_candidates_to_notes
+    from cielingo_core.language_spaces.pl.source_phrase import detect_source_phrases, source_phrases_to_notes
 
-    All outputs are candidates/hints. Nothing here promotes SOURCE, canon,
-    runtime action, or physical Kuramoto measurement.
-    """
     case_hints = infer_case_hints(tokens)
     role_candidates = infer_role_candidates(tokens)
     negations = detect_negation_scope(tokens)
@@ -80,9 +62,23 @@ class PolishRegionalSolver:
 
     def __init__(self, repo_root: str | Path):
         self.repo_root = Path(repo_root)
-        self.cards = load_atlas_cards(self.repo_root, self.language_id)
+        self._cards = None
+
+    @property
+    def cards(self):
+        if self._cards is None:
+            from cielingo_core.regional.simple_solver_utils import load_atlas_cards
+            self._cards = load_atlas_cards(self.repo_root, self.language_id)
+        return self._cards
+
+    @cards.setter
+    def cards(self, value):
+        self._cards = value
 
     def segment(self, text: str) -> SurfaceSegments:
+        from cielingo_core.regional.base import SurfaceSegments
+        from cielingo_core.regional.simple_solver_utils import simple_space_segment
+
         return SurfaceSegments(
             language_id=self.language_id,
             text=text,
@@ -91,6 +87,12 @@ class PolishRegionalSolver:
         )
 
     def solve(self, text: str) -> RegionalSolveResult:
+        from cielingo_core.global_layer.contracts import SurfaceSolution
+        from cielingo_core.regional.base import RegionalSolveResult
+        from cielingo_core.regional.simple_solver_utils import build_local_j, build_projection, match_cards_to_tokens
+        from cielingo_core.language_spaces.pl.grammar import analyze_polish_tokens
+        from cielingo_core.language_spaces.pl.j_holonomy import build_pl_kuramoto_holonomy, attach_kuramoto_report_to_local_j
+
         segments = self.segment(text)
         candidates = match_cards_to_tokens(self.cards, segments.tokens, self.language_id)
         slot_projection = build_projection(candidates)
@@ -120,14 +122,10 @@ class PolishRegionalSolver:
         local_j["J_imperative_force"] = imperative_force
         local_j["J_source_phrase"] = 0.70 if grammar.source_phrase_indices else 0.10
         local_j["J_case_ambiguity"] = 0.55 if grammar.case_hints else 0.15
-
-        # SurfaceSolution ABI is intentionally narrow. Regional details stay
-        # in local_j and RegionalSolveResult.notes, not as new SurfaceSolution fields.
         local_j["J_pl_negation_detected"] = 1.0 if grammar.negation_indices else 0.0
         local_j["J_pl_case_hints_detected"] = 1.0 if grammar.case_hints else 0.0
         local_j["J_pl_preference_detected"] = 1.0 if grammar.preference_indices else 0.0
 
-        # PL v0.2 bounded components. These are named separately from older J keys.
         for key, value in pl_v02_local_j.items():
             local_j[f"J_{key}"] = value
 
@@ -150,8 +148,6 @@ class PolishRegionalSolver:
         )
         local_j = attach_kuramoto_report_to_local_j(local_j, kuramoto_report)
 
-        # Python's built-in hash is process-randomized and cannot be part of a
-        # receipted ABI. The equation id is therefore stable across runtimes.
         stable_text_id = sha256(text.encode("utf-8")).hexdigest()[:16]
         solution = SurfaceSolution(
             language_id=self.language_id,
