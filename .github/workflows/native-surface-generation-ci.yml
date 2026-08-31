@@ -57,3 +57,4 @@ jobs:
           tests/test_canonical_lingophysics_adapter.py
           tests/test_canonical_token_normalization.py
           tests/test_lazy_package_import.py
+          tests/test_semantic_immune_text_pressure.py
