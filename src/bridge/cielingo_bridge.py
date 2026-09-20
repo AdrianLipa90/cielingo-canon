@@ -41,6 +41,7 @@ class CielingoBridgeState:
     loop_state: LoopState = LoopState.OPEN
     immune_signal: SemanticImmuneSignal | None = None
     regional_solver: Any = None  # PolishRegionalSolver | EnglishRegionalSolver | JapaneseRegionalSolver
+    regional_solve_result: Any = None
     style: ExpressiveStyle = ExpressiveStyle.PLAIN
     response_draft: ExpressiveResponseDraft | None = None
     notes: list[str] = field(default_factory=list)
@@ -59,6 +60,21 @@ class CielingoBridgeState:
             "intention": self.intention.intention_type.value if self.intention else None,
             "immune_pressure": self.immune_signal.pressure_type.value if self.immune_signal else None,
             "notes": self.notes,
+            "regional_language": (
+                self.regional_solve_result.language_id
+                if self.regional_solve_result is not None
+                else None
+            ),
+            "regional_equation_id": (
+                self.regional_solve_result.surface_solution.equation_id
+                if self.regional_solve_result is not None
+                else None
+            ),
+            "regional_confidence": (
+                self.regional_solve_result.surface_solution.confidence
+                if self.regional_solve_result is not None
+                else None
+            ),
             "canon_allowed": False,
             "limitation": "cielingo_bridge_not_execution",
         }
@@ -254,10 +270,20 @@ class CIELingoBridge:
         if ethics_flags:
             state.notes.append(f"ethics: {len(ethics_flags)} flags — waiting for CielEngine integration")
 
-        # Step 5: Detect language and select solver
+        # Step 5: Detect language, select and execute the regional solver.
+        # Selecting a solver object without solving the input is not a semantic pass.
         lang = detect_language(intention_text)
         state.regional_solver = _solver_for_language(lang, self.repo_root)
-        state.notes.append(f"solver: {lang}")
+        state.regional_solve_result = state.regional_solver.solve(intention_text)
+        regional_issues = state.regional_solve_result.validate()
+        if regional_issues:
+            state.notes.extend(
+                f"regional_solver_issue:{issue}" for issue in regional_issues
+            )
+            state.notes.append(f"solver: {lang}:failed_closed")
+            self.turns.append(state)
+            return state
+        state.notes.append(f"solver: {lang}:executed")
 
         # Step 6: Apply style based on intention type
         try:
@@ -299,6 +325,14 @@ class CIELingoBridge:
             IntentionType.SIMULATE: "draft_text_generation",
         }.get(state.intention.intention_type, "draft_text_generation")
 
+        # Output realization is currently implemented only for PL. EN/JA input
+        # semantics are still solved and retained, but the bridge fails loud
+        # instead of mislabelling Polish output as another language.
+        if lang != "pl":
+            state.notes.append(f"response_realizer: {lang}:not_implemented")
+            self.turns.append(state)
+            return state
+
         # Step 9: Compose CIELingo response text from analysis state
         cielingo_text = _compose_cielingo_text(
             intention=state.intention,
@@ -327,25 +361,13 @@ class CIELingoBridge:
             source_required=False,
         )
 
-        # Step 11: Build regional draft with CIELingo's own generated text
+        # Step 11: Realize through the registered PL response realizer.
+        # Do not construct a hard-coded language_id inside the global bridge.
         draft_id = "bridge_" + sha256(engine_turn_id.encode()).hexdigest()[:12]
-        from cielingo_core.global_layer.marker_scan import forbidden_claims_after_required_markers
-        preserved = [m for m in contract.required_markers if m.lower() in cielingo_text.lower()]
-        missing = [m for m in contract.required_markers if m.lower() not in cielingo_text.lower()]
-        forbidden = forbidden_claims_after_required_markers(cielingo_text, contract.required_markers, contract.forbidden_claims)
-        from cielingo_core.language_spaces.pl.response_realizer import RegionalResponseDraft
-        regional = RegionalResponseDraft(
-            draft_id=draft_id + "_regional",
-            language_id="pl",
-            contract_id=contract.contract_id,
-            answer_kind=contract.answer_kind,
-            text=cielingo_text,
-            preserved_markers=preserved,
-            missing_markers=missing,
-            forbidden_claims_present=forbidden,
-        )
+        regional = realize_pl_response(contract, candidate_text=cielingo_text)
 
         # Step 12: Render expressive response (adds style prefix + markers)
+        from cielingo_core.global_layer.marker_scan import forbidden_claims_after_required_markers
         render_text = regional.text
         if state.style == ExpressiveStyle.FORMAL:
             render_text = "Wersja formalna: " + regional.text
