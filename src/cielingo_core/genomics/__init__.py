@@ -32,6 +32,7 @@ from .motifs import (
     scan_motifs,
 )
 from .parser import GenomicParseResult, parse_genomic_grammar
+from .periodicity import SpacerReadout, fit_periodic_readout, scan_periods
 from .sequence import SequenceRecord, normalize_dna, parse_fasta
 
 __all__ = [
@@ -57,6 +58,9 @@ __all__ = [
     "scan_motifs",
     "GenomicParseResult",
     "parse_genomic_grammar",
+    "SpacerReadout",
+    "fit_periodic_readout",
+    "scan_periods",
     "SequenceRecord",
     "normalize_dna",
     "parse_fasta",

@@ -61,3 +61,4 @@ jobs:
           tests/test_genomic_gremlin_pipeline.py
           tests/test_genomic_sequence_parser.py
           tests/test_genomic_features_experiment.py
+          tests/test_genomic_periodicity.py
