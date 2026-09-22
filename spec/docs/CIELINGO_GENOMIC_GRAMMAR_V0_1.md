@@ -110,9 +110,35 @@ controlled spacer-phasing experiment, so a positive result there would still
 require a designed spacing/perturbation dataset for stronger phase-specific
 causal evidence.
 
+## Held-out regression contract
+
+The first quantitative benchmark is ridge regression with feature
+standardization learned from fitting data only. DeepSTARR TEST records are
+rejected from the fitting input.
+
+For each target channel independently:
+
+```text
+Dev_log2_enrichment
+Hk_log2_enrichment
+```
+
+the runner fits M0, M1 and M2 separately and reports train/test RMSE, MAE, R2
+and Pearson correlation.
+
+The phase increment is
+
+```text
+Delta_R2_phase = R2_test(M2) - R2_test(M1)
+```
+
+and is reported as a held-out predictive diagnostic only. A positive
+`Delta_R2_phase` is not causal evidence and does not promote the hypothesis
+to canon.
+
 ## Next empirical gate
 
 Run the three-way ablation on a pre-registered held-out split. Keep motif
-definitions, nuisance controls and feature construction fixed before inspecting
-test performance. Separately identify a controlled motif-spacing dataset for
-the periodicity/phase-rescue test.
+definitions, nuisance controls, ridge alpha and feature construction fixed
+before inspecting test performance. Separately identify a controlled
+motif-spacing dataset for the periodicity/phase-rescue test.

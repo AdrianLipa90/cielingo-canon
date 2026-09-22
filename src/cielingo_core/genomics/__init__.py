@@ -11,6 +11,10 @@ from .deepstarr import (
     pair_deepstarr_split,
     parse_deepstarr_activity_table,
 )
+from .deepstarr_benchmark import (
+    DeepStarrTarget,
+    run_deepstarr_regression_ablation,
+)
 from .experiment import (
     LabeledFeatures,
     compare_feature_sets,
@@ -43,11 +47,22 @@ from .motifs import (
     scan_motifs,
 )
 from .parser import GenomicParseResult, parse_genomic_grammar
-from .periodicity import SpacerReadout, fit_periodic_readout, scan_periods
+from .periodicity import (
+    SpacerReadout,
+    fit_periodic_readout,
+    scan_periods,
+)
 from .project import (
     CompiledGenomicSample,
     GenomicGrammarProject,
     GenomicGrammarProjectConfig,
+)
+from .regression import (
+    RegressionExample,
+    RidgeRegressionModel,
+    fit_and_evaluate,
+    fit_ridge,
+    regression_metrics,
 )
 from .sequence import SequenceRecord, normalize_dna, parse_fasta
 
@@ -60,6 +75,8 @@ __all__ = [
     "deepstarr_manifest",
     "pair_deepstarr_split",
     "parse_deepstarr_activity_table",
+    "DeepStarrTarget",
+    "run_deepstarr_regression_ablation",
     "LabeledFeatures",
     "compare_feature_sets",
     "leave_one_out_nearest_neighbor",
@@ -89,6 +106,11 @@ __all__ = [
     "CompiledGenomicSample",
     "GenomicGrammarProject",
     "GenomicGrammarProjectConfig",
+    "RegressionExample",
+    "RidgeRegressionModel",
+    "fit_and_evaluate",
+    "fit_ridge",
+    "regression_metrics",
     "SequenceRecord",
     "normalize_dna",
     "parse_fasta",
