@@ -60,3 +60,4 @@ jobs:
           tests/test_genomic_grammar.py
           tests/test_genomic_compiler.py
           tests/test_genomic_gremlin_routing.py
+          tests/test_genomic_phase_experiment.py

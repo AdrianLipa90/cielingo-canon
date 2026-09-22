@@ -25,11 +25,23 @@ literally a linguistic system and it does not replace the genetic code.
 ## GREMLIN routing intent
 
 For genomic work, the full discovered GREMLIN surface is available to an
-orchestrator. Typical read-only roles include relation scanning, contradiction
-checks, evidence audit, memory/similarity analysis, decomposition, synthesis and
-PhaseNav reference analysis. Species selection is delegated to OCTOPUS from an
-auditable semantic payload rather than hard-coded in CIELingo.
+orchestrator. Species selection is delegated to OCTOPUS from an auditable semantic
+payload rather than hard-coded in CIELingo. Mutation-shaped tools remain
+fail-closed unless the caller provides explicit authorization.
 
-Mutation-shaped tools remain fail-closed unless the caller provides explicit
-authorization. Successful GREMLIN output cannot grant canon, NOEMA CURRENT,
-production-runtime write, or memory-write authority inside CIELingo.
+Successful GREMLIN output cannot grant canon, NOEMA CURRENT, production-runtime
+write, or memory-write authority inside CIELingo.
+
+## Spacer-phase experiment scaffold
+
+The experimental module supports a first-harmonic fit
+
+```text
+response(d) = c + a cos(2πd/h) + b sin(2πd/h)
+```
+
+and scans candidate periods instead of requiring the expected helical period to
+be fixed in advance. This is intentionally a statistical scaffold, not biological
+evidence. A convincing experiment still requires real measurements, appropriate
+controls, replicate handling, held-out prediction and comparison against
+non-periodic distance/sequence baselines.

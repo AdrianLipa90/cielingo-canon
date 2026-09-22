@@ -20,6 +20,13 @@ from .routing import (
     build_octopus_request,
     routing_manifest,
 )
+from .experiment import (
+    HarmonicFit,
+    PeriodScan,
+    fit_first_harmonic,
+    scan_periods,
+    spacer_phase_design,
+)
 
 __all__ = [
     "GenomicLevel",
@@ -37,4 +44,9 @@ __all__ = [
     "analysis_requirements",
     "build_octopus_request",
     "routing_manifest",
+    "HarmonicFit",
+    "PeriodScan",
+    "fit_first_harmonic",
+    "scan_periods",
+    "spacer_phase_design",
 ]
