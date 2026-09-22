@@ -66,3 +66,4 @@ jobs:
           tests/test_genomic_deepstarr.py
           tests/test_genomic_regression.py
           tests/test_genomic_deepstarr_benchmark.py
+          tests/test_genomic_smith2013.py

@@ -142,3 +142,38 @@ Run the three-way ablation on a pre-registered held-out split. Keep motif
 definitions, nuisance controls, ridge alpha and feature construction fixed
 before inspecting test performance. Separately identify a controlled
 motif-spacing dataset for the periodicity/phase-rescue test.
+
+
+## Controlled-spacing target: Smith et al. 2013
+
+The second empirical track pins Smith et al., Nature Genetics 2013
+(`10.1038/ng.2713`, PMID `23892608`, SRA `SRP018414`).
+
+The study reports 4,966 analyzed synthetic regulatory elements: 533 Class I,
+1,797 Class II and 2,636 Class III. Class I is the phase-specific target
+because it holds motif identity homotypic while varying copy number and
+spacing.
+
+The complete 4,966-row design/expression workbook is Supplementary Table 4.
+Its public binary location is pinned in code. The current runtime could verify
+the file location but could not materialize the XLSX bytes. Therefore its
+column schema is **not guessed**.
+
+The Smith adapter is intentionally fail-closed:
+
+```text
+RAW SUPPLEMENTARY XLSX
+    -> verified source SHA-256
+    -> inspected exact column map
+    -> Smith2013SchemaReceipt(verified=True)
+    -> canonical rows
+    -> composition-matched Class-I spacer series
+    -> period scan
+```
+
+No Class-I periodicity result is admitted without fixing transcription-factor
+identity, copy number and template before varying spacing. Missing spacing
+metadata is an error, not an inferred value.
+
+This protects the phase test from three common confounds: changing motif
+identity, changing copy number, and mixing the two neutral sequence templates.

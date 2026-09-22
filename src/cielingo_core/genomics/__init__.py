@@ -65,6 +65,23 @@ from .regression import (
     regression_metrics,
 )
 from .sequence import SequenceRecord, normalize_dna, parse_fasta
+from .smith2013 import (
+    SMITH2013_CLASS_COUNTS,
+    SMITH2013_DOI,
+    SMITH2013_PMID,
+    SMITH2013_RAW_SCHEMA_STATUS,
+    SMITH2013_SRA,
+    SMITH2013_SUPPLEMENTARY_TABLE4_URL,
+    SMITH2013_TEMPLATES,
+    SMITH2013_TFBS,
+    Smith2013CanonicalRow,
+    Smith2013SchemaReceipt,
+    SmithSRESClass,
+    admit_smith2013_rows,
+    class_i_spacer_readouts,
+    require_verified_smith2013_schema,
+    smith2013_manifest,
+)
 
 __all__ = [
     "DEEPSTARR_DOI",
@@ -114,4 +131,19 @@ __all__ = [
     "SequenceRecord",
     "normalize_dna",
     "parse_fasta",
+    "SMITH2013_CLASS_COUNTS",
+    "SMITH2013_DOI",
+    "SMITH2013_PMID",
+    "SMITH2013_RAW_SCHEMA_STATUS",
+    "SMITH2013_SRA",
+    "SMITH2013_SUPPLEMENTARY_TABLE4_URL",
+    "SMITH2013_TEMPLATES",
+    "SMITH2013_TFBS",
+    "Smith2013CanonicalRow",
+    "Smith2013SchemaReceipt",
+    "SmithSRESClass",
+    "admit_smith2013_rows",
+    "class_i_spacer_readouts",
+    "require_verified_smith2013_schema",
+    "smith2013_manifest",
 ]
