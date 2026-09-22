@@ -57,14 +57,24 @@ def test_read_only_tool_is_callable_without_mutation_grant():
 
 
 def test_mutating_and_unknown_tools_require_explicit_per_tool_grant():
-    tools = set(REQUIRED_CORE_TOOLS) | {"gremlin_hive_place", "gremlin_raphael_future_extension"}
+    tools = set(REQUIRED_CORE_TOOLS) | {
+        "gremlin_hive_place",
+        "gremlin_auto_fanout",
+        "gremlin_product_status",
+        "gremlin_raphael_future_extension",
+    }
     bridge = GremlinFullBridge(FakeTransport(tools))
     run(bridge.discover())
 
     with pytest.raises(PermissionError):
         run(bridge.invoke("gremlin_hive_place", {"subject_id": "x"}))
     with pytest.raises(PermissionError):
+        run(bridge.invoke("gremlin_auto_fanout", {"payload": {}}))
+    with pytest.raises(PermissionError):
         run(bridge.invoke("gremlin_raphael_future_extension", {}))
+
+    status = run(bridge.invoke("gremlin_product_status", {}))
+    assert status["consequence_class"] == "READ_ONLY"
 
     auth = GremlinAuthorization(
         allow_mutation=True,
