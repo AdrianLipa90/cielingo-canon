@@ -55,7 +55,10 @@ def helical_phase(distance_bp: int, bp_per_turn: float = 10.5) -> float:
 
 @dataclass(frozen=True)
 class GenomicRelation:
+    # Anchor-to-anchor displacement used for helical phase.
     distance_bp: int
+    # Empty edge-to-edge spacing is distinct from phase displacement.
+    gap_bp: int | None = None
     orientation: Orientation = Orientation.UNKNOWN
     bp_per_turn: float = 10.5
     chromatin_context: str | None = None
@@ -63,6 +66,10 @@ class GenomicRelation:
 
     def __post_init__(self) -> None:
         helical_phase(self.distance_bp, self.bp_per_turn)
+        if self.gap_bp is not None and (
+            isinstance(self.gap_bp, bool) or not isinstance(self.gap_bp, int)
+        ):
+            raise ValueError("gap_bp must be an integer or None")
 
     @property
     def delta_phase_rad(self) -> float:
@@ -71,6 +78,7 @@ class GenomicRelation:
     def to_dict(self) -> dict[str, Any]:
         return {
             "distance_bp": self.distance_bp,
+            "gap_bp": self.gap_bp,
             "orientation": self.orientation.value,
             "bp_per_turn": float(self.bp_per_turn),
             "delta_phase_rad": self.delta_phase_rad,
@@ -127,9 +135,12 @@ def hierarchy_manifest() -> dict[str, Any]:
         "direction": "KAKU_TO_BOOK",
         "relation_channels": [
             "distance_bp",
+            "gap_bp",
             "orientation",
             "delta_phase_rad",
             "chromatin_context",
         ],
+        "phase_distance_semantics": "ANCHOR_TO_ANCHOR",
+        "gap_semantics": "EDGE_TO_EDGE_EMPTY_SPACING",
         "epistemic_status": "COMPUTATIONAL_HYPOTHESIS_REPRESENTATION",
     }

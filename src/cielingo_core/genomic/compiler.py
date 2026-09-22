@@ -57,12 +57,15 @@ def relation_between(
 ) -> GenomicRelation:
     left_start, left_end = _node_span(left)
     right_start, _ = _node_span(right)
-    distance = right_start - left_end
+    anchor_distance = right_start - left_start
+    gap = right_start - left_end
     return GenomicRelation(
-        distance_bp=distance,
+        distance_bp=anchor_distance,
+        gap_bp=gap,
         orientation=Orientation.UNKNOWN,
         bp_per_turn=bp_per_turn,
         metadata={
+            "anchor": "START_TO_START",
             "left_id": left.node_id,
             "right_id": right.node_id,
             "left_start_bp": left_start,
@@ -70,7 +73,7 @@ def relation_between(
             "right_start_bp": right_start,
             "left_orientation": left.payload.get("orientation", "?"),
             "right_orientation": right.payload.get("orientation", "?"),
-            "overlap_bp": max(0, -distance),
+            "overlap_bp": max(0, -gap),
         },
     )
 
@@ -100,13 +103,14 @@ def radical_from_feature(
 
     relations = tuple(
         GenomicRelation(
-            distance_bp=0,
+            distance_bp=1,
+            gap_bp=0,
             orientation=feature.orientation,
             bp_per_turn=bp_per_turn,
             metadata={
+                "anchor": "START_TO_START",
                 "left_id": kakus[index].node_id,
                 "right_id": kakus[index + 1].node_id,
-                "step_bp": 1,
             },
         )
         for index in range(max(0, len(kakus) - 1))
