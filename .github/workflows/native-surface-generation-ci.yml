@@ -59,3 +59,5 @@ jobs:
           tests/test_gremlin_full_bridge.py
           tests/test_genomic_grammar.py
           tests/test_genomic_gremlin_pipeline.py
+          tests/test_genomic_sequence_parser.py
+          tests/test_genomic_features_experiment.py

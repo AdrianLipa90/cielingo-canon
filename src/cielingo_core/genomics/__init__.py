@@ -1,6 +1,16 @@
 """CIELingo genomic grammar research surface."""
 from __future__ import annotations
 
+from .experiment import (
+    LabeledFeatures,
+    compare_feature_sets,
+    leave_one_out_nearest_neighbor,
+)
+from .features import (
+    phase_grammar_features,
+    representation_feature_sets,
+    sequence_kmer_features,
+)
 from .grammar import (
     GenomicLevel,
     GenomicRelation,
@@ -15,8 +25,22 @@ from .gremlin_pipeline import (
     GenomicGremlinPipeline,
     GenomicPipelineMode,
 )
+from .motifs import (
+    MotifDefinition,
+    MotifHit,
+    reverse_complement_iupac,
+    scan_motifs,
+)
+from .parser import GenomicParseResult, parse_genomic_grammar
+from .sequence import SequenceRecord, normalize_dna, parse_fasta
 
 __all__ = [
+    "LabeledFeatures",
+    "compare_feature_sets",
+    "leave_one_out_nearest_neighbor",
+    "phase_grammar_features",
+    "representation_feature_sets",
+    "sequence_kmer_features",
     "GenomicLevel",
     "GenomicRelation",
     "GenomicUnit",
@@ -27,4 +51,13 @@ __all__ = [
     "GenomicDispatch",
     "GenomicGremlinPipeline",
     "GenomicPipelineMode",
+    "MotifDefinition",
+    "MotifHit",
+    "reverse_complement_iupac",
+    "scan_motifs",
+    "GenomicParseResult",
+    "parse_genomic_grammar",
+    "SequenceRecord",
+    "normalize_dna",
+    "parse_fasta",
 ]
