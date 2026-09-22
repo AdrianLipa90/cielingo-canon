@@ -1,100 +1,55 @@
 """Dynamic, fail-closed bridge from CIELingo into the GREMLIN MCP surface.
 
-The bridge deliberately does not hard-code the complete GREMLIN registry.  It
+The bridge deliberately does not hard-code the complete GREMLIN registry. It
 requires a small invariant core, discovers every additional tool exposed by the
-connected GREMLIN runtime, and preserves CIELingo's authority boundary:
-GREMLIN outputs are advisory until independently admitted by the owning CIELingo
-or NOEMA layer.
+connected GREMLIN runtime, and preserves CIELingo's authority boundary.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
+import json
 from typing import Any, Mapping, Protocol, Sequence
 
 SCHEMA = "CIELINGO_GREMLIN_FULL_BRIDGE_V0_1"
 
-REQUIRED_CORE_TOOLS = frozenset(
-    {
-        "gremlin_status",
-        "gremlin_bestiary",
-        "gremlin_species",
-        "gremlin_plan",
-        "gremlin_route",
-        "gremlin_auto_fanout",
-        "gremlin_collect",
-        "gremlin_synthesize",
-        "gremlin_prototype",
-    }
-)
+REQUIRED_CORE_TOOLS = frozenset({
+    "gremlin_status", "gremlin_bestiary", "gremlin_species", "gremlin_plan",
+    "gremlin_route", "gremlin_auto_fanout", "gremlin_collect",
+    "gremlin_synthesize", "gremlin_prototype",
+})
 
-READ_ONLY_EXACT = frozenset(
-    {
-        "gremlin_product_status",
-        "gremlin_license_status",
-        "gremlin_status",
-        "gremlin_bestiary",
-        "gremlin_species",
-        "gremlin_plan",
-        "gremlin_route",
-        "gremlin_relation_parse",
-        "gremlin_relation_signature",
-        "gremlin_collect",
-        "gremlin_prototype",
-        "gremlin_phasenav_status",
-        "gremlin_phasenav_reference_sweep",
-        "gremlin_phasenav_threeway",
-        "gremlin_phasenav_analog_invariants",
-        "gremlin_phasenav_live_replay",
-        "gremlin_phasenav_spectroscopic_holonomy",
-        "gremlin_worker_list",
-        "gremlin_worker_result",
-        "gremlin_worker_queue",
-        "gremlin_web_fetch",
-        "gremlin_web_search",
-        "gremlin_research",
-        "gremlin_research_execute",
-        "gremlin_research_hound_provenance",
-        "gremlin_research_guarded",
-        "gremlin_research_relational",
-    }
-)
+READ_ONLY_EXACT = frozenset({
+    "gremlin_product_status", "gremlin_license_status", "gremlin_status",
+    "gremlin_bestiary", "gremlin_species", "gremlin_plan", "gremlin_route",
+    "gremlin_relation_parse", "gremlin_relation_signature", "gremlin_collect",
+    "gremlin_prototype", "gremlin_phasenav_status",
+    "gremlin_phasenav_reference_sweep", "gremlin_phasenav_threeway",
+    "gremlin_phasenav_analog_invariants", "gremlin_phasenav_live_replay",
+    "gremlin_phasenav_spectroscopic_holonomy", "gremlin_worker_list",
+    "gremlin_worker_result", "gremlin_worker_queue", "gremlin_web_fetch",
+    "gremlin_web_search", "gremlin_research", "gremlin_research_execute",
+    "gremlin_research_hound_provenance", "gremlin_research_guarded",
+    "gremlin_research_relational",
+})
 
-MUTATING_EXACT = frozenset(
-    {
-        "gremlin_auto_fanout",
-        "gremlin_fanout",
-        "gremlin_synthesize",
-        "gremlin_worker_register",
-        "gremlin_worker_heartbeat",
-        "gremlin_worker_enqueue",
-        "gremlin_worker_claim",
-        "gremlin_worker_submit",
-        "gremlin_hive_place",
-        "gremlin_hive_gates",
-        "gremlin_hive_dispute",
-        "gremlin_hive_latch",
-        "gremlin_hive_exchange_ingest",
-        "gremlin_hive_exchange_bundle_ingest",
-        "gremlin_hive_sync_apply",
-        "gremlin_hive_research_execute",
-    }
-)
+MUTATING_EXACT = frozenset({
+    "gremlin_auto_fanout", "gremlin_fanout", "gremlin_synthesize",
+    "gremlin_worker_register", "gremlin_worker_heartbeat",
+    "gremlin_worker_enqueue", "gremlin_worker_claim", "gremlin_worker_submit",
+    "gremlin_hive_place", "gremlin_hive_gates", "gremlin_hive_dispute",
+    "gremlin_hive_latch", "gremlin_hive_exchange_ingest",
+    "gremlin_hive_exchange_bundle_ingest", "gremlin_hive_sync_apply",
+    "gremlin_hive_research_execute",
+})
 
-MUTATING_PREFIXES = (
-    "gremlin_ferret_",
-)
+MUTATING_PREFIXES = ("gremlin_ferret_",)
 
 READ_ONLY_PREFIXES = (
-    "gremlin_hive_status",
-    "gremlin_hive_head",
-    "gremlin_hive_table",
-    "gremlin_hive_history",
-    "gremlin_hive_persisted",
-    "gremlin_hive_sync_inventory",
-    "gremlin_hive_sync_manifest",
-    "gremlin_hive_sync_delta",
-    "gremlin_hive_consolidation_route",
+    "gremlin_hive_status", "gremlin_hive_head", "gremlin_hive_table",
+    "gremlin_hive_history", "gremlin_hive_persisted",
+    "gremlin_hive_sync_inventory", "gremlin_hive_sync_manifest",
+    "gremlin_hive_sync_delta", "gremlin_hive_consolidation_route",
 )
 
 
@@ -105,17 +60,12 @@ class ConsequenceClass(str, Enum):
 
 
 class GremlinTransport(Protocol):
-    """Minimal async transport required by the bridge."""
-
     async def list_tools(self) -> Sequence[Any]: ...
-
     async def call_tool(self, name: str, arguments: Mapping[str, Any]) -> Any: ...
 
 
 @dataclass(frozen=True)
 class GremlinAuthorization:
-    """Explicit capability grant for one bridge invocation."""
-
     allow_mutation: bool = False
     allowed_tools: frozenset[str] = field(default_factory=frozenset)
 
@@ -147,7 +97,23 @@ class MCPClientTransport:
         return tuple(getattr(listed, "tools", listed))
 
     async def call_tool(self, name: str, arguments: Mapping[str, Any]) -> Any:
-        return await self.client.call_tool(name, dict(arguments))
+        result = await self.client.call_tool(name, dict(arguments))
+        if getattr(result, "is_error", False):
+            raise RuntimeError(f"GREMLIN MCP tool call failed: {name}")
+        structured = getattr(result, "structured_content", None)
+        if isinstance(structured, Mapping):
+            return dict(structured)
+        for block in getattr(result, "content", ()):
+            text = getattr(block, "text", None)
+            if not isinstance(text, str):
+                continue
+            try:
+                value = json.loads(text)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(value, Mapping):
+                return dict(value)
+        raise RuntimeError(f"GREMLIN MCP tool result is not a structured mapping: {name}")
 
 
 def _tool_name(tool: Any) -> str:
@@ -163,8 +129,6 @@ def _tool_name(tool: Any) -> str:
 
 
 def classify_consequence(tool_name: str) -> ConsequenceClass:
-    """Classify known surfaces; unknown tools fail closed as GOVERNED."""
-
     if tool_name in MUTATING_EXACT or tool_name.startswith(MUTATING_PREFIXES):
         return ConsequenceClass.MUTATING
     if tool_name in READ_ONLY_EXACT or tool_name.startswith(READ_ONLY_PREFIXES):
@@ -173,8 +137,6 @@ def classify_consequence(tool_name: str) -> ConsequenceClass:
 
 
 class GremlinFullBridge:
-    """Expose the complete connected GREMLIN registry to CIELingo, safely."""
-
     def __init__(self, transport: GremlinTransport):
         self.transport = transport
         self._snapshot: GremlinCapabilitySnapshot | None = None
