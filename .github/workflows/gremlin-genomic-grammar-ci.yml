@@ -25,4 +25,4 @@ jobs:
       - name: Run genomic grammar and GREMLIN bridge tests
         env:
           PYTHONPATH: src:data/lingophysics/src
-        run: python -m pytest -q tests/test_genomic_gremlin_bridge.py
+        run: python -m pytest -q tests/test_genomic_gremlin_bridge.py tests/test_genomic_phase_scan.py
