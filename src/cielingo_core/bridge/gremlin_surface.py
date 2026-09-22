@@ -39,6 +39,7 @@ _MUTATION_TOKENS = frozenset(
         "enqueue",
         "claim",
         "submit",
+        "execute",
     }
 )
 
