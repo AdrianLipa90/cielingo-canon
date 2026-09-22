@@ -8,6 +8,7 @@ from cielingo_core.genomics import (
     leave_one_out_nearest_neighbor,
     parse_genomic_grammar,
     phase_grammar_features,
+    relational_grammar_features,
     representation_feature_sets,
     sequence_kmer_features,
 )
@@ -24,15 +25,29 @@ def _parsed(sequence: str):
     )
 
 
-def test_feature_sets_keep_baseline_separate_from_phase_channel():
+def test_feature_sets_isolate_phase_from_sequence_and_geometry():
     parsed = _parsed("AAACCCAAAAAACCC")
     feature_sets = representation_feature_sets(parsed, k=2)
-    assert set(feature_sets) == {"sequence_only", "sequence_plus_phase"}
+
+    assert set(feature_sets) == {
+        "sequence_only",
+        "sequence_plus_geometry",
+        "sequence_plus_phase",
+    }
     assert set(feature_sets["sequence_only"]) <= set(
+        feature_sets["sequence_plus_geometry"]
+    )
+    assert set(feature_sets["sequence_plus_geometry"]) <= set(
         feature_sets["sequence_plus_phase"]
     )
 
+    geometry = relational_grammar_features(
+        parsed,
+        include_phase=False,
+    )
     phase = phase_grammar_features(parsed)
+
+    assert not any("phase_" in key for key in geometry)
     assert any(key.endswith("phase_cos") for key in phase)
     assert not any(
         "phase_" in key
@@ -53,21 +68,32 @@ def test_representation_benchmark_is_diagnostic_and_declares_no_winner():
         LabeledFeatures("b1", "B", {"x": 10.0}),
         LabeledFeatures("b2", "B", {"x": 10.1}),
     ]
-    augmented = [
+    geometry = [
+        LabeledFeatures(
+            sample.sample_id,
+            sample.label,
+            {**sample.features, "distance": 0.5},
+        )
+        for sample in baseline
+    ]
+    phase = [
         LabeledFeatures(
             sample.sample_id,
             sample.label,
             {
                 **sample.features,
+                "distance": 0.5,
                 "phase": 0.0 if sample.label == "A" else 1.0,
             },
         )
         for sample in baseline
     ]
+
     result = compare_feature_sets(
         {
             "sequence_only": baseline,
-            "sequence_plus_phase": augmented,
+            "sequence_plus_geometry": geometry,
+            "sequence_plus_phase": phase,
         }
     )
     assert result["winner_declared"] is False

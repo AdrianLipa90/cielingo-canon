@@ -1,4 +1,4 @@
-"""Feature projections for sequence-only vs relational-phase ablations."""
+"""Feature projections for sequence/geometry/phase ablations."""
 from __future__ import annotations
 
 from collections import Counter, defaultdict
@@ -27,11 +27,14 @@ def sequence_kmer_features(
     }
 
 
-def phase_grammar_features(
+def relational_grammar_features(
     parsed: GenomicParseResult,
     *,
     distance_bin_bp: float = 10.0,
+    include_phase: bool = True,
 ) -> dict[str, float]:
+    """Project motif vocabulary and geometry, optionally adding phase."""
+
     if distance_bin_bp <= 0.0:
         raise ValueError("distance_bin_bp must be positive")
 
@@ -50,16 +53,31 @@ def phase_grammar_features(
         right = hit_by_radical[relation.target_id]
         pair = "|".join(sorted((left.motif_id, right.motif_id)))
         distance_bin = int(abs(relation.distance_bp) // distance_bin_bp)
+
         output[f"pair:{pair}:distance_bin:{distance_bin}"] += 1.0
         output[f"pair:{pair}:orientation:{relation.orientation}"] += 1.0
-        output[f"pair:{pair}:phase_cos"] += math.cos(
-            relation.relative_phase_rad
-        )
-        output[f"pair:{pair}:phase_sin"] += math.sin(
-            relation.relative_phase_rad
-        )
+
+        if include_phase:
+            output[f"pair:{pair}:phase_cos"] += math.cos(
+                relation.relative_phase_rad
+            )
+            output[f"pair:{pair}:phase_sin"] += math.sin(
+                relation.relative_phase_rad
+            )
 
     return dict(sorted(output.items()))
+
+
+def phase_grammar_features(
+    parsed: GenomicParseResult,
+    *,
+    distance_bin_bp: float = 10.0,
+) -> dict[str, float]:
+    return relational_grammar_features(
+        parsed,
+        distance_bin_bp=distance_bin_bp,
+        include_phase=True,
+    )
 
 
 def representation_feature_sets(
@@ -68,12 +86,30 @@ def representation_feature_sets(
     k: int = 2,
     distance_bin_bp: float = 10.0,
 ) -> dict[str, dict[str, float]]:
+    """Return nested ablations that isolate phase from ordinary geometry."""
+
     baseline = sequence_kmer_features(parsed.record.sequence, k=k)
-    augmented = dict(baseline)
-    augmented.update(
-        phase_grammar_features(parsed, distance_bin_bp=distance_bin_bp)
+
+    geometry = dict(baseline)
+    geometry.update(
+        relational_grammar_features(
+            parsed,
+            distance_bin_bp=distance_bin_bp,
+            include_phase=False,
+        )
     )
+
+    phase = dict(baseline)
+    phase.update(
+        relational_grammar_features(
+            parsed,
+            distance_bin_bp=distance_bin_bp,
+            include_phase=True,
+        )
+    )
+
     return {
         "sequence_only": baseline,
-        "sequence_plus_phase": augmented,
+        "sequence_plus_geometry": geometry,
+        "sequence_plus_phase": phase,
     }

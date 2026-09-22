@@ -8,6 +8,7 @@ from .experiment import (
 )
 from .features import (
     phase_grammar_features,
+    relational_grammar_features,
     representation_feature_sets,
     sequence_kmer_features,
 )
@@ -40,6 +41,7 @@ __all__ = [
     "compare_feature_sets",
     "leave_one_out_nearest_neighbor",
     "phase_grammar_features",
+    "relational_grammar_features",
     "representation_feature_sets",
     "sequence_kmer_features",
     "GenomicLevel",
