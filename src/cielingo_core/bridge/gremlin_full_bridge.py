@@ -1,6 +1,6 @@
 """Dynamic, fail-closed bridge from CIELingo into the GREMLIN MCP surface.
 
-The bridge deliberately does not hard-code the complete GREMLIN registry. It
+The bridge deliberately does not hard-code the complete GREMLIN registry.  It
 requires a small invariant core, discovers every additional tool exposed by the
 connected GREMLIN runtime, and preserves CIELingo's authority boundary:
 GREMLIN outputs are advisory until independently admitted by the owning CIELingo
@@ -28,8 +28,43 @@ REQUIRED_CORE_TOOLS = frozenset(
     }
 )
 
+READ_ONLY_EXACT = frozenset(
+    {
+        "gremlin_product_status",
+        "gremlin_license_status",
+        "gremlin_status",
+        "gremlin_bestiary",
+        "gremlin_species",
+        "gremlin_plan",
+        "gremlin_route",
+        "gremlin_relation_parse",
+        "gremlin_relation_signature",
+        "gremlin_collect",
+        "gremlin_prototype",
+        "gremlin_phasenav_status",
+        "gremlin_phasenav_reference_sweep",
+        "gremlin_phasenav_threeway",
+        "gremlin_phasenav_analog_invariants",
+        "gremlin_phasenav_live_replay",
+        "gremlin_phasenav_spectroscopic_holonomy",
+        "gremlin_worker_list",
+        "gremlin_worker_result",
+        "gremlin_worker_queue",
+        "gremlin_web_fetch",
+        "gremlin_web_search",
+        "gremlin_research",
+        "gremlin_research_execute",
+        "gremlin_research_hound_provenance",
+        "gremlin_research_guarded",
+        "gremlin_research_relational",
+    }
+)
+
 MUTATING_EXACT = frozenset(
     {
+        "gremlin_auto_fanout",
+        "gremlin_fanout",
+        "gremlin_synthesize",
         "gremlin_worker_register",
         "gremlin_worker_heartbeat",
         "gremlin_worker_enqueue",
@@ -45,30 +80,12 @@ MUTATING_EXACT = frozenset(
         "gremlin_hive_research_execute",
     }
 )
+
 MUTATING_PREFIXES = (
     "gremlin_ferret_",
-    "gremlin_product_",
-    "gremlin_license_",
 )
 
 READ_ONLY_PREFIXES = (
-    "gremlin_status",
-    "gremlin_bestiary",
-    "gremlin_species",
-    "gremlin_plan",
-    "gremlin_route",
-    "gremlin_relation_",
-    "gremlin_web_",
-    "gremlin_research",
-    "gremlin_auto_fanout",
-    "gremlin_fanout",
-    "gremlin_collect",
-    "gremlin_synthesize",
-    "gremlin_prototype",
-    "gremlin_phasenav_",
-    "gremlin_worker_list",
-    "gremlin_worker_result",
-    "gremlin_worker_queue",
     "gremlin_hive_status",
     "gremlin_hive_head",
     "gremlin_hive_table",
@@ -120,11 +137,7 @@ class GremlinCapabilitySnapshot:
 
 
 class MCPClientTransport:
-    """Adapter for an already-open MCP client.
-
-    Lifecycle remains outside CIELingo so GREMLIN Hive/worker state can live in
-    one long-running MCP session.
-    """
+    """Adapter for an already-open MCP client."""
 
     def __init__(self, client: Any):
         self.client = client
@@ -154,7 +167,7 @@ def classify_consequence(tool_name: str) -> ConsequenceClass:
 
     if tool_name in MUTATING_EXACT or tool_name.startswith(MUTATING_PREFIXES):
         return ConsequenceClass.MUTATING
-    if tool_name.startswith(READ_ONLY_PREFIXES):
+    if tool_name in READ_ONLY_EXACT or tool_name.startswith(READ_ONLY_PREFIXES):
         return ConsequenceClass.READ_ONLY
     return ConsequenceClass.GOVERNED
 
