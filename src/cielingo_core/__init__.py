@@ -13,6 +13,7 @@ from . import (
     timing,
     io,
     bridge,
+    genomics,
     noema_surface,
     noema_local_sot_agent,
     noema_pseudoglobal,
