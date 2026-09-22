@@ -62,6 +62,7 @@ def test_incomplete_gremlin_core_fails_closed() -> None:
 def test_mutation_classification_is_conservative() -> None:
     assert classify_consequence("gremlin_hive_place") is GremlinConsequence.CONTROLLED_MUTATION
     assert classify_consequence("gremlin_worker_enqueue") is GremlinConsequence.CONTROLLED_MUTATION
+    assert classify_consequence("gremlin_research_execute") is GremlinConsequence.CONTROLLED_MUTATION
     assert classify_consequence("gremlin_status") is GremlinConsequence.READ_ONLY
 
 
