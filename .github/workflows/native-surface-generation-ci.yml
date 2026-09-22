@@ -63,3 +63,4 @@ jobs:
           tests/test_genomic_features_experiment.py
           tests/test_genomic_periodicity.py
           tests/test_genomic_project.py
+          tests/test_genomic_deepstarr.py

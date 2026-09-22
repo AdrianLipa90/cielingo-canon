@@ -1,6 +1,16 @@
 """CIELingo genomic grammar research surface."""
 from __future__ import annotations
 
+from .deepstarr import (
+    DEEPSTARR_DOI,
+    DEEPSTARR_FILES,
+    DeepStarrActivity,
+    DeepStarrSample,
+    DeepStarrSplit,
+    deepstarr_manifest,
+    pair_deepstarr_split,
+    parse_deepstarr_activity_table,
+)
 from .experiment import (
     LabeledFeatures,
     compare_feature_sets,
@@ -42,6 +52,14 @@ from .project import (
 from .sequence import SequenceRecord, normalize_dna, parse_fasta
 
 __all__ = [
+    "DEEPSTARR_DOI",
+    "DEEPSTARR_FILES",
+    "DeepStarrActivity",
+    "DeepStarrSample",
+    "DeepStarrSplit",
+    "deepstarr_manifest",
+    "pair_deepstarr_split",
+    "parse_deepstarr_activity_table",
     "LabeledFeatures",
     "compare_feature_sets",
     "leave_one_out_nearest_neighbor",

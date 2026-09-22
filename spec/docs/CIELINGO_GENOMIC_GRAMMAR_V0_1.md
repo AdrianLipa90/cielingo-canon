@@ -90,8 +90,29 @@ performance or periodic spacer readouts do not reproduce out of sample.
 
 A positive synthetic test is never sufficient.
 
+## First external benchmark target: DeepSTARR
+
+The v0.1 adapter pins the published DeepSTARR dataset
+(`10.5281/zenodo.5502060`) and its Train/Val/Test file checksums.
+
+The source training notebook reads the FASTA records and activity table for the
+same split independently and consumes them in row order. The adapter therefore:
+
+- preserves the complete FASTA header as provenance;
+- requires equal FASTA/activity row counts;
+- pairs rows positionally;
+- requires `Dev_log2_enrichment` and `Hk_log2_enrichment`;
+- never silently joins records by a truncated identifier.
+
+DeepSTARR is suitable as a first held-out predictive benchmark because it
+provides sequences and quantitative activities. It is not by itself a
+controlled spacer-phasing experiment, so a positive result there would still
+require a designed spacing/perturbation dataset for stronger phase-specific
+causal evidence.
+
 ## Next empirical gate
 
-Use independently sourced enhancer/promoter datasets with measured activity.
-Pre-register motif definitions, train/test partitioning, nuisance controls and
-the period search range before evaluating the phase increment.
+Run the three-way ablation on a pre-registered held-out split. Keep motif
+definitions, nuisance controls and feature construction fixed before inspecting
+test performance. Separately identify a controlled motif-spacing dataset for
+the periodicity/phase-rescue test.

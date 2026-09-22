@@ -60,8 +60,7 @@ def parse_fasta(text: str) -> tuple[SequenceRecord, ...]:
     for line in lines:
         if line.startswith(">"):
             flush()
-            header = line[1:].strip()
-            current_id = header.split()[0] if header else ""
+            current_id = line[1:].strip()
             chunks = []
             if not current_id:
                 raise ValueError("FASTA header must contain a record id")

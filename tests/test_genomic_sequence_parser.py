@@ -19,7 +19,7 @@ from cielingo_core.genomics import (
 def test_parse_fasta_and_normalize_fail_loud():
     records = parse_fasta(">x description\nACGT\nACGT\n>y\nTTAA")
     assert [(r.record_id, r.sequence) for r in records] == [
-        ("x", "ACGTACGT"),
+        ("x description", "ACGTACGT"),
         ("y", "TTAA"),
     ]
     with pytest.raises(ValueError, match="unsupported DNA symbols"):
