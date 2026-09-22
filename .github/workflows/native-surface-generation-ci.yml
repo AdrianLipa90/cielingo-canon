@@ -58,3 +58,4 @@ jobs:
           tests/test_canonical_token_normalization.py
           tests/test_gremlin_full_bridge.py
           tests/test_genomic_grammar.py
+          tests/test_genomic_gremlin_pipeline.py
