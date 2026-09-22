@@ -20,4 +20,5 @@ from . import (
     architecture,
     language_spaces,
     phasenav,
+    genomic,
 )
