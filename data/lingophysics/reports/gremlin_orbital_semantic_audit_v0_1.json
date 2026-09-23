@@ -1,0 +1,69 @@
+{
+  "schema": "GREMLIN_ORBITAL_SEMANTIC_AUDIT_V0_1",
+  "status": "PASS_CANDIDATE_WITH_GAPS",
+  "authority": "CANDIDATE_ONLY",
+  "canon_allowed": false,
+  "targets": {
+    "CIELINGO": {
+      "gremlin_event_id": "gremlin:whisper:sha256:a914935ac6f0015b4010db3328ea2a66e7c6e86e724eb22871d7af7d4b151458",
+      "route_species": [
+        "OWL",
+        "SPIDER",
+        "MOLE",
+        "HOUND"
+      ],
+      "phase_attention_terms": [
+        "lingophysics",
+        "separates",
+        "equation",
+        "phasenav"
+      ],
+      "finding": "Insert one chi(+/-) contract in CIELingo core; preserve SentenceEquation authority boundaries and keep PhaseNav as downstream holonomy authority."
+    },
+    "LINGOPHYSICS": {
+      "gremlin_event_id": "gremlin:whisper:sha256:6564545aea24a5635cc45f5e02dd6b842c5a1b5f4c263c66b9fa196a0a30df54",
+      "route_species": [
+        "OWL",
+        "SPIDER",
+        "MOLE",
+        "HOUND"
+      ],
+      "phase_attention_terms": [
+        "grammar",
+        "counterphase",
+        "integration",
+        "operator"
+      ],
+      "finding": "Existing operator algebra already has phase/counterphase semantics and Semitic root-pattern routing; missing executable Hebrew specialization and pre-radical orbital-cell layer."
+    },
+    "PHASENAV": {
+      "gremlin_event_id": "gremlin:whisper:sha256:ed483d75138f35c9a1737d1c2f5881c777dda8618cbdbc6819e84ae5fbbd7c65",
+      "route_species": [
+        "OWL",
+        "SPIDER",
+        "MANTIS",
+        "HOUND"
+      ],
+      "phase_attention_terms": [
+        "computational",
+        "closed-loop",
+        "conjugation",
+        "invariance"
+      ],
+      "finding": "Do not duplicate semantic U(1). Reuse canonical PhaseNav transport, reversal/conjugation, gauge covariance/invariance and 36D overlap coupling."
+    }
+  },
+  "integration_decision": {
+    "owner_of_orbital_cell_contract": "CIELingo",
+    "owner_of_language_family_routing": "embedded LingoPhysics",
+    "owner_of_u1_holonomy": "PhaseNav",
+    "hebrew_status": "RESEARCH_CANDIDATE",
+    "japanese_policy_changed": false
+  },
+  "unresolved": [
+    "No corpus-scale Hebrew semantic validation yet.",
+    "No evidence yet that conventional gematria adds semantic signal beyond orthography/root morphology.",
+    "Aharonov-Bohm, mass and Lambda terms remain computational analogies until separately physically bound.",
+    "Critical-axis/zeta-semantic construction remains experimental and is not included in the core contract."
+  ]
+}
