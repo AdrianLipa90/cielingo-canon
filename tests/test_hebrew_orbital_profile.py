@@ -38,3 +38,27 @@ def test_embedded_lingophysics_has_resolved_hebrew_profile() -> None:
     assert "orbital_cell_chi" in he["required_modules"]
     assert "vowel_phase_mapper" in he["required_modules"]
     assert "semantic_holonomy_adapter" in he["required_modules"]
+
+
+def test_hebrew_family_pointer_resolves_to_standard_candidate_profile() -> None:
+    family_path = (
+        ROOT
+        / "data"
+        / "lingophysics"
+        / "data"
+        / "language_families"
+        / "language_family_grammar_profiles_v2_3.json"
+    )
+    families = json.loads(family_path.read_text(encoding="utf-8"))["families"]
+    semitic = next(f for f in families if f["id"] == "family:semitic")
+    he = next(x for x in semitic["languages"] if x["code"] == "he")
+    assert he["profile"] == "language:he:standard"
+
+
+def test_japanese_freeze_is_unchanged() -> None:
+    cfg = get_language_trajectory("ja")
+    assert cfg.priority == "parked"
+    assert cfg.growth_mode == "temporarily_frozen"
+    assert cfg.new_feature_growth_allowed is False
+    assert cfg.default_probe_enabled is False
+    assert cfg.requires_review_before_expansion is True
