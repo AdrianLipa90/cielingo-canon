@@ -35,3 +35,16 @@ operator_mapping:
 water_sentence_equation_examples:
   canonical: Flow(A=water_equivalent, Path=river_equivalent)
   need_context: Need(Agent=speaker, Patient=water)
+
+paired_script_candidate:
+  status: TEST_ONLY
+  paired_surfaces:
+  - hiragana
+  - katakana
+  relation: PAIRED_PHONETIC_SURFACE
+  model_transforms:
+  - CONJUGATE
+  - COUNTERPHASE
+  linguistic_phase_claim: false
+  physical_phase_claim: false
+  note: Corresponding kana may be used as a controlled dual-surface experiment; script choice is not asserted to encode physical phase.
