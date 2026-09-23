@@ -36,6 +36,11 @@ class PhaseNavHolonomyHandoff:
             raise ValueError("phase potentials must be finite")
         if not math.isfinite(self.lambda_path_gain) or self.lambda_path_gain < 0.0:
             raise ValueError("lambda_path_gain must be finite and non-negative")
+        if not all(math.isfinite(x) for x in (
+            self.composite_transport_real,
+            self.composite_transport_imag,
+        )):
+            raise ValueError("composite transport must be finite")
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
