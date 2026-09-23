@@ -43,6 +43,16 @@ algorithms:
   applies_to:
   - family:semitic
   fallback: UNRESOLVED_ROOT_PATTERN
+- id: alg:vocalization_operator_mapper
+  level: family/language
+  applies_to:
+  - family:semitic
+  fallback: UNRESOLVED_VOCALIZATION_OPERATOR
+- id: alg:orthography_mode_resolver
+  level: language
+  applies_to:
+  - language:he:standard
+  fallback: UNRESOLVED_HEBREW_ORTHOGRAPHY_MODE
 fine_tuning_policy:
   principle: Fine-tune only adapter layers or auxiliary classifiers until enough curated
     examples exist; never overwrite canonical CIEL structures from model output alone.
