@@ -121,6 +121,7 @@ families:
   core_axes:
   - root_pattern_morphology
   - templatic_derivation
+  - vocalization_explicitness
   - state_construct
   - agreement
   - definiteness
@@ -131,11 +132,13 @@ families:
     adapter_required: true
   - code: he
     name: Hebrew
-    profile: language:he:planned
+    profile: language:he:standard
     adapter_required: true
   algorithm_modules:
   - root_pattern_analyzer
   - templatic_derivation_mapper
+  - vocalization_operator_mapper
+  - orthography_mode_resolver
   - construct_state_parser
   - agreement_checker
   risk_notes:
