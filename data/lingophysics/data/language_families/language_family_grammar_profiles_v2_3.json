@@ -166,6 +166,7 @@
       "core_axes": [
         "root_pattern_morphology",
         "templatic_derivation",
+        "vocalization_explicitness",
         "state_construct",
         "agreement",
         "definiteness"
@@ -180,13 +181,15 @@
         {
           "code": "he",
           "name": "Hebrew",
-          "profile": "language:he:planned",
+          "profile": "language:he:standard",
           "adapter_required": true
         }
       ],
       "algorithm_modules": [
         "root_pattern_analyzer",
         "templatic_derivation_mapper",
+        "orthography_mode_resolver",
+        "vocalization_operator_mapper",
         "construct_state_parser",
         "agreement_checker"
       ],
