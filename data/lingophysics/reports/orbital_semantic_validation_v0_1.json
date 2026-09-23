@@ -77,9 +77,11 @@
   "repository_diff": {
     "status": "BOUNDED",
     "main_mutated": false,
-    "ahead_by": 18,
-    "behind_by": 0,
-    "changed_files": 17
+    "snapshot_basis": "PRE_RECEIPT_COMPARE",
+    "pre_receipt_ahead_by": 18,
+    "pre_receipt_behind_by": 0,
+    "pre_receipt_changed_files": 17,
+    "note": "The validation receipt itself adds one branch commit and one changed file; use the PR head for current counts."
   },
   "not_run": [
     "full repository pytest suite",
@@ -91,5 +93,12 @@
     "Aharonov-Bohm, physical mass, gauge-field and cosmological-Lambda bindings are not established.",
     "Critical-axis/zeta-semantic construction is intentionally outside the core candidate contract.",
     "Relation-type separation is detectable in the deterministic representation but comparatively weak in the current two-concept probe (full-state fidelity ~0.961); this needs stronger held-out tests."
-  ]
+  ],
+  "github_status_at_pr_creation": {
+    "pr_number": 30,
+    "draft": true,
+    "head_sha": "1001264a7450f10d4d755971e8c837046befb2e2",
+    "combined_status_context_count": 0,
+    "interpretation": "NO_REPORTED_STATUS_CONTEXTS; do not treat as CI PASS."
+  }
 }
