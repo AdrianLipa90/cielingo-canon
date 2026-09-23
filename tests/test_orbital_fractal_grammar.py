@@ -73,3 +73,21 @@ def test_negative_lambda_rejected():
     k = KakuState("k", "א", 1.0)
     with pytest.raises(ValueError):
         OrbitalCell("c", k, 0.0, lambda_coupling=-0.1)
+
+
+def test_lambda_path_gain_overflow_fails_closed():
+    edges = [
+        SemanticConnectionEdge("e1", 0.1, 1e308),
+        SemanticConnectionEdge("e2", -0.1, 1e308),
+    ]
+    with pytest.raises(OverflowError):
+        lambda_path_gain(edges)
+    with pytest.raises(OverflowError):
+        path_transport(edges)
+
+
+def test_orbital_cell_amplitude_overflow_fails_closed():
+    k = KakuState("k-big", "א", 1e308)
+    cell = OrbitalCell("c-big", k, 0.0, lambda_coupling=1e308)
+    with pytest.raises(OverflowError):
+        _ = cell.amplitude
