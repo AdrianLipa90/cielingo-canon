@@ -77,3 +77,18 @@ GREMLIN routing is advisory and does not grant canon or query-execution authorit
 **PASS_CANDIDATE_WITH_GATES**
 
 The architecture is coherent enough to implement and test. Scientific/linguistic superiority and any physical identification remain unestablished.
+
+
+## Final live GREMLIN pass
+
+After the candidate branch was populated, a final cross-stack USER_TASK was accepted by live GREMLIN.
+
+- event: `gremlin:whisper:sha256:e9746a28c149002760b0862302df0ded2bbc49763ad6b39eb3b10fee87d86d0d`
+- fused PhaseNav36D state: PASS / consumed
+- internal audit candidate: `gremlin:whisper:sha256:bdfc1a2b2efa21b70ffb7560f8a905819e74e068610e65a27e7f882c5edf6941`
+- route species: `OWL + HOUND`
+- highest-attention terms: `orthography-mode, paired-script, root-pattern, vocalization`
+- authority: `CANDIDATE_ONLY`
+- query execution authority: `false`
+
+Interpretation: after the cross-stack algebraic conflicts were separated, the remaining audit pressure moved to language-adapter correctness rather than the U(1)/Lambda interface.
