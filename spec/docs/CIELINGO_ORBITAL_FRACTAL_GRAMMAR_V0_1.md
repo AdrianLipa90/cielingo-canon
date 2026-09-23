@@ -85,3 +85,34 @@ The existing `GenomicLevel` ladder is intentionally unchanged in v0.1. A genomic
 ## Falsification / promotion gate
 
 Promotion requires independent tests for hierarchy invariants, phase algebra, Lambda/U(1) separation, held-out Hebrew root-pattern/vocalization tasks, Japanese paired-script controls, and a GREMLIN adversarial audit with no unresolved blocker.
+
+
+## Executable codec and metric hardening — audit v0.2
+
+The candidate branch now includes an executable Hebrew adapter in
+`src/cielingo_core/orbital_semantics/hebrew_codec.py`.
+
+It performs only explicit, testable transformations:
+
+- Hebrew final consonant forms are normalized to their base structural letters for matching.
+- Standard gematria is available only as a replaceable candidate structural-weight mapping; it is not physical mass and must be tested against shuffled mappings.
+- Written vowel points are mapped to predeclared computational phase coordinates.
+- Omitted vocalization is represented as a latent finite phase ensemble, not silently as phase zero.
+- ו and י are marked only as *mater lectionis candidates*; the adapter does not automatically classify them as vowels.
+- A radical binding is accepted only when the normalized radical is an ordered subsequence of the surface form.
+
+The CIELingo -> PhaseNav handoff is now typed by
+`PhaseNavHolonomyHandoff`. It exports `phase_potentials_rad` separately from
+`lambda_path_gain`; only the phase potentials belong to the PhaseNav U(1)
+semantic-holonomy input.
+
+LingoPhysics now also exposes circular phase metrics. Generic Euclidean distance
+remains valid for ordinary non-angular axes, but phase coordinates use the
+shortest wrapped S1 displacement. The candidate `orbital_cell_distance`
+therefore treats `(structural_mass, phase, Lambda)` as a mixed scalar/circular
+coordinate tuple rather than applying a flat Euclidean metric across the phase
+cut at 0/2pi.
+
+These additions remain **CANDIDATE**. They do not establish semantic superiority,
+a physical Aharonov-Bohm mechanism in language, or privileged status for the
+Hebrew numeric mapping.
