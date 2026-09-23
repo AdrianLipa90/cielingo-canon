@@ -21,4 +21,5 @@ from . import (
     architecture,
     language_spaces,
     phasenav,
+    orbital_semantics,
 )
