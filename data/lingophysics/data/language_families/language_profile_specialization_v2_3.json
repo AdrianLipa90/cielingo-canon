@@ -100,6 +100,30 @@
         "clitic_role_pairs"
       ],
       "dialect_adapter_policy": "variant_adapter_required_for_regional_lexicon_and_pronoun_systems"
+    },
+    "language:he:standard": {
+      "family": "family:semitic",
+      "language": "he",
+      "variant": "standard",
+      "priority": "candidate",
+      "grammar_strategy": "root_pattern_then_vocalization_and_orthography_resolution",
+      "required_modules": [
+        "root_pattern_analyzer",
+        "templatic_derivation_mapper",
+        "vocalization_operator_mapper",
+        "orthography_mode_resolver",
+        "construct_state_parser",
+        "agreement_checker"
+      ],
+      "fine_tuning_units": [
+        "root_pattern_minimal_pairs",
+        "vocalized_unvocalized_pairs",
+        "niqqud_disambiguation_pairs",
+        "matres_lectionis_pairs",
+        "construct_state_samples"
+      ],
+      "dialect_adapter_policy": "historical_register_or_variant_adapter_required_when_surface_differs_from_standard_modern_hebrew",
+      "epistemic_status": "CANDIDATE_TEST_CODEC"
     }
   }
 }
