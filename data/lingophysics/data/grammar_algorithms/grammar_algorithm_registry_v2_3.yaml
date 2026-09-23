@@ -43,6 +43,21 @@ algorithms:
   applies_to:
   - family:semitic
   fallback: UNRESOLVED_ROOT_PATTERN
+- id: alg:orbital_cell_chi
+  level: language/research_candidate
+  applies_to:
+  - language:he:standard
+  fallback: UNRESOLVED_ORBITAL_CELL
+- id: alg:vowel_phase_mapper
+  level: language/research_candidate
+  applies_to:
+  - language:he:standard
+  fallback: UNRESOLVED_VOWEL_PHASE
+- id: alg:semantic_holonomy_adapter
+  level: language/research_candidate
+  applies_to:
+  - language:he:standard
+  fallback: UNRESOLVED_SEMANTIC_HOLONOMY
 fine_tuning_policy:
   principle: Fine-tune only adapter layers or auxiliary classifiers until enough curated
     examples exist; never overwrite canonical CIEL structures from model output alone.
