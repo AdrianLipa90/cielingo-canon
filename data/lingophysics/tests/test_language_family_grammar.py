@@ -24,3 +24,12 @@ def test_high_level_dialect_requires_review_or_unresolved():
 def test_gguf_never_canonicalizes_by_itself_and_promotion_thresholds_hold():
     registry = load_algorithm_registry(ALGORITHMS)
     assert gguf_can_canonicalize() is False and promotion_allowed(0.96, "reviewed_to_canonical", registry) and not promotion_allowed(0.70, "draft_to_reviewed", registry)
+
+
+def test_hebrew_routes_to_semitic_orbital_ready_stack():
+    stack = grammar_algorithm_stack("he", load_language_families(FAMILIES), load_language_profiles(PROFILES))
+    assert stack["family"] == "family:semitic"
+    assert "root_pattern_analyzer" in stack["modules"]
+    assert "vocalization_operator_mapper" in stack["modules"]
+    assert "orthography_mode_resolver" in stack["modules"]
+    assert not stack["unresolved"]
