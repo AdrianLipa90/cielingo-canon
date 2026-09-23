@@ -79,6 +79,8 @@ class OrbitalCell:
     @property
     def amplitude(self) -> complex:
         r = float(self.carrier.structural_mass) * float(self.lambda_coupling)
+        if not math.isfinite(r):
+            raise OverflowError("orbital-cell amplitude envelope overflow")
         return r * cmath.exp(1j * self.effective_phase_rad)
 
     def conjugate(self, *, cell_id: str | None = None) -> "OrbitalCell":
@@ -217,6 +219,8 @@ def lambda_path_gain(edges: Sequence[SemanticConnectionEdge]) -> float:
     out = 1.0
     for edge in edges:
         out *= float(edge.lambda_coupling)
+        if not math.isfinite(out):
+            raise OverflowError("Lambda path gain overflow")
     return out
 
 
