@@ -131,7 +131,7 @@ families:
     adapter_required: true
   - code: he
     name: Hebrew
-    profile: language:he:planned
+    profile: language:he:standard
     adapter_required: true
   algorithm_modules:
   - root_pattern_analyzer
