@@ -1,0 +1,202 @@
+{
+  "aggregate": {
+    "checks": {
+      "all_invariants_pass": true,
+      "mean_delta_semantic_positive": true,
+      "min_loo_semantic_positive": true,
+      "positive_delta_semantic_seeds_ge_9": true,
+      "signflip_p_semantic_le_0_05": false
+    },
+    "leave_one_out_semantic": [
+      6.711483001708984e-05,
+      7.261742245067249e-05,
+      4.1194937445900656e-05,
+      5.508011037653143e-05,
+      5.0322576002641156e-05,
+      4.458698359402743e-05,
+      5.7098540392788976e-05,
+      3.3104961568659e-05,
+      5.3316354751586914e-05,
+      5.2246180447665125e-05,
+      4.65403903614391e-05,
+      5.053932016546076e-05
+    ],
+    "mean_delta_base": 0.00016433248917261759,
+    "mean_delta_localization": 0.0002157166600227356,
+    "mean_delta_semantic": 5.198021729787191e-05,
+    "min_leave_one_out_semantic": 3.3104961568659e-05,
+    "positive_delta_base_seeds": 10,
+    "positive_delta_localization_seeds": 12,
+    "positive_delta_semantic_seeds": 9,
+    "signflip_p_semantic": 0.07666015625
+  },
+  "canon_allowed": false,
+  "carrier_preflight": {
+    "status": "PASS",
+    "training": {
+      "all_candidate_scores_exact": true,
+      "candidates": 280,
+      "components": [
+        52,
+        27,
+        0,
+        0
+      ],
+      "nonzero": 52,
+      "operator_bound": 174,
+      "unique": 22,
+      "windows": 64
+    },
+    "validation": {
+      "all_candidate_scores_exact": true,
+      "candidates": 44,
+      "components": [
+        13,
+        3,
+        0,
+        0
+      ],
+      "nonzero": 13,
+      "operator_bound": 29,
+      "unique": 4,
+      "windows": 16
+    }
+  },
+  "classification": "PASS_EXECUTION_INTEGRITY__BLOCK_INDEPENDENT_REPLICATION",
+  "full_local_report_sha256": "4df48027f98a55844f97e98f614d3f51b411e01d514b569cc8569e6fe3efbebc",
+  "implementation_freeze_sha256": "2e69ba32575165630157908bc19716b1c32041bcafae6a67016d23ed937cc2c2",
+  "interpretation_boundary": "Independent replication did not satisfy the frozen sign-flip threshold; no semantic-specificity confirmation is promoted.",
+  "prereg_github_blob_sha": "7d9ef6ad411de5399ab8e82d748982cdd36bd700",
+  "prereg_sha256": "3a529470bb813ced154c05950c3552c8422d5ff7c76db62c88515ae44a91497e",
+  "schema": "CIEL_LM_V0_13_RESULT_SUMMARY_V1",
+  "seed_rows": [
+    {
+      "base_hash_unchanged": true,
+      "delta_base": 0.0006026625633239746,
+      "delta_localization": 0.0003923177719116211,
+      "delta_semantic": -0.00011450052261352539,
+      "seed": 2346014545,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": 0.00016203522682189941,
+      "delta_localization": 0.0003745555877685547,
+      "delta_semantic": -0.00017502903938293457,
+      "seed": 4188294876,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": -0.00012892484664916992,
+      "delta_localization": 0.00017014145851135254,
+      "delta_semantic": 0.00017061829566955566,
+      "seed": 1128939504,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": 7.343292236328125e-05,
+      "delta_localization": 0.000326693058013916,
+      "delta_semantic": 1.7881393432617188e-05,
+      "seed": 3184819618,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": 6.452202796936035e-05,
+      "delta_localization": 0.00018924474716186523,
+      "delta_semantic": 7.021427154541016e-05,
+      "seed": 1551236951,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": 9.295344352722168e-05,
+      "delta_localization": 0.00017529726028442383,
+      "delta_semantic": 0.00013330578804016113,
+      "seed": 3595945826,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": -0.00037413835525512695,
+      "delta_localization": 0.0001888275146484375,
+      "delta_semantic": -4.32133674621582e-06,
+      "seed": 2539003182,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": 0.0003229081630706787,
+      "delta_localization": 0.00024458765983581543,
+      "delta_semantic": 0.00025960803031921387,
+      "seed": 1520253702,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": 0.0004916489124298096,
+      "delta_localization": 0.0002224445343017578,
+      "delta_semantic": 3.7282705307006836e-05,
+      "seed": 643343601,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": 0.0001716315746307373,
+      "delta_localization": 0.00015437602996826172,
+      "delta_semantic": 4.9054622650146484e-05,
+      "seed": 3532260309,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": 0.00044286251068115234,
+      "delta_localization": 2.086162567138672e-05,
+      "delta_semantic": 0.00011181831359863281,
+      "seed": 2705133989,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    },
+    {
+      "base_hash_unchanged": true,
+      "delta_base": 5.0395727157592773e-05,
+      "delta_localization": 0.00012925267219543457,
+      "delta_semantic": 6.783008575439453e-05,
+      "seed": 2990254709,
+      "zero_init_exact": true,
+      "zero_post_exact": true
+    }
+  ],
+  "status": "BLOCK_SEMANTIC_VECTOR_SPECIFICITY",
+  "validation_starts": [
+    47,
+    121,
+    150,
+    160,
+    203,
+    232,
+    270,
+    291,
+    301,
+    333,
+    369,
+    391,
+    415,
+    422,
+    423,
+    487
+  ],
+  "validation_starts_disjoint_from_v0_12d": true
+}

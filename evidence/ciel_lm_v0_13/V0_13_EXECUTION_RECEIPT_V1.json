@@ -1,0 +1,17 @@
+{
+  "canon_allowed": false,
+  "carrier_admission": "PASS",
+  "full_local_report_sha256": "4df48027f98a55844f97e98f614d3f51b411e01d514b569cc8569e6fe3efbebc",
+  "noema_aux_runtime_instance_id": "72e93f4c176e880656427faa4bc0a92f",
+  "noema_fast_admission_after": "PASS",
+  "noema_fast_admission_before": "PASS",
+  "noema_rehydration_during_run": false,
+  "noema_runtime_instance_id": "51c54aa9753841ca560d08063d7b1e9f",
+  "result_status": "BLOCK_SEMANTIC_VECTOR_SPECIFICITY",
+  "schema": "CIEL_LM_V0_13_EXECUTION_RECEIPT_V1",
+  "self_test_post_run": "PASS",
+  "source_manifest_sha256": "b7dc41d5a2f074244e4fb0a581bb9df1ca186e5bd7a5ea21ad873b6bace59fe3",
+  "source_replay": "9/9 PASS",
+  "status": "PASS_EXECUTION_INTEGRITY",
+  "tests_post_run": "13/13 PASS"
+}

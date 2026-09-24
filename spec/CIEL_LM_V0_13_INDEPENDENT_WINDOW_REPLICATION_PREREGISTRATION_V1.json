@@ -1,0 +1,74 @@
+{
+  "base_model": {
+    "block_size": 24,
+    "d_model": 96,
+    "dropout": 0.1,
+    "grad_clip_norm": 1.0,
+    "learning_rate": 0.0004,
+    "n_heads": 4,
+    "n_layers": 2,
+    "training_steps": 120,
+    "validation_internal_transitions": 23,
+    "weight_decay": 0.01
+  },
+  "canon_allowed": false,
+  "carrier_admission_before_lm_outcome": {
+    "all_candidate_scores_must_equal": 1.0,
+    "block_if_failed": "no LM-quality or semantic-specificity outcome may execute",
+    "feature_order": ["operator_argument_link","same_event_frame","case_role_link","conflict_penalty"],
+    "matching": "controlled-48 PL+EN exact normalized whole-token only",
+    "minimum_nonzero_validation_windows": 8,
+    "minimum_unique_nonzero_validation_vectors": 2,
+    "phase_compatibility_included": false,
+    "source_manifest_must_match": true,
+    "validation_windows": 16
+  },
+  "control": {
+    "forced_derangement": false,
+    "full_shuffle": "localization diagnostic only",
+    "nonzero_source_order": "SHA256(scientific_namespace|seed|split|index)",
+    "primary": "support-mask-preserving semantic shuffle",
+    "zero_windows_remain_zero": true
+  },
+  "goal": "independent confirmation of the V0.12D support-mask-preserving semantic-vector specificity endpoint using new seeds and validation windows disjoint from V0.12D",
+  "independence": {
+    "heldout_data": "same final-unseen 7-file holdout set; no unused files remain in the fixed 56-source universe",
+    "parent_validation_starts": [0,36,73,109,146,182,219,255,292,328,365,401,438,474,511,547],
+    "seed_rule": "first 32 bits big-endian of SHA256(namespace|seed|i), i=0.., accepting unique values until 12 seeds",
+    "seeds": [2346014545,4188294876,1128939504,3184819618,1551236951,3595945826,2539003182,1520253702,643343601,3532260309,2705133989,2990254709],
+    "seeds_sha256": "77e0067eb554c28134223079dd572e2e16fc1df3a431a2354ce8e0128e8f2eb3",
+    "validation_start_rule": "among all integer starts 0..547 excluding every V0.12D start, sort by SHA256(namespace|validation-start|start); select first 16; evaluate in numeric order",
+    "validation_starts": [47,121,150,160,203,232,270,291,301,333,369,391,415,422,423,487],
+    "validation_starts_disjoint_from_v0_12d": true,
+    "validation_starts_sha256": "4793d2f1d052b2de601c83e2754517d83df62cb2a14e712628a1a09b06e5b9a8"
+  },
+  "namespace": "CIEL_LM_V0_13_INDEPENDENT_WINDOW_REPLICATION",
+  "no_retuning_after_outcome": true,
+  "parent": {
+    "source_manifest_sha256": "b7dc41d5a2f074244e4fb0a581bb9df1ca186e5bd7a5ea21ad873b6bace59fe3",
+    "v0_12d_full_local_report_sha256": "765f54897870a281e95631fe1be36c728ac2414c1426f5aab59ef9e0dfe4dbe5",
+    "v0_12d_result_pr": 12,
+    "v0_12d_result_status": "PASS_SEMANTIC_VECTOR_SPECIFICITY_CANDIDATE",
+    "v0_12d_runner_sha256": "a0c369fb417cdbce9c47fde80009d167145425eb8691e043d3d69cb4a73fb425"
+  },
+  "pass_gate": {
+    "all_invariants_pass": true,
+    "exact_one_sided_signflip_p_max": 0.05,
+    "mean_delta_semantic_positive": true,
+    "minimum_leave_one_out_mean_positive": true,
+    "positive_delta_semantic_seeds_min": 9
+  },
+  "primary_endpoint": "delta_semantic=NLL_mask_preserving_shuffle-NLL_real",
+  "residual": {
+    "feature_dim": 4,
+    "learning_rate": 0.0004,
+    "training_steps": 120,
+    "type": "zero_initialized_bias_free_linear_structural_residual",
+    "weight_decay": 0.0,
+    "zero_structural_invariant": "R_CIEL(0)==0 for every expert state"
+  },
+  "schema": "CIEL_LM_V0_13_INDEPENDENT_WINDOW_REPLICATION_PREREGISTRATION_V1",
+  "secondary_diagnostics": ["delta_base=NLL_base-NLL_real","delta_localization=NLL_full_shuffle-NLL_mask_preserving"],
+  "source_witness_required_before_outcome": true,
+  "status": "FROZEN_BEFORE_CARRIER_OBSERVATION_AND_RUNNER_IMPLEMENTATION"
+}

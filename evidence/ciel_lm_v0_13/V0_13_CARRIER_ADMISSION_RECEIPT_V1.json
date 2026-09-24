@@ -1,0 +1,19 @@
+{
+  "canon_allowed": false,
+  "lm_outcome_observed": false,
+  "prereg_github_blob_sha": "7d9ef6ad411de5399ab8e82d748982cdd36bd700",
+  "prereg_sha256": "3a529470bb813ced154c05950c3552c8422d5ff7c76db62c88515ae44a91497e",
+  "schema": "CIEL_LM_V0_13_CARRIER_ADMISSION_RECEIPT_V1",
+  "source_manifest_sha256": "b7dc41d5a2f074244e4fb0a581bb9df1ca186e5bd7a5ea21ad873b6bace59fe3",
+  "status": "PASS_CARRIER_ADMISSION",
+  "validation": {
+    "all_candidate_scores_exact": true,
+    "component_nonzero_counts": [13,3,0,0],
+    "nonzero": 13,
+    "operator_bound_candidates": 29,
+    "total_exact_candidates": 44,
+    "unique_nonzero_vectors": 4,
+    "windows": 16
+  },
+  "validation_starts": [47,121,150,160,203,232,270,291,301,333,369,391,415,422,423,487]
+}
