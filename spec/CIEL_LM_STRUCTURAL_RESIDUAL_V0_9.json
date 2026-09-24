@@ -1,0 +1,40 @@
+{
+  "schema": "CIEL_LM_STRUCTURAL_RESIDUAL_SPEC_V0_9",
+  "status": "FROZEN_BEFORE_IMPLEMENTATION",
+  "stack_base": {
+    "repository": "AdrianLipa90/cielingo-canon",
+    "branch": "fix/ciel-lm-binder-v0.8",
+    "head_sha": "d0de66ea5b0f1e778bb08fa5dafa9670445427b3",
+    "binder_spec_sha256": "cbdeb0cb6db1d0df5ec2de524ccabc1328d1bc4d4fd1e13a236e9328cdb0ae64"
+  },
+  "architecture": {
+    "base_lm": "external_frozen_logit_provider",
+    "structural_expert": "zero_initialized_linear_residual_reference",
+    "structural_input": "typed relation feature vector from repaired CIELingo/Lingophysics",
+    "composition": "final_logits = base_logits + gate * residual_logits",
+    "default_gate": 1.0,
+    "base_gradient_flow": "isolated"
+  },
+  "reference_feature_order": [
+    "operator_argument_link",
+    "same_event_frame",
+    "case_role_link",
+    "conflict_penalty"
+  ],
+  "admission_invariants": [
+    "zero initialized expert reproduces base logits exactly",
+    "base logits are treated as immutable input",
+    "expert training mutates expert weights only",
+    "feature dimension and vocabulary dimension are explicit and validated",
+    "nonfinite logits/features fail closed",
+    "zero gate reproduces base logits exactly for any expert state"
+  ],
+  "benchmark_boundary": {
+    "status": "NOT_RUN_IN_V0_9_REFERENCE_CONTRACT",
+    "future_requirement": "file-disjoint preregistered A/B with independent replication",
+    "negative_control": "shuffled relation features",
+    "promotion_gate": "separate preregistration required"
+  },
+  "authority": "REFERENCE_CONFORMANCE_ONLY",
+  "canon_allowed": false
+}

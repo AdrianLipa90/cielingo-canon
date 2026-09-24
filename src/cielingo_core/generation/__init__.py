@@ -35,6 +35,13 @@ from .response_semantics import (
     SemanticProposition,
     parse_response_semantic_plan,
 )
+from .structural_residual import (
+    LinearStructuralResidualExpert,
+    REFERENCE_FEATURE_ORDER,
+    StructuralResidualError,
+    feature_vector,
+    logits_sha256,
+)
 
 __all__ = [
     "CandidateProposal",
@@ -44,12 +51,14 @@ __all__ = [
     "DeterministicSurfaceBackend",
     "DualNativeSurfaceGenerationEndpoint",
     "LanguageBackend",
+    "LinearStructuralResidualExpert",
     "LingophysicsRoundTripAdapter",
     "LingophysicsRoundTripVerdict",
     "NativeResponseSemanticPlanner",
     "NativeResponseSemanticPlannerEndpoint",
     "NativeSurfaceGenerationEndpoint",
     "PlannedLingophysicsRoundTripAdapter",
+    "REFERENCE_FEATURE_ORDER",
     "RESPONSE_PLAN_RECEIPT_SCHEMA",
     "RESPONSE_PLAN_REQUEST_SCHEMA",
     "RESPONSE_PLAN_RESULT_SCHEMA",
@@ -61,8 +70,11 @@ __all__ = [
     "RoundTripValidator",
     "SemanticEvidence",
     "SemanticProposition",
+    "StructuralResidualError",
     "canonical_sha256",
+    "feature_vector",
     "is_sha256",
+    "logits_sha256",
     "parse_response_semantic_plan",
     "semantic_payload_text",
 ]

@@ -1,0 +1,19 @@
+{
+  "schema": "CIEL_LM_STRUCTURAL_RESIDUAL_HARDENING_V0_9A",
+  "status": "FROZEN_BEFORE_HARDENING_PATCH",
+  "parent_spec": "CIEL_LM_STRUCTURAL_RESIDUAL_SPEC_V0_9",
+  "parent_spec_blob_sha": "e9e61815c3f6a0736b5ee10a3a14ab69b9f9a41c",
+  "finding": "A trainable per-vocabulary intercept could learn a lexical token prior even when structural features are zero.",
+  "required_invariant": "residual_logits(zero_structural_features) == exact_zero for every expert state",
+  "implementation_constraint": "reference residual has no trainable intercept/bias term",
+  "acceptance": [
+    "zero-init reproduces base logits exactly",
+    "zero structural features reproduce base logits exactly after expert training on nonzero features",
+    "training mutates structural weights only",
+    "base logits remain immutable",
+    "zero gate reproduces base logits exactly"
+  ],
+  "benchmark_status": "NOT_RUN",
+  "authority": "REFERENCE_CONFORMANCE_ONLY",
+  "canon_allowed": false
+}
