@@ -1,0 +1,57 @@
+name: Benchmark worldstate producer artifact v0.2
+
+on:
+  push:
+    branches:
+      - feat/benchmark-worldstate-producer-artifact-v0.2
+
+permissions:
+  contents: read
+
+jobs:
+  producer-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout CIELingo producer
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install producer and test runtime
+        run: python -m pip install -e . pytest
+
+      - name: Run full CIELingo test suite
+        run: python -m pytest -q
+
+      - name: Checkout exact benchmark input
+        uses: actions/checkout@v4
+        with:
+          repository: AdrianLipa90/Ciel-GREMLIN-Benchmark
+          ref: 49ef17684ed62162e121c820a9ae83ae11e99cd5
+          path: .benchmark_checkout
+
+      - name: Verify benchmark dataset fingerprint
+        run: |
+          python - <<'PY'
+          from hashlib import sha256
+          from pathlib import Path
+          p = Path('.benchmark_checkout/dataset/golden_v0_1.jsonl')
+          got = sha256(p.read_bytes()).hexdigest()
+          expected = '6ad64afc4303ec2253a7e6d8f57f1ec4813b5dce1eaba1d6347f6767f6deee94'
+          print({'dataset_sha256': got, 'expected': expected})
+          if got != expected:
+              raise SystemExit('benchmark dataset fingerprint mismatch')
+          PY
+
+      - name: Build 60-task producer analysis artifact
+        run: python tools/build_benchmark_worldstate_producer_artifact_v02.py
+
+      - name: Upload producer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cielingo-benchmark-worldstate-producer-v02
+          path: artifacts/benchmark_worldstate_producer_v02
+          if-no-files-found: error
