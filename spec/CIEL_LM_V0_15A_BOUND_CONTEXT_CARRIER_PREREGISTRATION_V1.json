@@ -1,0 +1,65 @@
+{
+  "admission_gate": {
+    "all_candidate_scores_must_equal": 1.0,
+    "all_source_hashes_must_match": true,
+    "training_nonzero_carrier_windows_min": 16,
+    "unique_nonzero_validation_vectors_min": 2,
+    "validation_nonzero_carrier_windows_min": 8
+  },
+  "atlas": {
+    "fuzzy_or_substring_matching": false,
+    "languages": ["pl", "en"],
+    "matching": "normalized exact single-token lemma/surface-form equality",
+    "sha256": "c3eaf295517fa8116528de150be8ec434b8fa2565ca84d7f946c21ef2d651050"
+  },
+  "canon_allowed": false,
+  "carrier": {
+    "bound_context_xor": "mean over ordered non-self token pairs of XOR(exact_card_bound_i, exact_card_bound_j); coefficient 1.0",
+    "case_role_link": "0.0 for current controlled-48 source cards",
+    "conflict_penalty": "0.0 for current controlled-48 source cards",
+    "denominator": "n*(n-1), n=24",
+    "feature_order": ["bound_context_xor", "operator_argument_link", "same_event_frame", "case_role_link", "conflict_penalty"],
+    "no_trainable_parameters": true,
+    "operator_argument_link": "legacy Lingophysics-compatible 0.7 * XOR(operator_bound_i, operator_bound_j) over ordered non-self pairs",
+    "same_event_frame": "legacy 0.4 when operator-binding role sets intersect over ordered non-self pairs"
+  },
+  "goal": "Test a prospective exact semantic-bound/context relational carrier on a new disjoint 7-file holdout before any LM-quality outcome.",
+  "legacy_relation_activity": "reported diagnostically but not part of V0.15A gate",
+  "namespace": "CIEL_LM_V0_15_BOUND_CONTEXT_CARRIER",
+  "no_retuning_after_measurement": true,
+  "parent_evidence": {
+    "v0_12d_classification": "PASS_EXECUTION_INTEGRITY__PASS_SEMANTIC_VECTOR_SPECIFICITY_CANDIDATE__BLOCK_BASE_ADVANTAGE",
+    "v0_13a_gremlin_carrier": "BLOCK_5_OF_16",
+    "v0_13a_replication_carrier": "BLOCK_7_OF_16",
+    "v0_14a_r2_authoritative_status": "BLOCK_MISSING_BOUND_HELPER_BYTES",
+    "v0_14a_r2_postblock_diagnostic": "QUARANTINED_NOT_ADMISSIBLE"
+  },
+  "probe": {
+    "block_size": 24,
+    "lm_training_or_quality_outcome_allowed": false,
+    "training_probe_windows": 64,
+    "validation_windows": 16,
+    "window_rule": "unique rounded equally-spaced starts"
+  },
+  "schema": "CIEL_LM_V0_15A_BOUND_CONTEXT_CARRIER_PREREGISTRATION_V1",
+  "selection": {
+    "eligible_count": 102,
+    "heldout_files": [
+      "docs/science/HYPOTHESES.md",
+      "docs/science/RELATIONAL_ORBITAL_DYNAMICS_SPEC_V0.md",
+      "docs/desktop/CIEL_DESKTOP_BOOTSTRAP_ON_SOT.md",
+      "docs/object_cards/satellites/SAT-AUDIO-0001.md",
+      "docs/architecture/DOCS_INDEX_MD_REPLACEMENT.md",
+      "docs/architecture/HYPERSPACE_INDEX_JSON_REPLACEMENT.md",
+      "docs/architecture/CONFLICT_AUDIT_POST_MERGE.md"
+    ],
+    "heldout_selection_sha256": "f2116b93b3d9bbebf510d07e3e507f6f2a939d30e84cfc054b856c77aeadc74a",
+    "rule": "exclude the 7 V0.14A/R2 holdouts; rank remaining paths by SHA256(namespace|relative_path); select lowest 7"
+  },
+  "source": {
+    "archive_sha256": "fef25a4cb20380483fec5b3e84ad8a2d1465e6a53ecf6dfd9ec42ec67d82e9ef",
+    "candidate_count": 109,
+    "universe_sha256": "9d5530ece47dc8132d2e015ab0f0c7d7e75155ee75ba2744ad602d1acde63d88"
+  },
+  "status": "FROZEN_BEFORE_IMPLEMENTATION_AND_CARRIER_MEASUREMENT"
+}
