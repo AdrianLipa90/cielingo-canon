@@ -1,0 +1,76 @@
+{
+  "schema": "CIELINGO_GENOMIC_GRAMMAR_EVIDENCE_SEED_V0_1",
+  "status": "EVIDENCE_SEED_NOT_CANONICAL_CONCLUSION",
+  "primary_benchmark": {
+    "title": "Dissection of c-AMP Response Element Architecture by Using Genomic and Episomal Massively Parallel Reporter Assays",
+    "authors": "Davis et al.",
+    "year": 2020,
+    "doi": "10.1016/j.cels.2020.05.011",
+    "geo": "GSE137922",
+    "bioproject": "PRJNA573901",
+    "construct_count": 17406,
+    "evidence_class": "OBSERVED_REPORTED",
+    "reported_observation": "Expression modulation depended on CRE spacing and CRE-to-promoter distance, with a reported helical periodicity.",
+    "use": "FIRST_REAL_DATA_PERIOD_AND_PHASE_BENCHMARK",
+    "sources": [
+      "https://pubmed.ncbi.nlm.nih.gov/32603702/",
+      "https://www.ncbi.nlm.nih.gov/bioproject/573901",
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE137922",
+      "https://github.com/KosuriLab/CRE_library_code"
+    ],
+    "public_design_layout": {
+      "evidence_class": "DERIVED_FROM_PUBLIC_DESIGN_TABLE",
+      "repository": "KosuriLab/CRE_library_code",
+      "repository_tree_sha": "ca296885efd6d3010eb9f0a784d0a309370538a6",
+      "design_file": "cre_lib_generation/cre_lib_final_3_5_c.csv",
+      "parsed_subpool3_variants": 1998,
+      "architecture": "2BS",
+      "spacing_values_bp": [
+        0,
+        1,
+        6,
+        11,
+        16,
+        66
+      ],
+      "promoter_distance_range_bp": [
+        0,
+        130
+      ],
+      "note": "Counts and ranges are deterministic parses of public design names; they are not expression results."
+    }
+  },
+  "independent_grammar_checks": [
+    {
+      "title": "Transcription factor binding site orientation and order are major drivers of gene regulatory activity",
+      "year": 2023,
+      "evidence_class": "OBSERVED_REPORTED",
+      "role": "ORIENTATION_AND_ORDER_CHECK",
+      "source": "https://doi.org/10.1038/s41467-023-37960-5"
+    },
+    {
+      "title": "Massively parallel characterization of transcriptional regulatory elements",
+      "year": 2025,
+      "evidence_class": "OBSERVED_REPORTED",
+      "role": "LARGE_SCALE_CCRE_GENERALIZATION",
+      "source": "https://doi.org/10.1038/s41586-024-08430-9"
+    },
+    {
+      "title": "Locus-Scale Massively Parallel Reporter Assays",
+      "year": 2026,
+      "evidence_class": "PREPRINT",
+      "role": "MULTIKILOBASE_SPACING_ORDER_ORIENTATION_GENERALIZATION",
+      "source": "https://www.biorxiv.org/content/10.64898/2026.07.24.740649v2"
+    }
+  ],
+  "required_controls": [
+    "sequence_only",
+    "linear_spacing",
+    "orientation",
+    "phase_sin_cos",
+    "full_relational_graph",
+    "held_out_validation",
+    "alternative_local_helical_periods",
+    "multiple_testing_control"
+  ]
+}
