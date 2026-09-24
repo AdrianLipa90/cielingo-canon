@@ -1,0 +1,81 @@
+{
+  "schema": "CIEL_ACTION_INTENT_COVERAGE_V0_1",
+  "status": "PROJECTED_PENDING_REPOSITORY_TEST_EXECUTION",
+  "candidate_only": true,
+  "canon_allowed": false,
+  "benchmark": {
+    "repository": "AdrianLipa90/Ciel-GREMLIN-Benchmark",
+    "dataset": "dataset/golden_v0_1.jsonl",
+    "git_blob_sha": "92ee7f18dc7be6aee3f9362d9567c971f91b5068",
+    "dataset_sha256": "6ad64afc4303ec2253a7e6d8f57f1ec4813b5dce1eaba1d6347f6767f6deee94",
+    "task_count": 60,
+    "polish_task_count": 35,
+    "ground_truth_access_for_projection": false,
+    "projection_inputs": ["task_id", "language", "user_input"]
+  },
+  "action_surface": {
+    "operators": [
+      "SENDS",
+      "ARCHIVES",
+      "DELETES",
+      "SETS_STATUS",
+      "APPROVES_SUPPLIER",
+      "CREATES_CONTRACT"
+    ],
+    "polish_tasks_with_action_frame": 22,
+    "polish_tasks_with_structurally_complete_action": 17,
+    "bundle_gate_distribution": {
+      "CANDIDATE_SINGLE_ACTION": 7,
+      "SCOPE_REVIEW": 7,
+      "INCOMPLETE_ARGUMENTS": 5,
+      "COORDINATION_REVIEW": 2,
+      "MULTI_ACTION_REVIEW": 1,
+      "NO_ACTION": 13
+    }
+  },
+  "combined_with_existing_relation_surface": {
+    "existing_typed_relation_tasks": 8,
+    "relation_task_ids": [
+      "F5-007",
+      "F6-001",
+      "F6-002",
+      "F6-004",
+      "F6-005",
+      "F6-006",
+      "F6-007",
+      "F6-008"
+    ],
+    "action_relation_overlap_count": 0,
+    "polish_tasks_with_action_or_relation_semantic_surface": 30,
+    "polish_surface_coverage_fraction": 0.8571428571428571,
+    "all_dataset_surface_coverage_fraction": 0.5,
+    "polish_tasks_with_structurally_complete_action_or_typed_relation": 25
+  },
+  "fail_closed_examples": {
+    "F1-002": "COORDINATION_REVIEW: copy clause is not silently discarded",
+    "F1-009": "SCOPE_REVIEW: contrastive negation requires scope resolution",
+    "F2-010": "MULTI_ACTION_REVIEW: two action frames cannot silently become one tool call",
+    "F3-001": "INCOMPLETE_ARGUMENTS plus scope blockers",
+    "F5-003": "SCOPE_REVIEW: explicit prohibition retained"
+  },
+  "validation": {
+    "unit_tests": "COMMITTED_UNEXECUTED",
+    "hosted_ci": "NO_RUN_FOR_CURRENT_HEAD",
+    "coverage_method": "INDEPENDENT_LOGIC_MIRROR_OVER_EXACT_60_TASK_DATASET",
+    "full_repository_pass": false
+  },
+  "boundaries": {
+    "execution_authority": false,
+    "negation_resolution": "SEPARATE_SCOPE_GATE",
+    "condition_evaluation": "SEPARATE_SCOPE_GATE",
+    "world_entity_grounding": "SEPARATE_IDENTITY_LAYER",
+    "tool_mapping": "SEPARATE_ADAPTER",
+    "english_action_parser": "SUCCESSOR_LAYER"
+  },
+  "next_priority": [
+    "scope/condition AST bound to action frames",
+    "action-port identity grounding",
+    "tool adapter with exact semantic signature",
+    "English action surface"
+  ]
+}

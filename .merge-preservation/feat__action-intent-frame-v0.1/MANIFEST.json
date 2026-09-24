@@ -1,0 +1,34 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "feat/action-intent-frame-v0.1",
+  "source_head_sha": "bc02bbae34d3c691b241abadb0fcd0bd1277fcda",
+  "merge_base_sha": "7d698b276960d0e8067e30adbdab22cdea964f04",
+  "target_parent_sha": "388414f941a6c288dbf5ceef99df07e902950d8c",
+  "policy": "APPLY_BRANCH_ONLY; KEEP_TARGET_ON_CONFLICT; ARCHIVE_BRANCH_BLOB; NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "spec/CIEL_ACTION_INTENT_COVERAGE_V0_1.json",
+    "spec/CIEL_NAMED_ENTITY_GROUNDING_PROJECTION_V0_1.json",
+    "src/cielingo_core/lingophysics/action_intent_bundle.py",
+    "src/cielingo_core/lingophysics/action_intent_frame.py",
+    "src/cielingo_core/lingophysics/action_scope_binding.py",
+    "src/cielingo_core/lingophysics/relation_entity_name_bindings.py",
+    "src/cielingo_core/lingophysics/relation_identity_packet.py",
+    "tests/test_action_intent_bundle.py",
+    "tests/test_action_intent_frame.py",
+    "tests/test_action_intent_send_order.py",
+    "tests/test_relation_entity_name_bindings.py",
+    "tests/test_relation_identity_packet.py"
+  ],
+  "conflicts": [
+    {
+      "path": "src/cielingo_core/lingophysics/__init__.py",
+      "archive_path": ".merge-preservation/feat__action-intent-frame-v0.1/src/cielingo_core/lingophysics/__init__.py",
+      "main": "cb50b61e68ed1b15e8201d4f6ecb1282fc7802c7",
+      "base": "1e7740e8400f5a88dbcbf52b5424ce080e352284",
+      "branch": "75883968d79ff028c69bdbde3d8fda88a2060b7f"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}
