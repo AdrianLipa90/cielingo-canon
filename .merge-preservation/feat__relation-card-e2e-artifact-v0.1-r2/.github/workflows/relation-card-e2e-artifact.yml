@@ -1,0 +1,112 @@
+name: Relation card identity end-to-end artifact
+
+on:
+  push:
+    branches:
+      - feat/relation-card-e2e-artifact-v0.1-r2
+  pull_request:
+    branches:
+      - feat/relation-card-identity-transport-v0.1
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'cards/**'
+      - '.github/workflows/relation-card-e2e-artifact.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  producer-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Run typed-relation and card-identity gates
+        env:
+          PYTHONPATH: src:data/lingophysics/src
+        run: >-
+          python -m pytest -q
+          tests/test_case_port_frame.py
+          tests/test_operator_signatures.py
+          tests/test_operator_signature_fail_closed.py
+          tests/test_meaning_role_multimap.py
+          tests/test_relation_hypergraph.py
+          tests/test_relation_entity_card_bindings.py
+          tests/test_relation_entity_card_hypergraph_commitment.py
+      - name: Build canonical producer fixture
+        env:
+          PYTHONPATH: src:data/lingophysics/src
+          CIELINGO_SOURCE_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          from cielingo_core.language_spaces.pl.solver import PolishRegionalSolver
+          from cielingo_core.lingophysics.sentence_equation import calculate_sentence_equation
+
+          repo_root = Path.cwd()
+          result = PolishRegionalSolver(repo_root).solve('Daję Zosi książkę')
+          equation = calculate_sentence_equation(result)
+          issues = equation.validate()
+          if issues:
+              raise AssertionError(f'SentenceEquation invalid: {issues}')
+          if equation.relation_hypergraph is None:
+              raise AssertionError('relation_hypergraph missing')
+          if equation.relation_entity_card_bindings is None:
+              raise AssertionError('relation_entity_card_bindings missing')
+
+          graph = equation.relation_hypergraph
+          cards = equation.relation_entity_card_bindings
+          cross_issues = cards.validate_against_hypergraph(graph)
+          if cross_issues:
+              raise AssertionError(f'graph/card continuity invalid: {cross_issues}')
+          if cards.relation_hypergraph_commitment != graph.commitment:
+              raise AssertionError('card receipt not bound to exact graph commitment')
+
+          book = [binding for binding in cards.bindings if binding.card_id == 'concept:book']
+          if len(book) != 1:
+              raise AssertionError(f'expected one concept:book binding, got {len(book)}')
+          if book[0].slot_id != 999:
+              raise AssertionError('slot_id provenance changed unexpectedly')
+
+          fixture = {
+              'schema': 'CIEL_RELATION_CARD_E2E_PRODUCER_FIXTURE_V0_1',
+              'producer_sha': os.environ['CIELINGO_SOURCE_SHA'],
+              'ground_truth_used': False,
+              'sentence_equation': equation.to_dict(),
+          }
+          out_dir = Path('artifacts/relation-card-e2e')
+          out_dir.mkdir(parents=True, exist_ok=True)
+          out = out_dir / 'producer_fixture.json'
+          serialized = json.dumps(fixture, ensure_ascii=False, sort_keys=True, separators=(',', ':')) + '\n'
+          out.write_text(serialized, encoding='utf-8')
+          digest = hashlib.sha256(out.read_bytes()).hexdigest()
+          provenance = {
+              'schema': 'CIEL_RELATION_CARD_E2E_PROVENANCE_V0_1',
+              'producer_sha': os.environ['CIELINGO_SOURCE_SHA'],
+              'fixture_sha256': digest,
+              'equation_id': equation.equation_id,
+              'relation_hypergraph_commitment': graph.commitment,
+              'card_bindings_commitment': cards.commitment,
+              'bound_card_ids': sorted(binding.card_id for binding in cards.bindings),
+              'ground_truth_used': False,
+          }
+          (out_dir / 'provenance.json').write_text(
+              json.dumps(provenance, indent=2, sort_keys=True) + '\n',
+              encoding='utf-8',
+          )
+          print(json.dumps(provenance, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: relation-card-e2e-producer-${{ github.sha }}
+          path: artifacts/relation-card-e2e/
+          if-no-files-found: error

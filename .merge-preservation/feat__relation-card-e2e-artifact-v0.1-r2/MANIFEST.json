@@ -1,0 +1,21 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "feat/relation-card-e2e-artifact-v0.1-r2",
+  "source_head_sha": "e76299080a02106612c06c779d779d0d7cc5eedf",
+  "merge_base_sha": "7d698b276960d0e8067e30adbdab22cdea964f04",
+  "target_parent_sha": "42b2c3a9a88dc60421ce623d718699deef5f63e9",
+  "policy": "APPLY_BRANCH_ONLY; KEEP_TARGET_ON_CONFLICT; ARCHIVE_BRANCH_BLOB; NEVER_DELETE_TARGET",
+  "applied_paths": [],
+  "conflicts": [
+    {
+      "path": ".github/workflows/relation-card-e2e-artifact.yml",
+      "archive_path": ".merge-preservation/feat__relation-card-e2e-artifact-v0.1-r2/.github/workflows/relation-card-e2e-artifact.yml",
+      "main": "b3479be1989e1d5b044650ebbfcd2cd4de236506",
+      "base": null,
+      "branch": "c68ff4b51fb66d95522e776fe6928c4ed506c283"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}
