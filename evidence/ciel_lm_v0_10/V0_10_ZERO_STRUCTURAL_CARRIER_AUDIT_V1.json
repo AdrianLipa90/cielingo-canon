@@ -1,0 +1,37 @@
+{
+  "canon_allowed": false,
+  "evidence_boundary": "The audit may suggest that the V0.10 outcome is dominated by zero validation-carrier coverage, yet does not state residual-model quality as an established result.",
+  "mechanistic_conclusion": "The frozen V0.10 validation structural carrier is identically zero on all registered held-out windows, while registered training windows can carry nonzero relation features. Therefore the observed equality base_nll == real_nll == shuffled_nll follows from the zero validation carrier under the frozen bias-free residual contract.",
+  "result_binding": {
+    "report_sha256": "8a87fb893c2158656c4bb08b45690782bf6b68d4bc1e73c1516b12695f34006f",
+    "report_status": "BLOCK_PILOT_MECHANISM"
+  },
+  "schema": "CIEL_LM_V0_10_ZERO_STRUCTURAL_CARRIER_AUDIT_V1",
+  "status": "POST_HOC_MECHANISTIC_AUDIT",
+  "training_diagnostic_seed_599": {
+    "component_nonzero_counts": {
+      "case_role_link": 0,
+      "conflict_penalty": 0,
+      "operator_argument_link": 38,
+      "same_event_frame": 6
+    },
+    "nonzero_structural_windows": 38,
+    "registered_training_windows": 120,
+    "unique_nonzero_vectors": 6
+  },
+  "validation_carrier": {
+    "component_nonzero_counts": {
+      "case_role_link": 0,
+      "conflict_penalty": 0,
+      "operator_argument_link": 0,
+      "same_event_frame": 0
+    },
+    "heldout_windows": 16,
+    "nonzero_structural_windows": 0,
+    "segmentation_equal_windows": 16,
+    "single_exact_card_observed": "pl_slot_slot_71_v06a",
+    "total_exact_pl_candidates_across_windows": 1,
+    "windows_with_any_exact_pl_card": 1,
+    "windows_with_operator_bound_exact_pl_card": 0
+  }
+}

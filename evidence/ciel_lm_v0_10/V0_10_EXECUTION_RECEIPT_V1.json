@@ -1,0 +1,39 @@
+{
+  "canon_allowed": false,
+  "classification": "BLOCK_ZERO_VALIDATION_STRUCTURAL_CARRIER",
+  "created_unix_ns": 1787962225661116824,
+  "empirical": {
+    "all_base_hashes_unchanged": true,
+    "all_zero_equivalence": true,
+    "frozen_gate_status": "BLOCK_PILOT_MECHANISM",
+    "mean_delta_base": 0.0,
+    "mean_delta_shuffle": 0.0,
+    "positive_delta_base_seeds": 0,
+    "positive_delta_shuffle_seeds": 0,
+    "seeds": 12,
+    "signflip_p_base": 1.0,
+    "signflip_p_shuffle": 1.0,
+    "validation_oov_rate": 0.3414351851851852
+  },
+  "implementation_freeze_sha256": "007b1c222c0050baf5a4ba0ad8cd64c188d07b952c45f49133c8bbfd175d639d",
+  "noema": {
+    "ac_aux": "ACTIVE",
+    "post_run_fast_admission": "PASS",
+    "pre_run_fast_admission": "PASS",
+    "rehydration_required": false,
+    "runtime": "LIVE_AC_AUX",
+    "tether": "ACTIVE"
+  },
+  "preregistration_sha256": "d6dce9cd0c0b239e3870695bf0b452327f8dde4f7ae9367b9cf469bf4ef855bf",
+  "report_sha256": "8a87fb893c2158656c4bb08b45690782bf6b68d4bc1e73c1516b12695f34006f",
+  "residual_module_sha256": "56471891885dd44e2ba3851b3c22a30fa35e436d6e8c0b6257002cea4d3ca011",
+  "runner_sha256": "92f3386ff791fefc7df2928b813e5ab5c3312b03836ad65a4d4ebb1914739edd",
+  "schema": "CIEL_LM_V0_10_EXECUTION_RECEIPT_V1",
+  "status": "PASS_EXECUTION_INTEGRITY__BLOCK_ZERO_VALIDATION_STRUCTURAL_CARRIER",
+  "tests": {
+    "implementation_bytes_replay": "10/10 PASS",
+    "pytest": "16/16 PASS",
+    "runner_self_test": "PASS"
+  },
+  "zero_carrier_audit_sha256": "755cb3318fbbdf1f5c611bc7dd223c2317ccb00480fec3e0cb6f174ad898f63d"
+}

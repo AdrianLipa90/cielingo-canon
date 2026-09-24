@@ -1,0 +1,9 @@
+{
+  "implementation_bytes_replay": "10/10 PASS",
+  "implementation_freeze_sha256": "007b1c222c0050baf5a4ba0ad8cd64c188d07b952c45f49133c8bbfd175d639d",
+  "pytest": "16/16 PASS",
+  "runner_self_test": "PASS",
+  "runner_sha256": "92f3386ff791fefc7df2928b813e5ab5c3312b03836ad65a4d4ebb1914739edd",
+  "schema": "CIEL_LM_V0_10_TEST_RECEIPT_V1",
+  "status": "PASS"
+}
