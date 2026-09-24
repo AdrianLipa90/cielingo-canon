@@ -1,0 +1,37 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "exp/ciel-lm-v0.14a-r3-carrier-result",
+  "source_head_sha": "55b45a20294cd589adceeb6929ea3ade8a3d2001",
+  "merge_base_sha": "262bdc28216a0324199c8db22db3752ad76f2f7c",
+  "target_parent_sha": "183b61fbe6a0c14e8a7bb4819543999eb2c53d57",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "evidence/ciel_lm_v0_14a/V0_14A_PROVENANCE_BLOCK_V1.json",
+    "evidence/ciel_lm_v0_14a_r2/V0_14A_R2_PROVENANCE_BLOCK_V1.json",
+    "evidence/ciel_lm_v0_14a_r3/V0_14A_R3_CARRIER_EXECUTION_RECEIPT_V1.json",
+    "evidence/ciel_lm_v0_14a_r3/V0_14A_R3_POSTHOC_COVERAGE_LOCALIZATION_V1.json",
+    "experiments/ciel_lm_v0_13a/V0_13A_CARRIER_IMPLEMENTATION_FREEZE_V1.json",
+    "experiments/ciel_lm_v0_14a/V0_14A_IMPLEMENTATION_FREEZE_V1.json",
+    "experiments/ciel_lm_v0_14a_r3/V0_14A_R3_IMPLEMENTATION_FREEZE_V1.json",
+    "experiments/ciel_lm_v0_14a_r3/carrier.py",
+    "experiments/ciel_lm_v0_14a_r3/cleaner.py",
+    "experiments/ciel_lm_v0_14a_r3/runner.py",
+    "spec/CIEL_LM_V0_13A_INDEPENDENT_LINGOPHYSICS_V23_CARRIER_PREREGISTRATION_V1.json",
+    "spec/CIEL_LM_V0_14A_CIEL_OMEGA_DOCS_CARRIER_GITHUB_FREEZE_RECEIPT_V1.json",
+    "spec/CIEL_LM_V0_14A_R2_CIEL_OMEGA_DOCS_CARRIER_GITHUB_FREEZE_RECEIPT_V1.json",
+    "spec/CIEL_LM_V0_14A_R3_CIEL_OMEGA_DOCS_CARRIER_GITHUB_FREEZE_RECEIPT_V1.json"
+  ],
+  "conflicts": [
+    {
+      "path": "evidence/ciel_lm_v0_13a/V0_13A_CARRIER_EXECUTION_RECEIPT_V1.json",
+      "main": "b13b1ad2d606bc4ef6750e7a78c6a7e9502c4744",
+      "base": null,
+      "branch": "4bfc4d96bc6139ef31081ae0392141c5475bd97a",
+      "archive_path": ".merge-preservation/exp__ciel-lm-v0.14a-r3-carrier-result/evidence/ciel_lm_v0_13a/V0_13A_CARRIER_EXECUTION_RECEIPT_V1.json",
+      "action": "kept_main_archived_branch"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}

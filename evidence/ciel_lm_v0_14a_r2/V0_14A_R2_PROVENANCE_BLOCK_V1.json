@@ -1,0 +1,20 @@
+{
+  "schema": "CIEL_LM_V0_14A_R2_PROVENANCE_BLOCK_V1",
+  "status": "BLOCK_MISSING_BOUND_HELPER_BYTES",
+  "r2_prereg_sha256": "bb282d1ccafd310994940d33ae4a7670b49d05189ca77cd351a0c9ae24dad671",
+  "source_archive_sha256": "fef25a4cb20380483fec5b3e84ad8a2d1465e6a53ecf6dfd9ec42ec67d82e9ef",
+  "source_universe_sha256": "9d5530ece47dc8132d2e015ab0f0c7d7e75155ee75ba2744ad602d1acde63d88",
+  "source_universe_recovered_exactly": true,
+  "source_candidate_count": 109,
+  "atlas_sha256": "c3eaf295517fa8116528de150be8ec434b8fa2565ca84d7f946c21ef2d651050",
+  "atlas_recovered_exactly": true,
+  "missing_bound_bytes": {
+    "src/ciel_lm_text/multilingual_carrier.py": "114b7d75f8d42eee11c0d37c26a54f7bbd5ec5cb6533e85312944dbb94cf395b",
+    "src/ciel_lm_text/corpus.py": "4959ea4436806595022feb67c5e16ce423261f7f3806061e74f6f48cc40e76b7"
+  },
+  "library_search_completed": true,
+  "carrier_measurement_executed": false,
+  "lm_quality_outcome_observed": false,
+  "replacement_rule": "R3 must commit full cleaner, carrier, runner source witnesses and implementation freeze before carrier measurement; source archive, 109-file universe, seven holdouts and admission gate remain fixed.",
+  "canon_allowed": false
+}

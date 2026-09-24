@@ -1,0 +1,65 @@
+{
+  "canon_allowed": false,
+  "dominant_file_windows": {
+    "docs/MASTER_PLAN_4_ALL_AGENTS_ATTENTION.md": {
+      "candidate_occurrences": 13,
+      "nonzero": 1,
+      "operator_bound": 0,
+      "windows": 6
+    },
+    "docs/architecture/POST_MERGE_RECONCILIATION.md": {
+      "candidate_occurrences": 2,
+      "nonzero": 0,
+      "operator_bound": 0,
+      "windows": 1
+    },
+    "docs/integration/ORBITAL_INFRASTRUCTURE_RULES.md": {
+      "candidate_occurrences": 2,
+      "nonzero": 0,
+      "operator_bound": 0,
+      "windows": 2
+    },
+    "docs/integration/SAPIENS_SURFACE_BINDING.md": {
+      "candidate_occurrences": 10,
+      "nonzero": 2,
+      "operator_bound": 4,
+      "windows": 3
+    },
+    "docs/object_cards/satellites/SAT-P3-0001.md": {
+      "candidate_occurrences": 0,
+      "nonzero": 0,
+      "operator_bound": 0,
+      "windows": 1
+    },
+    "docs/operations/OFFLINE_DEPENDENCY_BUNDLE_V1.md": {
+      "candidate_occurrences": 8,
+      "nonzero": 2,
+      "operator_bound": 6,
+      "windows": 2
+    },
+    "docs/operations/README.md": {
+      "candidate_occurrences": 0,
+      "nonzero": 0,
+      "operator_bound": 0,
+      "windows": 1
+    }
+  },
+  "gremlin_candidate": "separate lexical atlas coverage from relational structure: derive a deterministic syntax/operator carrier that can emit typed relations without requiring every content token to have a controlled-48 lexical card; keep controlled cards as high-confidence anchors.",
+  "observed_pattern": [
+    "exact concept-card hits can occur while relation vector remains zero when no typed relation connects matched tokens",
+    "nonzero windows are concentrated where controlled operator cards such as negation/export-package are present or repeated slot roles create a frame link",
+    "technical domain tokens and the Polish satellite window have sparse exact controlled-48 coverage"
+  ],
+  "parent_report_sha256": "ddeda1eb87bb300ace785aaa327d0bf29c10b06a9f108e0515b3384bca92a1ac",
+  "schema": "CIEL_LM_V0_14A_R3_POSTHOC_COVERAGE_LOCALIZATION_V1",
+  "status": "POSTHOC_DEV_AUDIT_ONLY",
+  "successor_method": "treat CIEL-Omega as development/audit evidence after this result; freeze any carrier-v2 implementation before evaluating it on a fresh independent repository universe with content-hash de-duplication against CIEL-Omega.",
+  "validation_summary": {
+    "exact_candidate_occurrences": 35,
+    "operator_bound_candidate_occurrences": 10,
+    "unique_nonzero_vectors": 3,
+    "windows": 16,
+    "zero_relation_windows": 11,
+    "nonzero_relation_windows": 5
+  }
+}

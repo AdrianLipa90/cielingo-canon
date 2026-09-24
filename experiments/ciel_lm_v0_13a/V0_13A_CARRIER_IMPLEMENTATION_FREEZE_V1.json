@@ -1,0 +1,15 @@
+{
+  "schema": "CIEL_LM_V0_13A_CARRIER_IMPLEMENTATION_FREEZE_V1",
+  "status": "FROZEN_BEFORE_CARRIER_MEASUREMENT",
+  "prereg_sha256": "d57b102398f677f8f40421a270571deebaa5a029702bb76c7ff78e78bcf51f03",
+  "implementation_freeze_sha256": "0fc0d12e7b2e52775bd0dd0ea4fe27d580e32519d13f2665f2654d6155fd7402",
+  "bound_files_sha256": {
+    "run_v0_13a_carrier.py": "d0cef798d0bc4fa8a012430797f512b2ff7fd6e66e3a21211c4360001e149563",
+    "src/ciel_lm_text/corpus.py": "4959ea4436806595022feb67c5e16ce423261f7f3806061e74f6f48cc40e76b7",
+    "src/ciel_lm_text/multilingual_carrier.py": "114b7d75f8d42eee11c0d37c26a54f7bbd5ec5cb6533e85312944dbb94cf395b",
+    "vendor/cielingo/cards/generated_examples/controlled_48_slot_runtime_cards_v0_6a.jsonl": "c3eaf295517fa8116528de150be8ec434b8fa2565ca84d7f946c21ef2d651050"
+  },
+  "self_test": "PASS",
+  "carrier_measurement_observed": false,
+  "canon_allowed": false
+}
