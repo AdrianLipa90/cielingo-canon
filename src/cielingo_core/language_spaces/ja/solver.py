@@ -1,4 +1,5 @@
 from __future__ import annotations
+from hashlib import sha256
 from pathlib import Path
 from cielingo_core.global_layer.contracts import SurfaceSolution
 from cielingo_core.regional.base import RegionalSolveResult, SurfaceSegments
@@ -23,7 +24,7 @@ class JapaneseRegionalSolver:
         local_j = build_local_j(0.55, 0.65, 0.45 if ("ない" in segments.tokens or "ではない" in segments.tokens) else 0.25, 0.40 if len(candidates) < len(segments.tokens) else 0.10)
         solution = SurfaceSolution(
             language_id=self.language_id,
-            equation_id="surface_ja_" + str(abs(hash(text)) % 10000000),
+            equation_id="surface_ja_" + sha256(text.encode("utf-8")).hexdigest()[:16],
             tokens=segments.tokens,
             slot_projection=slot_projection,
             local_j=local_j,

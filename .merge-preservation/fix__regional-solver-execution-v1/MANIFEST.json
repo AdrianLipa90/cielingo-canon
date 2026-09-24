@@ -1,0 +1,26 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "fix/regional-solver-execution-v1",
+  "source_head_sha": "2a4e82f83a49256749b53d58280fde9cf3dd31ca",
+  "merge_base_sha": "c80fa0227d6b6b41dcb10b16b1527b7d40692d63",
+  "target_parent_sha": "f47d6d7673d3bb3bcbdf0df8dbe3c4afc4fb53f4",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "src/cielingo_core/language_spaces/en/solver.py",
+    "src/cielingo_core/language_spaces/ja/solver.py",
+    "src/bridge/test_regional_solver_execution.py"
+  ],
+  "conflicts": [
+    {
+      "path": "src/bridge/cielingo_bridge.py",
+      "main": "ee25055859ac02122daf1d991237b2b16a7e3a19",
+      "base": "154043658c72c4e021b7af2979b44ea7e49351f1",
+      "branch": "9a61e6c8be4a68afb2ba1db1eada1d18f40183a8",
+      "archive_path": ".merge-preservation/fix__regional-solver-execution-v1/src/bridge/cielingo_bridge.py",
+      "action": "kept_main_archived_branch"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}
