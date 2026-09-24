@@ -1,0 +1,13 @@
+{
+  "canon_allowed": false,
+  "empirical_execution": false,
+  "outcome_observed": false,
+  "replacement_v2_sha256": "d6dce9cd0c0b239e3870695bf0b452327f8dde4f7ae9367b9cf469bf4ef855bf",
+  "schema": "CIEL_LM_V0_10_V1_SUPERSESSION_RECEIPT",
+  "status": "SUPERSEDED_PREIMPLEMENTATION",
+  "upstream_change": "CIEL-LM V0.9A removed trainable intercept and added exact zero-structural invariant",
+  "upstream_head_sha": "0830f86a08b4c84ac87aa793bf556e547aaba206",
+  "v1_github_branch": "exp/ciel-lm-v0.10-prereg",
+  "v1_github_head_sha": "1e7d502d544e41f031aa0ddb00b91f2935b8ecdb",
+  "v1_sha256": "5ece436aa0fc5d0ee5d2ca19340570d4907b16b82a488f98c94eb495d64f5d16"
+}

@@ -1,0 +1,76 @@
+{
+  "base_model": {
+    "block_size": 24,
+    "d_model": 96,
+    "dropout": 0.1,
+    "evaluation_mode_after_freeze": true,
+    "freeze_after_training": true,
+    "learning_rate": 0.0004,
+    "n_heads": 4,
+    "n_layers": 2,
+    "training_objective": "next_token_cross_entropy",
+    "training_steps": 120
+  },
+  "binder_spec_sha256": "cbdeb0cb6db1d0df5ec2de524ccabc1328d1bc4d4fd1e13a236e9328cdb0ae64",
+  "canon_allowed": false,
+  "controls": [
+    "deterministic shuffled relation features",
+    "post-training zero structural exact-base equivalence"
+  ],
+  "endpoints": [
+    "delta_base=NLL_base-NLL_real",
+    "delta_shuffle=NLL_shuffled-NLL_real"
+  ],
+  "heldouts": {
+    "cielingo/docs/architecture/CIELINGO_CARD_GENERATOR_VALIDATOR_NOEMA_HOLONOMY_v0_3.md": "734ee71055a3b242b817e805da4878793f076d1f255224906fe84a96ffbe5608",
+    "cielingo/docs/architecture/CIELINGO_GLOBAL_PHASE_0_5C_SCAFFOLD_IMPLEMENTATION_v0_1.md": "fa6eca9d275320ba0839801f35fb37727b2c2302a2ed0eae7f73d6d8398fbab6",
+    "cielingo/docs/architecture/CIELINGO_J_KURAMOTO_HOLONOMY_GUARD_v0_5J.md": "76eb177022b271c3522f0b33ae7d7154baa7837035b0e8fea421621f68c4d69e",
+    "cielingo/docs/architecture/CIELINGO_PHASE_0_FREEZE_v1_0A.md": "e9c01dac17e7fae1ac483510d740001ad749ca8ed40dd7c6c2ee4ff0b941d02d",
+    "cielingo/docs/architecture/CIELINGO_SENTENCE_EQUATION_CALCULATOR_v0_5K.md": "adcd2783e37d0c17765864fbe958515d205f36e500a89274bcdfc5527c8d8b47",
+    "cielingo/docs/architecture/CIELINGO_TRILINGUAL_CARDS_v0_3b.md": "b0e88a381ad0ccb7591bdc3d11f8b1cb20024c5a80470e77d8e728bd36f38d14",
+    "cielingo/docs/handoff/CIELINGO_ACTION_PLAN_UPDATED.md": "88116c3af2418a1d081060e969b335346a95bba9307fea26e5575f48a736bf63"
+  },
+  "independent_replication_required_after_pass": true,
+  "local_full_prereg_sha256": "d6dce9cd0c0b239e3870695bf0b452327f8dde4f7ae9367b9cf469bf4ef855bf",
+  "no_retuning_after_result": true,
+  "parent_residual_head_sha": "0830f86a08b4c84ac87aa793bf556e547aaba206",
+  "pass_gate": "both endpoint means >0; both >=9/12 positive; both exact one-sided sign-flip p<=0.05; both min leave-one-out >0; all zero-init/zero-structural/base-hash invariants PASS",
+  "prior_holdout_set_sha256": "0345c30a208758acdd67979654f5666f849f0716b86fa9bbdc06f8b3d7999535",
+  "residual": {
+    "aggregation": "mean additive Lingophysics component value over ordered non-self token pairs in each 24-token context; missing relation components are 0",
+    "features": [
+      "operator_argument_link",
+      "same_event_frame",
+      "case_role_link",
+      "conflict_penalty"
+    ],
+    "gate": 1.0,
+    "learning_rate": 0.0004,
+    "trainable_intercept": false,
+    "training_steps": 120,
+    "type": "zero_initialized_bias_free_linear_structural_residual",
+    "zero_structural_invariant": "R_CIEL(0)==0 for every expert state"
+  },
+  "schema": "CIEL_LM_V0_10_V2_GITHUB_FREEZE_RECEIPT",
+  "seeds": [
+    599,
+    613,
+    631,
+    647,
+    661,
+    677,
+    691,
+    709,
+    727,
+    743,
+    761,
+    773
+  ],
+  "selection_namespace": "CIEL_LM_V0_10_FROZEN_BASE_RESIDUAL",
+  "selection_rule": "exclude V0.3-V0.7 heldouts; sort remaining paths by SHA256(namespace|relative_path); select first 7",
+  "source_universe_manifest_sha256": "6c509830d856e148107c57e292160897d6d8d5529a0fbce6bb0ce80ed3b01e83",
+  "status": "FROZEN_BEFORE_RUNNER_IMPLEMENTATION",
+  "v0_9_reference_spec_sha256": "a5166925a7c58346adb3bc299c4390c260e262c7840cb91b745b1d2b951d9f62",
+  "v0_9a_hardening_spec_sha256": "6e108da964ab17120c128b4a05f395b8412c2a1450a9ffddb2527c619427f92b",
+  "v1_status": "SUPERSEDED_PREIMPLEMENTATION_NO_EXECUTION_NO_OUTCOME"
+}
