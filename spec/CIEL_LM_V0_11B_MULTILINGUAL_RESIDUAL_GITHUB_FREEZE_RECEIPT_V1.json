@@ -1,0 +1,33 @@
+{
+  "schema": "CIEL_LM_V0_11B_MULTILINGUAL_RESIDUAL_GITHUB_FREEZE_RECEIPT_V1",
+  "status": "FROZEN_BEFORE_RUNNER_IMPLEMENTATION",
+  "local_full_prereg_sha256": "9e674e359dde3ec81f304567a8bc8eb9257e08856e775ba938ec30f7e18c39e1",
+  "source_universe_count": 56,
+  "source_universe_manifest_sha256": "b7dc41d5a2f074244e4fb0a581bb9df1ca186e5bd7a5ea21ad873b6bace59fe3",
+  "parent": {
+    "v0_10_prereg_sha256": "d6dce9cd0c0b239e3870695bf0b452327f8dde4f7ae9367b9cf469bf4ef855bf",
+    "v0_10_classification": "PASS_EXECUTION_INTEGRITY__BLOCK_ZERO_VALIDATION_STRUCTURAL_CARRIER",
+    "v0_11a_prereg_sha256": "3f3a2967ed1fa73d2b901e9b6126a5cf3de921b977e09b138e85b9331f2779a3",
+    "v0_11a_report_sha256": "e42f4fd9a4aff0ffc03a590beffb2f295e76950d6a1d5fc7e4b279b5a36357b7",
+    "v0_11a_status": "PASS_CARRIER_ADMISSION"
+  },
+  "heldout_files": [
+    "cielingo/docs/architecture/PL_REGIONAL_GRAMMAR_SOLVER_v1_1D.md",
+    "cielingo/docs/architecture/MAPPING_CODE_MATH_v1_1C.md",
+    "cielingo/docs/architecture/CIELINGO_POLISH_GRAMMAR_V02_PLAN.md",
+    "cielingo/docs/architecture/CIELINGO_GLOBAL_PHASE_0_6A_CONTROLLED_48_SLOT_ATLAS.md",
+    "cielingo/docs/architecture/REPAIR_EXPORT_AND_GLOBAL_SIGNAL_BRIDGE_v0_8A.md",
+    "cielingo/docs/process/MIGRATION_RULES_v0_1.md",
+    "cielingo/docs/architecture/SELF_FEED_AUDIT_AND_DRY_RUN_EXPORT_v0_8C.md"
+  ],
+  "seeds": [794161126, 2965078580, 3991745567, 1631010326, 2335381256, 2026107779, 1576255357, 3792018960, 1041915137, 2871421180, 3455976581, 3534560302],
+  "tokenizer": {"min_freq": 1, "max_vocab": 5000, "build_from": "training_files_only"},
+  "base_model": {"block_size": 24, "d_model": 96, "n_heads": 4, "n_layers": 2, "dropout": 0.1, "training_steps": 120, "learning_rate": 0.0004, "optimizer": "AdamW", "weight_decay": 0.01, "grad_clip_norm": 1.0, "structural_weight": 0.0},
+  "carrier": {"languages": ["pl", "en"], "atlas": "controlled_48_slot_v0_6a", "matching": "normalized whole-token equality only", "feature_order": ["operator_argument_link", "same_event_frame", "case_role_link", "conflict_penalty"], "phase_compatibility_component_included": false},
+  "residual": {"type": "zero_initialized_bias_free_linear_structural_residual", "learning_rate": 0.0004, "optimizer": "AdamW", "weight_decay": 0.0, "trainable_intercept": false, "gate": 1.0, "zero_structural_invariant": "R_CIEL(0)==0 for every expert state"},
+  "evaluation": {"heldout_windows": 16, "controls": ["deterministic shuffled relation features", "post-training zero structural exact-base equivalence"], "endpoints": ["delta_base=NLL_base-NLL_real", "delta_shuffle=NLL_shuffled-NLL_real"]},
+  "pass_gate": "both endpoint means >0; both >=9/12 positive; both exact one-sided sign-flip p<=0.05; both min leave-one-out >0; all zero-init/zero-structural/base-hash invariants PASS",
+  "no_retuning_after_result": true,
+  "independent_replication_required_after_pass": true,
+  "canon_allowed": false
+}

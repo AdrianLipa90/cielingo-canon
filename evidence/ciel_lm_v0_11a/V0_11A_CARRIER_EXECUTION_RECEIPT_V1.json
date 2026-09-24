@@ -1,0 +1,35 @@
+{
+  "canon_allowed": false,
+  "created_unix_ns": 1787962667336867390,
+  "gate": {
+    "all_candidate_scores_exact": true,
+    "source_hashes": "PASS",
+    "training_nonzero_relation_windows": true,
+    "unique_nonzero_validation_vectors": true,
+    "validation_nonzero_relation_windows": true
+  },
+  "implementation_freeze_sha256": "80bda0dab9f01c3acd9abbe93894d8878277c493873d2a20dc73fd77de6b4da2",
+  "lm_quality_outcome_observed": false,
+  "noema_fast_admission": "PASS",
+  "prereg_sha256": "3f3a2967ed1fa73d2b901e9b6126a5cf3de921b977e09b138e85b9331f2779a3",
+  "report_sha256": "e42f4fd9a4aff0ffc03a590beffb2f295e76950d6a1d5fc7e4b279b5a36357b7",
+  "runner_sha256": "9fdb9558837d291c82b8e64d8d9f1067fff44db336c23097b608a90030bc9b1c",
+  "schema": "CIEL_LM_V0_11A_CARRIER_EXECUTION_RECEIPT_V1",
+  "status": "PASS_CARRIER_ADMISSION",
+  "training": {
+    "component_nonzero_counts": [57,29,0,0],
+    "nonzero_relation_windows": 57,
+    "operator_bound_candidates": 169,
+    "total_exact_candidates": 266,
+    "unique_nonzero_vectors": 15,
+    "windows": 64
+  },
+  "validation": {
+    "component_nonzero_counts": [8,3,0,0],
+    "nonzero_relation_windows": 8,
+    "operator_bound_candidates": 14,
+    "total_exact_candidates": 37,
+    "unique_nonzero_vectors": 4,
+    "windows": 16
+  }
+}

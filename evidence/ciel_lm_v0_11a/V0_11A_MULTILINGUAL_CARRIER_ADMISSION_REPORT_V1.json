@@ -1,0 +1,38 @@
+{
+  "atlas_counts": {"en":48,"pl":48,"union":96},
+  "canon_allowed": false,
+  "gate": {"all_candidate_scores_exact":true,"source_hashes":"PASS","training_nonzero_relation_windows":true,"unique_nonzero_validation_vectors":true,"validation_nonzero_relation_windows":true},
+  "lm_quality_outcome_observed": false,
+  "prereg_sha256": "3f3a2967ed1fa73d2b901e9b6126a5cf3de921b977e09b138e85b9331f2779a3",
+  "schema": "CIEL_LM_V0_11A_MULTILINGUAL_CARRIER_ADMISSION_REPORT_V1",
+  "status": "PASS_CARRIER_ADMISSION",
+  "train_tokens": 5944,
+  "training": {"component_nonzero_counts":[57,29,0,0],"nonzero_relation_windows":57,"operator_bound_candidates":169,"total_exact_candidates":266,"unique_nonzero_vectors":15,"windows":64},
+  "validation": {
+    "component_nonzero_counts":[8,3,0,0],
+    "nonzero_relation_windows":8,
+    "operator_bound_candidates":14,
+    "rows":[
+      {"candidate_count":3,"card_ids":["en_boundary_slot_46_v06a","en_canon_slot_8_v06a","en_result_slot_49_v06a"],"operator_bound_candidate_count":1,"start":0,"vector":[0.0583333333333333,0.0,0.0,0.0]},
+      {"candidate_count":2,"card_ids":["en_cause_slot_48_v06a","en_negation_slot_22_v06a"],"operator_bound_candidate_count":1,"start":27,"vector":[0.0583333333333333,0.0,0.0,0.0]},
+      {"candidate_count":2,"card_ids":["en_canon_slot_8_v06a","en_negation_slot_22_v06a"],"operator_bound_candidate_count":2,"start":53,"vector":[0.1115942028985509,0.0,0.0,0.0]},
+      {"candidate_count":2,"card_ids":["en_and_slot_25_v06a","en_cause_slot_48_v06a"],"operator_bound_candidate_count":0,"start":80,"vector":[0.0,0.0,0.0,0.0]},
+      {"candidate_count":3,"card_ids":["en_risk_slot_12_v06a","en_stub_slot_13_v06a","pl_stub_slot_13_v06a"],"operator_bound_candidate_count":0,"start":107,"vector":[0.0,0.0,0.0,0.0]},
+      {"candidate_count":2,"card_ids":["en_stub_slot_13_v06a","pl_stub_slot_13_v06a"],"operator_bound_candidate_count":0,"start":134,"vector":[0.0,0.0,0.0,0.0]},
+      {"candidate_count":7,"card_ids":["en_authority_slot_45_v06a","en_boundary_slot_46_v06a","en_canon_slot_8_v06a","en_consent_slot_40_v06a","en_source_slot_5_v06a","en_stub_slot_13_v06a","pl_stub_slot_13_v06a"],"operator_bound_candidate_count":2,"start":160,"vector":[0.1115942028985509,0.0014492753623188406,0.0,0.0]},
+      {"candidate_count":0,"card_ids":[],"operator_bound_candidate_count":0,"start":187,"vector":[0.0,0.0,0.0,0.0]},
+      {"candidate_count":1,"card_ids":["en_and_slot_25_v06a"],"operator_bound_candidate_count":0,"start":214,"vector":[0.0,0.0,0.0,0.0]},
+      {"candidate_count":5,"card_ids":["en_and_slot_25_v06a","en_boundary_slot_46_v06a","en_canon_slot_8_v06a","en_export_package_slot_35_v06a","en_repair_slot_36_v06a"],"operator_bound_candidate_count":3,"start":241,"vector":[0.15978260869565253,0.0014492753623188406,0.0,0.0]},
+      {"candidate_count":0,"card_ids":[],"operator_bound_candidate_count":0,"start":267,"vector":[0.0,0.0,0.0,0.0]},
+      {"candidate_count":3,"card_ids":["en_and_slot_25_v06a","en_canon_slot_8_v06a","en_export_package_slot_35_v06a"],"operator_bound_candidate_count":2,"start":294,"vector":[0.1115942028985509,0.0,0.0,0.0]},
+      {"candidate_count":3,"card_ids":["en_boundary_slot_46_v06a","en_negation_slot_22_v06a"],"operator_bound_candidate_count":2,"start":321,"vector":[0.1115942028985509,0.0014492753623188406,0.0,0.0]},
+      {"candidate_count":1,"card_ids":["en_negation_slot_22_v06a"],"operator_bound_candidate_count":1,"start":348,"vector":[0.0583333333333333,0.0,0.0,0.0]},
+      {"candidate_count":0,"card_ids":[],"operator_bound_candidate_count":0,"start":374,"vector":[0.0,0.0,0.0,0.0]},
+      {"candidate_count":3,"card_ids":["en_condition_slot_24_v06a","en_file_slot_15_v06a","en_quarantine_slot_44_v06a"],"operator_bound_candidate_count":0,"start":401,"vector":[0.0,0.0,0.0,0.0]}
+    ],
+    "total_exact_candidates":37,
+    "unique_nonzero_vectors":4,
+    "windows":16
+  },
+  "validation_tokens":425
+}

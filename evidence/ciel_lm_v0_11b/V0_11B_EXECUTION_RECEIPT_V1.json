@@ -1,0 +1,17 @@
+{
+  "schema": "CIEL_LM_V0_11B_EXECUTION_RECEIPT_V1",
+  "status": "PASS_EXECUTION_INTEGRITY",
+  "prereg_sha256": "9e674e359dde3ec81f304567a8bc8eb9257e08856e775ba938ec30f7e18c39e1",
+  "implementation_freeze_sha256": "08f776c74f485f1381582abb01c46bad6024fbde1f780551149626e4e5240759",
+  "report_sha256": "e1d3aa832bdfabde13e1515ab6b8bcf9e38741865ef02c5c4c02d672811ab347",
+  "frozen_byte_replay": "8/8 PASS",
+  "pytest": "9/9 PASS",
+  "runner_exit": 0,
+  "source_preflight": "56/56 PASS",
+  "split": {"train_tokens": 5944, "validation_tokens": 425, "vocab_size": 1749, "validation_oov_rate": 0.30823529411764705},
+  "carrier_admission": {"status": "PASS", "validation_nonzero": 8, "training_nonzero": 57, "validation_unique_nonzero": 4, "validation_candidates": 37, "validation_operator_bound": 14},
+  "noema": {"fast_admission_before": "PASS", "fast_admission_after": "PASS", "tether_status": "ACTIVE", "tether_runtime_instance_id": "ad2260aed17d382736c163213ae18701", "static_fallback": false},
+  "invariants": {"all_zero_equivalence": true, "all_base_hashes_unchanged": true},
+  "frozen_empirical_gate": "BLOCK_PILOT_MECHANISM",
+  "canon_allowed": false
+}

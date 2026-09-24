@@ -1,0 +1,24 @@
+{
+  "schema": "CIEL_LM_V0_11B_POSTHOC_LOCALIZATION_AUDIT_V1",
+  "status": "POSTHOC_DIAGNOSTIC_ONLY",
+  "full_local_audit_sha256": "971aa9ac612506b0427ac5a3e6eb1b01325b6661bbf0febf5261567a42800da9",
+  "frozen_replay_status": "PASS",
+  "frozen_replay_max_abs_error": 0.0,
+  "n_seed_window_observations": 192,
+  "groups": {
+    "true_nonzero": {"n":96,"mean_delta_base":-0.00040830671787261963,"mean_delta_shuffle":-0.0002546459436416626,"positive_seed_delta_shuffle":0,"signflip_p_delta_shuffle":1.0,"max_abs_delta_base":0.0015587806701660156,"delta_shuffle_sum":-0.02444601058959961,"fraction_of_net_delta_shuffle":-1.5026379037458233},
+    "true_zero": {"n":96,"mean_delta_base":0.0,"mean_delta_shuffle":0.00042411188284556073,"positive_seed_delta_shuffle":12,"signflip_p_delta_shuffle":0.000244140625,"max_abs_delta_base":0.0,"delta_shuffle_sum":0.04071474075317383,"fraction_of_net_delta_shuffle":2.5026379037458235},
+    "true_zero_shuf_nonzero": {"n":50,"mean_delta_base":0.0,"mean_delta_shuffle":0.0008142948150634766,"positive_seed_delta_shuffle":12,"signflip_p_delta_shuffle":0.000244140625,"max_abs_delta_base":0.0,"delta_shuffle_sum":0.04071474075317383,"fraction_of_net_delta_shuffle":2.5026379037458235},
+    "true_zero_shuf_zero": {"n":46,"mean_delta_base":0.0,"mean_delta_shuffle":0.0,"positive_seed_delta_shuffle":0,"signflip_p_delta_shuffle":1.0,"max_abs_delta_base":0.0,"delta_shuffle_sum":0.0,"fraction_of_net_delta_shuffle":0.0},
+    "true_nonzero_shuf_nonzero": {"n":46,"mean_delta_base":-0.000358550444893215,"mean_delta_shuffle":-0.000037867089976435125,"positive_seed_delta_shuffle":5,"signflip_p_delta_shuffle":0.850830078125,"max_abs_delta_base":0.0012483596801757812,"delta_shuffle_sum":-0.0017418861389160156,"fraction_of_net_delta_shuffle":-0.1070695820388065},
+    "true_nonzero_shuf_zero": {"n":50,"mean_delta_base":-0.00045408248901367186,"mean_delta_shuffle":-0.00045408248901367186,"positive_seed_delta_shuffle":0,"signflip_p_delta_shuffle":1.0,"max_abs_delta_base":0.0015587806701660156,"delta_shuffle_sum":-0.022704124450683594,"fraction_of_net_delta_shuffle":-1.3955683217070167}
+  },
+  "mechanistic_findings": {
+    "base_real_exact_on_true_zero": true,
+    "true_zero_fraction_of_net_relation_specificity": 2.5026379037458235,
+    "true_nonzero_fraction_of_net_relation_specificity": -1.5026379037458233
+  },
+  "evidence_boundary": "The audit localizes the preregistered relation-specificity endpoint to carrier presence/absence placement. The repository may suggest a localization/gating effect; it does not state semantic-vector direction as an established quality improvement.",
+  "next_falsification": "Prospective mask-preserving shuffle: keep the zero/nonzero carrier mask fixed and permute only nonzero relation vectors on new held-out files and new seeds.",
+  "canon_allowed": false
+}
