@@ -1,0 +1,40 @@
+{
+  "schema": "CIEL_ACTION_SCOPE_CONDITION_SPEC_V0_1",
+  "receipt_schema": "CIEL_ACTION_SCOPE_CONDITION_V0_1",
+  "version": "0.1.0",
+  "language_id": "pl",
+  "basis": "LEXICAL_SCOPE_FIREWALL_V0_1",
+  "candidate_only": true,
+  "statuses": [
+    "SCOPE_SAFE",
+    "NEGATED",
+    "CONDITIONAL",
+    "DELAYED",
+    "QUALIFIED",
+    "MULTI_ACTION",
+    "NOT_ACTION"
+  ],
+  "precedence": [
+    "NOT_ACTION",
+    "MULTI_ACTION",
+    "NEGATED",
+    "CONDITIONAL",
+    "DELAYED",
+    "QUALIFIED",
+    "SCOPE_SAFE"
+  ],
+  "markers": {
+    "action_anchors": ["wyślij", "zarchiwizuj", "usuń", "zachowaj", "zmień", "zatwierdź", "utwórz", "stwórz"],
+    "negation": ["nie"],
+    "condition": ["jeśli", "jeżeli"],
+    "delay": ["dopóki", "dopiero"],
+    "qualifier": ["tylko", "chyba"]
+  },
+  "authority": {
+    "tool_execution": false,
+    "canon": false,
+    "source_promotion": false,
+    "noema_writeback": false
+  },
+  "consumer_requirement": "Semantic Model must independently recompute scope from exact tokens and require SCOPE_SAFE exact agreement before any action projection."
+}

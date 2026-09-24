@@ -1,0 +1,17 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "feat/action-scope-condition-receipt-v0.1",
+  "source_head_sha": "0d71838744def88fb148ce72c82d60fa6f66ca8b",
+  "merge_base_sha": "a286e077bc99d91c59fb9e8fbcd82c81a636ab9b",
+  "target_parent_sha": "cf325e37f7af22cc9293f8b99e1016f86588e7ef",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "spec/CIEL_ACTION_SCOPE_CONDITION_V0_1.json",
+    "src/cielingo_core/lingophysics/action_scope_condition.py",
+    "tests/test_action_scope_condition_v01.py"
+  ],
+  "conflicts": [],
+  "deletion_intents_preserved_without_deletion": []
+}
