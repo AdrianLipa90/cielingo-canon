@@ -1,0 +1,19 @@
+{
+  "schema":"CIEL_LM_V0_12B_POSTHOC_MASK_PERMUTATION_AUDIT_V1",
+  "status":"POSTHOC_CONTROL_AUDIT_PASS_WITH_SELF_ASSIGNMENTS",
+  "frozen_control_unchanged":true,
+  "validation_nonzero_indices":[0,1,2,3,4,5,6,7,8,9,11,13,15],
+  "validation_self_assignments_total":14,
+  "validation_assignments_total":156,
+  "validation_self_assignment_fraction":0.08974358974358974,
+  "validation_vector_changes_total":119,
+  "validation_vector_change_fraction":0.7628205128205128,
+  "train_self_assignments_total":11,
+  "train_assignments_total":1173,
+  "train_self_assignment_fraction":0.00937766410912191,
+  "train_vector_changes_total":1001,
+  "train_vector_change_fraction":0.8533674339300937,
+  "interpretation":"Self-assignments reduce control contrast. They do not create nonzero support at true-zero indices because the mask-preserving invariant holds exactly.",
+  "full_local_audit_sha256":"2593a2ee0ea9a1c325570d8791a392f48703e73d1aefc138a727acf8709c1abc",
+  "canon_allowed":false
+}

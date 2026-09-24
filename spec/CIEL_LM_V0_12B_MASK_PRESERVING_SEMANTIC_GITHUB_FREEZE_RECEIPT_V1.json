@@ -1,0 +1,26 @@
+{
+  "schema": "CIEL_LM_V0_12B_MASK_PRESERVING_SEMANTIC_GITHUB_FREEZE_RECEIPT_V1",
+  "status": "FROZEN_BEFORE_RUNNER_IMPLEMENTATION",
+  "local_full_prereg_sha256": "303c23e1afc8c86c6a122561ada4eafc3cf8235ee60d5f7637b7676e60875a47",
+  "parent_v0_12a_status": "PASS_CARRIER_ADMISSION",
+  "parent_v0_12a_report_sha256": "d815fa86f16f9f0c63625957227aa41d9acba405530648bd5d8b18fe5cfbf7c2",
+  "heldout_files": [
+    "cielingo/docs/architecture/CIELINGO_REGIONAL_LANGUAGE_SEPARATION_REFACTOR_v0_5L.md",
+    "cielingo/docs/architecture/DOCTOR_2_LINGOPHYSICS_DOCTOR_v0_1.md",
+    "cielingo/docs/architecture/CIELINGO_GLOBAL_FILESENSE_EXECUTION_v0_4.md",
+    "cielingo/docs/beta_knot/BETA_KNOT_DOCTOR_PLACEMENT_DECISION_v0_2.md",
+    "cielingo/docs/architecture/CIELINGO_0_5L_FIX_NOEMA_SURFACE_LS_ROUTER_TEST_v0_1.md",
+    "cielingo/docs/architecture/CIELINGO_CARD_MIGRATION_POLICY_v0_2.md",
+    "cielingo/docs/architecture/CONTROLLED_48_SLOT_ATLAS_DOCTOR_HARDENING_v0_6A.md"
+  ],
+  "seeds": [1983284250,2335476171,468047153,1778730716,1618077513,2495858501,3177070224,1659852898,1179621353,2859991481,2120589209,2031268836],
+  "primary_endpoint": "delta_semantic=NLL_mask_preserving_shuffle-NLL_real",
+  "mask_preserving_rule": "zero feature vectors remain at their original indices; nonzero source indices are ordered by SHA256(namespace|seed|split|index) and assigned to the sorted original nonzero destination indices",
+  "secondary_endpoints": ["delta_base=NLL_base-NLL_real","delta_localization=NLL_full_shuffle-NLL_mask_preserving_shuffle"],
+  "pass_gate": "primary mean >0; >=9/12 positive seeds; exact one-sided sign-flip p<=0.05; minimum leave-one-out mean >0; all zero/base-hash/carrier invariants PASS",
+  "base_advantage_required_for_primary_pass": false,
+  "full_shuffle_localization_required_for_primary_pass": false,
+  "no_retuning_after_result": true,
+  "independent_replication_required_after_pass": true,
+  "canon_allowed": false
+}

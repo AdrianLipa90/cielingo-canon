@@ -1,0 +1,36 @@
+{
+  "schema": "CIEL_LM_V0_12B_IMPLEMENTATION_FREEZE_V1",
+  "status": "FROZEN_BEFORE_EMPIRICAL_RUN",
+  "prereg_sha256": "303c23e1afc8c86c6a122561ada4eafc3cf8235ee60d5f7637b7676e60875a47",
+  "bound_files_sha256": {
+    "protocols/V0_12B_MASK_PRESERVING_SEMANTIC_VECTOR_PREREGISTRATION_V1.json": "303c23e1afc8c86c6a122561ada4eafc3cf8235ee60d5f7637b7676e60875a47",
+    "run_v0_12b.py": "ed64917b1ae9ef6499e4615dc2cd1596574b134d1036aa54da01e8b771202a01",
+    "src/ciel_lm_text/multilingual_carrier.py": "114b7d75f8d42eee11c0d37c26a54f7bbd5ec5cb6533e85312944dbb94cf395b",
+    "src/ciel_lm_text/residual.py": "66125005446d0bcc8ad4ff8a7d437148d3eb0559f651ea954337685345a24061",
+    "src/ciel_lm_text/model.py": "563074e138c6665c85853b547a0101541d8f6b2ac1cd057a7c408a7d461fe332",
+    "src/ciel_lm_text/tokenizer.py": "98e6c93b0f988950d016caf9aa1376755b8e312ed90ca146dddf5414006b57fe",
+    "src/ciel_lm_text/corpus.py": "4959ea4436806595022feb67c5e16ce423261f7f3806061e74f6f48cc40e76b7",
+    "tests/test_v0_12b_mask_preserving.py": "132b484e738b8a92d7c51e9723e9ecd7cdb2df4c62a80c53ecf2f1e77d4f36af"
+  },
+  "conformance": {
+    "pytest": "11/11 PASS",
+    "self_test": "PASS",
+    "v0_12a_carrier_replay": {
+      "validation_nonzero": 13,
+      "training_nonzero": 52,
+      "validation_unique_nonzero": 7,
+      "validation_candidates": 58,
+      "validation_operator_bound": 32,
+      "status": "PASS"
+    }
+  },
+  "execution_contract": {
+    "primary": "delta_semantic=NLL_mask_preserving_shuffle-NLL_real",
+    "mask_preserving_zero_support": "exact",
+    "base_advantage_required_for_primary_pass": false,
+    "full_shuffle_localization_required_for_primary_pass": false,
+    "no_code_or_parameter_changes_after_freeze": true
+  },
+  "canon_allowed": false,
+  "created_unix_ns": 1787989587908175763
+}

@@ -1,0 +1,13 @@
+{
+  "schema":"CIEL_LM_V0_12B_RESULT_AUDIT_V1",
+  "status":"PASS_EXECUTION_INTEGRITY__PASS_SEMANTIC_VECTOR_SPECIFICITY_CANDIDATE",
+  "frozen_gate_checks":{"primary_mean_positive":true,"primary_positive_seeds_ge_9":true,"primary_signflip_p_le_0_05":true,"primary_min_loo_positive":true,"all_zero_init_equivalence":true,"all_zero_structural_post_training_equivalence":true,"all_base_hashes_unchanged":true,"carrier_admission_pass":true},
+  "primary_endpoint_pass":true,
+  "base_advantage_observed":false,
+  "base_advantage_required_for_primary_pass":false,
+  "full_shuffle_localization_mean_positive":true,
+  "full_shuffle_localization_required_for_primary_pass":false,
+  "posthoc_mask_permutation_audit_file":"V0_12B_POSTHOC_MASK_PERMUTATION_AUDIT_V1.json",
+  "epistemic_status":"INDEPENDENT_REPLICATION_REQUIRED",
+  "canon_allowed":false
+}

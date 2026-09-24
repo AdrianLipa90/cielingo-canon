@@ -1,0 +1,13 @@
+{
+  "schema": "CIEL_LM_V0_12A_CARRIER_EXECUTION_RECEIPT_V1",
+  "status": "PASS_CARRIER_ADMISSION",
+  "prereg_sha256": "53c68e6a47a81f947a1d9b1f5b0b79bcbc4d2a5c23b632c0ffaa7f6fc6c1d603",
+  "implementation_freeze_sha256": "8670332dbf40a6a6accf8826b1ab9c809ffc5aebf032057b0d98c4f4b9104e68",
+  "report_sha256": "d815fa86f16f9f0c63625957227aa41d9acba405530648bd5d8b18fe5cfbf7c2",
+  "frozen_byte_replay_status": "PASS",
+  "training": {"windows":64,"nonzero_relation_windows":52,"unique_nonzero_vectors":22,"total_exact_candidates":280,"operator_bound_candidates":174,"component_nonzero_counts":[52,27,0,0]},
+  "validation": {"windows":16,"nonzero_relation_windows":13,"unique_nonzero_vectors":7,"total_exact_candidates":58,"operator_bound_candidates":32,"component_nonzero_counts":[13,4,0,0]},
+  "gate": {"source_hashes":"PASS","all_candidate_scores_exact":true,"validation_nonzero_relation_windows":true,"training_nonzero_relation_windows":true,"unique_nonzero_validation_vectors":true},
+  "lm_quality_outcome_observed": false,
+  "canon_allowed": false
+}
