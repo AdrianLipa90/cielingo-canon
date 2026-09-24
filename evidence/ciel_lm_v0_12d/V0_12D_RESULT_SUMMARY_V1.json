@@ -1,0 +1,81 @@
+{
+  "aggregate": {
+    "checks": {
+      "all_invariants_pass": true,
+      "mean_delta_semantic_positive": true,
+      "min_loo_semantic_positive": true,
+      "positive_delta_semantic_seeds_ge_9": true,
+      "signflip_p_semantic_le_0_05": true
+    },
+    "leave_one_out_semantic": [
+      0.00013473088091070002,
+      0.00012880021875554866,
+      0.00013219497420571068,
+      0.00014285607771439985,
+      0.0001493394374847412,
+      0.00014149600809270686,
+      0.00013699314811012962,
+      0.00014478781006552956,
+      0.0001473101702603427,
+      0.00015015493739734995,
+      0.00012505325404080477,
+      0.0001423954963684082
+    ],
+    "mean_delta_base": -0.00030275434255599976,
+    "mean_delta_localization": 8.83638858795166e-05,
+    "mean_delta_semantic": 0.000139676034450531,
+    "min_leave_one_out_semantic": 0.00012505325404080477,
+    "positive_delta_base_seeds": 2,
+    "positive_delta_localization_seeds": 10,
+    "positive_delta_semantic_seeds": 12,
+    "signflip_p_semantic": 0.000244140625
+  },
+  "canon_allowed": false,
+  "carrier_preflight": {
+    "status": "PASS",
+    "training": {
+      "all_candidate_scores_exact": true,
+      "candidates": 280,
+      "components": [52,27,0,0],
+      "nonzero": 52,
+      "operator_bound": 174,
+      "unique": 22,
+      "windows": 64
+    },
+    "validation": {
+      "all_candidate_scores_exact": true,
+      "candidates": 58,
+      "components": [13,4,0,0],
+      "nonzero": 13,
+      "operator_bound": 32,
+      "unique": 7,
+      "windows": 16
+    }
+  },
+  "classification": "PASS_EXECUTION_INTEGRITY__PASS_SEMANTIC_VECTOR_SPECIFICITY_CANDIDATE__BLOCK_BASE_ADVANTAGE",
+  "experiment_namespace": "CIEL_LM_V0_12D_WINDOW_ALIGNED_SOURCE_WITNESSED",
+  "full_local_report_sha256": "765f54897870a281e95631fe1be36c728ac2414c1426f5aab59ef9e0dfe4dbe5",
+  "independent_replication_required_after_pass": true,
+  "prereg_github_blob_sha": "f509f66dd10df801bd946244207f361bcc82ec86",
+  "schema": "CIEL_LM_V0_12D_RESULT_SUMMARY_V1",
+  "scientific_hypothesis_namespace": "CIEL_LM_V0_12_SUPPORT_PRESERVING_RELATION_TEST",
+  "seed_rows": [
+    {"base_hash_unchanged":true,"delta_base":-0.000310748815536499,"delta_localization":0.00016999244689941406,"delta_semantic":0.00019407272338867188,"full_residual_sha256":"f1fdde818887049bcd8e7199a3f7af72fef5e82d285c8628dde034166719cd11","mask_residual_sha256":"1558bbc2521716031f87f175fbe2b92a459197ec8dc74b19485c72f36e9b2f18","real_residual_sha256":"1d5e05509189ddd5d79207732e47874e60ce7c825e96edb8ccff8075adb84261","seed":2146355770,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":0.00017708539962768555,"delta_localization":9.840726852416992e-05,"delta_semantic":0.0002593100070953369,"full_residual_sha256":"2bbb6dfacf28417d4e013ec0b184ef2b8f3e2a40efbd84443dd161649945f78f","mask_residual_sha256":"7b0670b86fb40b553ead35992f2cf055a6e77616d0d58379b07936366192e8ea","real_residual_sha256":"ed926f9fbb96e1efa1157cc2857a2deabfd5558524d16fc8e80bdcd670e1181b","seed":4209406639,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":-0.00043892860412597656,"delta_localization":9.357929229736328e-05,"delta_semantic":0.0002219676971435547,"full_residual_sha256":"709f0df9d8967fcff6131915de8ec3a6d277ca28c7c855240df34842c8e207ac","mask_residual_sha256":"d591b2578f30eb56a265be06cb27b55d1b3ec03290733eaad03845553592af7c","real_residual_sha256":"c890fe89c2b687dd8df5ad7fd488e8fd9e4a606e57d8d6b05d0a7bb959448431","seed":296633338,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":-0.00020805001258850098,"delta_localization":3.668665885925293e-05,"delta_semantic":0.00010469555854797363,"full_residual_sha256":"f5547f200184f28e80ee4b169c1c4b2fea0ebf5685f1e92457a2572384739692","mask_residual_sha256":"37b9646df40aa57f11f588ebb552c44f2415ab1c3b392d022109e90f5fb7435f","real_residual_sha256":"d0d7d378b10e334e2e968860940d48116d4122154def363595bc7a863ee0d979","seed":1264981445,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":-0.00047516822814941406,"delta_localization":0.00011405348777770996,"delta_semantic":3.337860107421875e-05,"full_residual_sha256":"ef5f8c29141f7abce74c43ea1311a069c418379381e7b08018c1bf8a453d2fe0","mask_residual_sha256":"367887de0acd18fc8df58c3a21c6bc9a8b0a9e22006492ec010ad2bfc763949f","real_residual_sha256":"ada2a5fd0231c6f8db7e5b3e61022e011438b54f7f571983bd458caf391c3adc","seed":904540590,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":-0.0004266798496246338,"delta_localization":-6.905198097229004e-05,"delta_semantic":0.00011965632438659668,"full_residual_sha256":"7b55489c4853d30e3eeb840a37aaef637e3ca0bffd02684c7b825206d50c5bd4","mask_residual_sha256":"59ade8d347de1912069544e4f76257f880ad31e223575548a0d0e5ebfd9e42e2","real_residual_sha256":"25214dc26a2d18542bff913c30d260f920d3975d523408d1fa6cc0943ba6d892","seed":3582976692,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":-0.0003452003002166748,"delta_localization":8.121132850646973e-05,"delta_semantic":0.0001691877841949463,"full_residual_sha256":"98522cdf8843182a63d422270a06eb5fb9c67acfa73eae34692602a19a5f0846","mask_residual_sha256":"6d4b426ce7150bcf4182575ab97edfa74815817076b604761013e4711c6064aa","real_residual_sha256":"25e08550febf5a3c703c35b9e9925e715f32f33867e8c27c8e5c0a0d3c7f6c24","seed":3744929710,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":-9.328126907348633e-06,"delta_localization":0.0003008246421813965,"delta_semantic":8.344650268554688e-05,"full_residual_sha256":"93564f345ab04838a16fad85743ef2ab308aba2b902ff79273122c833228b7d9","mask_residual_sha256":"9a345ff18933f0194d3aeeabb6ed00d8bf6de88038f99e42d4d18021c654644b","real_residual_sha256":"c14f02f23efb4cacffe646fe800f731858e0d268b4d05f64a2a346b3b0086ef9","seed":1045778742,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":-0.0008001029491424561,"delta_localization":0.00010916590690612793,"delta_semantic":5.570054054260254e-05,"full_residual_sha256":"c5a1b7422ffe971a3fb72432be18d2553cefec92f2bf29d476c8000a97a864d9","mask_residual_sha256":"0521a855583b6e99eb6768a6cadbdc7b6d395f3a5e9a7ddfbd89e52cfb0925a0","real_residual_sha256":"bcc595a1f7f63d996087123583be8243432cf66c6a498d0971814f71282be61c","seed":3593201550,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":-0.0002963244915008545,"delta_localization":0.00010749697685241699,"delta_semantic":2.440810203552246e-05,"full_residual_sha256":"ae83ffecdaf101d61c9a55a336f95bb99cc2f67b2b11e5fef01ad17b283bd0be","mask_residual_sha256":"406bc7c695a516a860f59698deed41eb6ef7cd806c4487f0594ea440d68b6624","real_residual_sha256":"9343f4fd27005783a0c69775f6f38a3f1ae12afa09b74dc8905c3bb44d365eab","seed":2018169425,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":-0.0005598068237304688,"delta_localization":9.441375732421875e-05,"delta_semantic":0.00030052661895751953,"full_residual_sha256":"102a34d5d14937abab3a82350d4b8766d7ff679bebcfb9a56a2cb1a7dcea20b1","mask_residual_sha256":"69a0a17794006e5dbbb6ee1899446573f2eee1324ecd068094b768ac158c76bd","real_residual_sha256":"a26b2e90238d18ed8f6a20df7708f18ea50624e1e3cd6252f9773a8dbdad5fd5","seed":1153673219,"zero_init_exact":true,"zero_post_exact":true},
+    {"base_hash_unchanged":true,"delta_base":6.020069122314453e-05,"delta_localization":-7.641315460205078e-05,"delta_semantic":0.00010976195335388184,"full_residual_sha256":"f44e9d423ce3db0ae778b188f4d1f0b8dd800e034c070b9c945c69ca62785791","mask_residual_sha256":"7d642dc0cc15e61bdde1e83d9094ddb1ceffd357186becc613acd55a994c5aeb","real_residual_sha256":"6017528a869ae064c3eabb171d3254ed4184a111f1b30498dbeeadb175491976","seed":759882036,"zero_init_exact":true,"zero_post_exact":true}
+  ],
+  "source_manifest_sha256": "b7dc41d5a2f074244e4fb0a581bb9df1ca186e5bd7a5ea21ad873b6bace59fe3",
+  "status": "PASS_SEMANTIC_VECTOR_SPECIFICITY_CANDIDATE",
+  "train_tokens": 5798,
+  "validation_tokens": 571,
+  "vocab_size": 1715
+}

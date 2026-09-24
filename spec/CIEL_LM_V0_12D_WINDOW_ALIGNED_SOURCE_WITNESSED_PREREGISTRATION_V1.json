@@ -1,0 +1,127 @@
+{
+  "base_model": {
+    "block_size": 24,
+    "d_model": 96,
+    "dropout": 0.1,
+    "freeze_after_training": true,
+    "grad_clip_norm": 1.0,
+    "learning_rate": 0.0004,
+    "n_heads": 4,
+    "n_layers": 2,
+    "optimizer": "AdamW",
+    "training_example": "24 input positions and 24 shifted targets from a 25-token training slice",
+    "training_steps": 120,
+    "weight_decay": 0.01
+  },
+  "canon_allowed": false,
+  "carrier": {
+    "atlas": "controlled_48_slot_v0_6a",
+    "block_size": 24,
+    "features": ["operator_argument_link", "same_event_frame", "case_role_link", "conflict_penalty"],
+    "fuzzy_or_substring_matching": false,
+    "languages": ["pl", "en"],
+    "matching": "normalized whole-token equality only",
+    "phase_compatibility_component_included": false,
+    "required_parent_replay": {
+      "training_nonzero": "52/64",
+      "validation_candidates": 58,
+      "validation_nonzero": "13/16",
+      "validation_operator_bound": 32,
+      "validation_unique_nonzero": 7
+    }
+  },
+  "created_unix_ns": 1788032978877776177,
+  "evaluation": {
+    "base_parameter_hash_must_remain_unchanged": true,
+    "carrier_window_tokens": 24,
+    "external_25th_token_required": false,
+    "lm_transition_mapping": "raw carrier window t[0:24] -> exactly 23 internal next-token pairs t[0]->t[1] ... t[22]->t[23]",
+    "model_input_tokens_per_validation_window": 23,
+    "model_target_tokens_per_validation_window": 23,
+    "residual_broadcast_positions": 23,
+    "residual_feature_context_tokens": 24,
+    "validation_start_rule": "16 unique rounded equally-spaced starts from 0 through N-24 inclusive",
+    "validation_windows": 16
+  },
+  "goal": "support-mask-preserving semantic-vector specificity with an unambiguous LM mapping for every admitted 24-token carrier window",
+  "independent_replication_required_after_pass": true,
+  "namespace": "CIEL_LM_V0_12D_WINDOW_ALIGNED_SOURCE_WITNESSED",
+  "no_retuning_after_result": true,
+  "parent": {
+    "v0_12b_disposition": "BLOCK_EXECUTION_SOURCE_WITNESS_MISSING__NO_ADMISSIBLE_OUTCOME",
+    "v0_12c_block_commit_sha": "2ef375e09f57f7ad59fce9182e1ef4350561eb2e",
+    "v0_12c_empirical_outcome_observed": false,
+    "v0_12c_implementation_freeze_sha256": "f39b2f4210080831830b2da65e1d729458392c2082bc47c8d8912d34ef967d97",
+    "v0_12c_seed_rows_observed": 0,
+    "v0_12c_status": "BLOCK_PRE_OUTCOME_SHORT_EXAMPLE"
+  },
+  "primary_control": {
+    "forced_derangement": false,
+    "nonzero_assignment": "source nonzero indices sorted by SHA256(scientific_hypothesis_namespace|seed|split|index), assigned to sorted original nonzero destination indices",
+    "type": "support-mask-preserving semantic shuffle",
+    "zero_support": "exactly preserved at identical indices"
+  },
+  "primary_endpoint": "delta_semantic=NLL_mask_preserving_shuffle-NLL_real",
+  "primary_pass_gate": {
+    "all_invariants_pass": true,
+    "exact_one_sided_signflip_p_max": 0.05,
+    "mean_delta_semantic_gt_0": true,
+    "min_leave_one_out_gt_0": true,
+    "positive_seeds_min": 9
+  },
+  "residual": {
+    "learning_rate": 0.0004,
+    "optimizer": "AdamW",
+    "trainable_intercept": false,
+    "training_steps": 120,
+    "type": "zero_initialized_bias_free_linear_structural_residual",
+    "weight_decay": 0.0,
+    "zero_structural_invariant": "R_CIEL(0)==0 for every expert state"
+  },
+  "schema": "CIEL_LM_V0_12D_WINDOW_ALIGNED_SOURCE_WITNESSED_PREREGISTRATION_V1",
+  "scientific_hypothesis_namespace": "CIEL_LM_V0_12_SUPPORT_PRESERVING_RELATION_TEST",
+  "secondary": {
+    "delta_base": "NLL_base-NLL_real",
+    "full_shuffle_localization": "diagnostic only; not required for primary pass"
+  },
+  "seed_selection_rule": "first 32 bits SHA256(namespace|seed|i), i=0..11, frozen before runner",
+  "seeds": [2146355770, 4209406639, 296633338, 1264981445, 904540590, 3582976692, 3744929710, 1045778742, 3593201550, 2018169425, 1153673219, 759882036],
+  "selection": {
+    "heldout_file_sha256": {
+      "cielingo/docs/architecture/CIELINGO_0_5L_FIX_NOEMA_SURFACE_LS_ROUTER_TEST_v0_1.md": "50e5fac7ae79b283cfa5c83ffbd3ab2aab9496d2c30e0ce653531839a34e5a78",
+      "cielingo/docs/architecture/CIELINGO_CARD_MIGRATION_POLICY_v0_2.md": "81766ed57b676c8fbe5939eaf0052e4e705fd17ac127025d6806805805db1fa7",
+      "cielingo/docs/architecture/CIELINGO_GLOBAL_FILESENSE_EXECUTION_v0_4.md": "bb61539f6aaeade0070ddcea1266a6305c9ade5cbac38cc88b9a7204c91d0813",
+      "cielingo/docs/architecture/CIELINGO_REGIONAL_LANGUAGE_SEPARATION_REFACTOR_v0_5L.md": "e41520b0e45b64d57e25fcf4a9cf3663f6cf6efe1fdbbf8d5ab0339a5833e314",
+      "cielingo/docs/architecture/CONTROLLED_48_SLOT_ATLAS_DOCTOR_HARDENING_v0_6A.md": "2cebee48be544d78c1708a1d9950427027f769f498b6ead477d8cb66353c73ac",
+      "cielingo/docs/architecture/DOCTOR_2_LINGOPHYSICS_DOCTOR_v0_1.md": "274cd37eaeebdbf2ec55f804788eb956aecb4cab604e88a2c2ae91f18a235ad3",
+      "cielingo/docs/beta_knot/BETA_KNOT_DOCTOR_PLACEMENT_DECISION_v0_2.md": "918b1dcb115beb3ad7084053e44b78594bed10a58f4185b9c6916c935a086303"
+    },
+    "heldout_files": [
+      "cielingo/docs/architecture/CIELINGO_REGIONAL_LANGUAGE_SEPARATION_REFACTOR_v0_5L.md",
+      "cielingo/docs/architecture/DOCTOR_2_LINGOPHYSICS_DOCTOR_v0_1.md",
+      "cielingo/docs/architecture/CIELINGO_GLOBAL_FILESENSE_EXECUTION_v0_4.md",
+      "cielingo/docs/beta_knot/BETA_KNOT_DOCTOR_PLACEMENT_DECISION_v0_2.md",
+      "cielingo/docs/architecture/CIELINGO_0_5L_FIX_NOEMA_SURFACE_LS_ROUTER_TEST_v0_1.md",
+      "cielingo/docs/architecture/CIELINGO_CARD_MIGRATION_POLICY_v0_2.md",
+      "cielingo/docs/architecture/CONTROLLED_48_SLOT_ATLAS_DOCTOR_HARDENING_v0_6A.md"
+    ]
+  },
+  "source_universe": {
+    "count": 56,
+    "exact_file_sha256_map_inherited_from_prereg_blob_sha": "cbe473106c76eefc355456eb03ab53e4d0b3d821",
+    "manifest_sha256": "b7dc41d5a2f074244e4fb0a581bb9df1ca186e5bd7a5ea21ad873b6bace59fe3"
+  },
+  "source_witness_policy": {
+    "all_bound_source_sha256_in_implementation_freeze": true,
+    "no_code_or_parameter_changes_after_implementation_freeze": true,
+    "preregistration_committed_before_runner": true,
+    "runner_source_must_be_committed_before_outcome": true,
+    "test_source_must_be_committed_before_outcome": true
+  },
+  "status": "FROZEN_BEFORE_RUNNER_IMPLEMENTATION",
+  "tokenizer": {
+    "built_from_training_only": true,
+    "max_vocab": 5000,
+    "min_freq": 1
+  }
+}

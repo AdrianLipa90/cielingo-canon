@@ -1,0 +1,33 @@
+{
+  "schema": "CIEL_LM_V0_12C_PREOUTCOME_BLOCK_RECEIPT_V1",
+  "status": "BLOCK_PRE_OUTCOME_SHORT_EXAMPLE",
+  "prereg_github_blob_sha": "cbe473106c76eefc355456eb03ab53e4d0b3d821",
+  "implementation_freeze_sha256": "f39b2f4210080831830b2da65e1d729458392c2082bc47c8d8912d34ef967d97",
+  "implementation_branch": "exp/ciel-lm-v0.12c-implementation",
+  "implementation_head_after_freeze_sidecar": "53f5a13928fbce1bb0775bc4e74e4c021a5c56c1",
+  "source_witness_head_sha": "f3447a16cfc621ff013486b80639e4d800ef7d77",
+  "runner_sha256": "c6d9c83e0fd14f63b491d750f8c0939d8c4d0d23cc5a35a364e4d95be31bd418",
+  "run_log_sha256": "4e3129eac60fec0820e5faedcdfdd39ffeced2327e543f5d86338f20927ba94f",
+  "seed_rows_observed": 0,
+  "empirical_report_created": false,
+  "lm_quality_outcome_observed": false,
+  "failure": {
+    "type": "RuntimeError",
+    "message": "SHORT_EXAMPLE",
+    "location": "validation sample construction before first seed result",
+    "root_cause": "The preregistered validation start rule admits a 24-token context at N-block_size inclusive, while the frozen runner's shifted-target helper requires block_size+1 tokens for 24 input/target positions. The final carrier-valid window therefore cannot satisfy that helper."
+  },
+  "runtime_correction": {
+    "tether_was_active": true,
+    "earlier_missing_heartbeat_claim_retracted": true,
+    "canonical_status_files": ["tether_runtime_status.json", "receipts/tether_latest.json"],
+    "current_task": "CIEL_LM_V0_12C_SOURCE_WITNESSED_REEXECUTION"
+  },
+  "disposition": {
+    "v0_12c_runner_mutation_allowed": false,
+    "reason": "implementation freeze forbids code changes after freeze",
+    "successor": "CIEL_LM_V0_12D_WINDOW_ALIGNED_SOURCE_WITNESSED",
+    "successor_requirement": "preregister an unambiguous mapping from each 24-token carrier window to its language-model evaluation transitions before writing the successor runner"
+  },
+  "canon_allowed": false
+}
