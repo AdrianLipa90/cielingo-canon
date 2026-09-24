@@ -1,0 +1,80 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "feature/cielingo-gremlin-genomic-grammar-v01-20260922",
+  "source_head_sha": "59297d21fba563e17c7a656e0cb3139a5a302ee5",
+  "merge_base_sha": "c80fa0227d6b6b41dcb10b16b1527b7d40692d63",
+  "target_parent_sha": "5f9f9eba19895e349861f230f461faf464ed8ee8",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "spec/docs/CIELINGO_GENOMIC_GRAMMAR_V0_1.md",
+    "src/cielingo_core/genomics/__init__.py",
+    "src/cielingo_core/genomics/deepstarr.py",
+    "src/cielingo_core/genomics/deepstarr_benchmark.py",
+    "src/cielingo_core/genomics/experiment.py",
+    "src/cielingo_core/genomics/features.py",
+    "src/cielingo_core/genomics/grammar.py",
+    "src/cielingo_core/genomics/gremlin_pipeline.py",
+    "src/cielingo_core/genomics/motifs.py",
+    "src/cielingo_core/genomics/parser.py",
+    "src/cielingo_core/genomics/periodicity.py",
+    "src/cielingo_core/genomics/project.py",
+    "src/cielingo_core/genomics/regression.py",
+    "src/cielingo_core/genomics/sequence.py",
+    "src/cielingo_core/genomics/smith2013.py",
+    "tests/test_genomic_deepstarr.py",
+    "tests/test_genomic_deepstarr_benchmark.py",
+    "tests/test_genomic_features_experiment.py",
+    "tests/test_genomic_gremlin_pipeline.py",
+    "tests/test_genomic_periodicity.py",
+    "tests/test_genomic_project.py",
+    "tests/test_genomic_regression.py",
+    "tests/test_genomic_sequence_parser.py",
+    "tests/test_genomic_smith2013.py",
+    "tests/test_gremlin_full_bridge.py"
+  ],
+  "conflicts": [
+    {
+      "path": ".github/workflows/native-surface-generation-ci.yml",
+      "main": "a208c1fcb9981c36714360c52d72cbcf9c57a4da",
+      "base": "3a8d01a2bb18706c0c07353acac097941714c568",
+      "branch": "ee69894b94b23777584d9df12eda837df3701807",
+      "archive_path": ".merge-preservation/feature__cielingo-gremlin-genomic-grammar-v01-20260922/.github/workflows/native-surface-generation-ci.yml",
+      "action": "kept_main_archived_branch"
+    },
+    {
+      "path": "src/cielingo_core/__init__.py",
+      "main": "fa4d896c1df1f9fb3cd3331765702dfea45b8305",
+      "base": "fa08685da8acef9e5d302e8905890ebf4d6c96f2",
+      "branch": "aed930c55dc9783669db3472757d51d3e24ada59",
+      "archive_path": ".merge-preservation/feature__cielingo-gremlin-genomic-grammar-v01-20260922/src/cielingo_core/__init__.py",
+      "action": "kept_main_archived_branch"
+    },
+    {
+      "path": "src/cielingo_core/bridge/__init__.py",
+      "main": "4f1900154f49e306146c9d0e4927ab6a5517e3c2",
+      "base": "b178de81014dd19196575d25fe253e0773a6d7b1",
+      "branch": "f64f0d710e8a6ca8fbd82704d024da01d58b2751",
+      "archive_path": ".merge-preservation/feature__cielingo-gremlin-genomic-grammar-v01-20260922/src/cielingo_core/bridge/__init__.py",
+      "action": "kept_main_archived_branch"
+    },
+    {
+      "path": "src/cielingo_core/bridge/gremlin_full_bridge.py",
+      "main": "5d108c9b142dd59f4deb472e2c32697e57c10a96",
+      "base": null,
+      "branch": "9d400dc6651e44d1397af8b93d3917ff88436259",
+      "archive_path": ".merge-preservation/feature__cielingo-gremlin-genomic-grammar-v01-20260922/src/cielingo_core/bridge/gremlin_full_bridge.py",
+      "action": "kept_main_archived_branch"
+    },
+    {
+      "path": "tests/test_genomic_grammar.py",
+      "main": "b31e50b9cef22de40b5161eff74c1e5b73f2de9d",
+      "base": null,
+      "branch": "e25d5eda1c9ba5b4b920f373265f5b02479e4643",
+      "archive_path": ".merge-preservation/feature__cielingo-gremlin-genomic-grammar-v01-20260922/tests/test_genomic_grammar.py",
+      "action": "kept_main_archived_branch"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}
