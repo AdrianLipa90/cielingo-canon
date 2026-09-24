@@ -131,11 +131,12 @@ def test_sentence_equation_serializes_relation_hypergraph_additively() -> None:
     assert equation.validate() == []
 
 
-def test_sentence_equation_appends_hypergraph_without_parent_abi_reordering() -> None:
-    assert [field.name for field in fields(SentenceEquation)][-3:] == [
+def test_sentence_equation_appends_card_receipt_without_parent_abi_reordering() -> None:
+    assert [field.name for field in fields(SentenceEquation)][-4:] == [
         "notes",
         "role_multimap",
         "relation_hypergraph",
+        "relation_entity_card_bindings",
     ]
 
 

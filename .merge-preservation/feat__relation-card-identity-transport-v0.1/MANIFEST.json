@@ -1,0 +1,46 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "feat/relation-card-identity-transport-v0.1",
+  "source_head_sha": "7d698b276960d0e8067e30adbdab22cdea964f04",
+  "merge_base_sha": "43375f58d46ca99ed6e8536fc65ceb02816f5c3e",
+  "target_parent_sha": "80e021c7569acc1c54d7583b7bc3b580ff97a1b1",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "CROSS_REPO_LINK.json",
+    "src/cielingo_core/lingophysics/case_port_frame.py",
+    "src/cielingo_core/lingophysics/sentence_equation.py",
+    "tests/test_relation_hypergraph.py",
+    "cards/generated_examples/agent_tool_runtime_cards_v0_1.jsonl",
+    "docs/specs/RELATION_ENTITY_CARD_BINDINGS_V0_1.md",
+    "spec/CIEL_ENTITY_GROUNDING_COVERAGE_GAP_V0_1.json",
+    "spec/CIEL_RELATION_SURFACE_COVERAGE_V0_2.json",
+    "src/cielingo_core/lingophysics/relation_entity_card_bindings.py",
+    "tests/test_agent_tool_atlas_v01.py",
+    "tests/test_layered_atlas_loader_v02.py",
+    "tests/test_operator_coverage_v02.py",
+    "tests/test_relation_entity_card_bindings.py",
+    "tests/test_relation_entity_card_hypergraph_commitment.py",
+    "validation/RELATION_ENTITY_CARD_BINDINGS_V0_1_RECEIPT.json"
+  ],
+  "conflicts": [
+    {
+      "path": "src/cielingo_core/lingophysics/__init__.py",
+      "main": "cb50b61e68ed1b15e8201d4f6ecb1282fc7802c7",
+      "base": "dda9fb5cefc945800359cab98323af0db30b0501",
+      "branch": "1e7740e8400f5a88dbcbf52b5424ce080e352284",
+      "archive_path": ".merge-preservation/feat__relation-card-identity-transport-v0.1/src/cielingo_core/lingophysics/__init__.py",
+      "action": "kept_main_archived_branch"
+    },
+    {
+      "path": "src/cielingo_core/regional/simple_solver_utils.py",
+      "main": "4e8f2619a5a5c20d65acbfca994785f9e50f6590",
+      "base": "f4407626dac50cc3ecf4c458805ff69982664539",
+      "branch": "d7928d6abd24a261f0137a50dbfbdd002f6b0f92",
+      "archive_path": ".merge-preservation/feat__relation-card-identity-transport-v0.1/src/cielingo_core/regional/simple_solver_utils.py",
+      "action": "kept_main_archived_branch"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}

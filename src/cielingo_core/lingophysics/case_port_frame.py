@@ -184,7 +184,7 @@ def extract_polish_case_port_frames(
     for i in range(max(0, len(low) - 4)):
         if (
             low[i + 1] == "jest"
-            and low[i + 2] in {"związany", "związana", "związane", "związani"}
+            and low[i + 2] in {"związany", "związana", "związane", "związani", "połączony", "połączona", "połączone", "połączeni"}
             and low[i + 3] == "z"
             and i + 4 < len(tokens)
         ):
@@ -260,9 +260,44 @@ def extract_polish_case_port_frames(
             direction_status=direction,
         ))
 
+    # [X] rozmawia z Z o Y -- alternate natural Polish argument order.
+    for i, word in enumerate(low):
+        if word not in {"rozmawia", "rozmawiam"}:
+            continue
+        if i + 4 >= len(low) or low[i + 1] != "z" or low[i + 3] != "o":
+            continue
+        ports: list[CasePort] = []
+        if word == "rozmawiam":
+            ports.append(_port(
+                CasePortCase.NOM,
+                "speaker",
+                "ja",
+                None,
+                surface_form=tokens[i],
+                basis="IMPLICIT_PERSON_FROM_VERB_FORM",
+                confidence=0.88,
+            ))
+            direction = "EXPLICIT_WITH_IMPLICIT_SUBJECT"
+        elif i > 0:
+            ports.append(_port(CasePortCase.NOM, "speaker", _clean(tokens[i - 1]), i - 1, confidence=0.90))
+            direction = "EXPLICIT"
+        else:
+            continue
+        ports.extend([
+            _port(CasePortCase.INS, "interlocutor", _clean(tokens[i + 2]), i + 2, adposition="z", confidence=0.90),
+            _port(CasePortCase.LOC, "topic", _clean(tokens[i + 4]), i + 4, adposition="o", confidence=0.90),
+        ])
+        frames.append(_build(
+            "SPEAKS_ABOUT",
+            ports,
+            text,
+            evidence_basis="EXPLICIT_ROZMAWIAC_Z_O_PATTERN",
+            direction_status=direction,
+        ))
+
     # [X] nazwał/nazwała/nazwałem/nazwałam Y Z
     for i, word in enumerate(low):
-        if word not in {"nazwał", "nazwała", "nazwałem", "nazwałam"} or i + 2 >= len(tokens):
+        if word not in {"nazwał", "nazwała", "nazwałem", "nazwałam", "nazywa"} or i + 2 >= len(tokens):
             continue
         ports = []
         if word in {"nazwałem", "nazwałam"}:
@@ -295,17 +330,17 @@ def extract_polish_case_port_frames(
 
     # [X] daje/daję Y Z; v0.1 keeps the argument-order evidence explicit.
     for i, word in enumerate(low):
-        if word not in {"daje", "daję"} or i + 2 >= len(tokens):
+        if word not in {"daje", "daję", "daj"} or i + 2 >= len(tokens):
             continue
         ports = []
-        if word == "daję":
+        if word in {"daję", "daj"}:
             ports.append(_port(
                 CasePortCase.NOM,
                 "giver",
                 "ja",
                 None,
                 surface_form=tokens[i],
-                basis="IMPLICIT_PERSON_FROM_VERB_FORM",
+                basis=("IMPLICIT_PERSON_FROM_IMPERATIVE" if word == "daj" else "IMPLICIT_PERSON_FROM_VERB_FORM"),
                 confidence=0.86,
             ))
             direction = "EXPLICIT_WITH_IMPLICIT_SUBJECT"
