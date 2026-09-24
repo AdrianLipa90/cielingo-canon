@@ -1,0 +1,116 @@
+{
+  "schema": "CIELINGO_ORBITAL_FRACTAL_AUDIT_RECEIPT_V0_3",
+  "status": "PASS_CANDIDATE_WITH_GATES",
+  "date": "2026-09-24",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "branch": "feat/orbital-fractal-semantic-grammar-v01-20260923",
+  "audited_postfix_head_before_report": "a27645bf5a7eb1fb399afb4f1546b7fdfd30495d",
+  "report_commit": "3e687e544086d92a136bb1fc7d45e97976009e25",
+  "numeric_hardening": {
+    "status": "PASS_FIXED",
+    "fixes": [
+      {
+        "commit": "29cc77ef3bb732d4fb6dfcc065325b1e834bd009",
+        "scope": "OrbitalCell amplitude and Lambda path-gain overflow fail-closed"
+      },
+      {
+        "commit": "026d1fc25648798ba439e07d2b5255a4d79830f1",
+        "scope": "Reject non-finite composite PhaseNav handoff transport"
+      },
+      {
+        "commit": "a27645bf5a7eb1fb399afb4f1546b7fdfd30495d",
+        "scope": "Overflow regression tests"
+      }
+    ]
+  },
+  "cross_stack_algebraic_audit": {
+    "status": "PASS",
+    "deterministic_seed": 20260924,
+    "samples": 10000,
+    "zero_lambda_paths": 1618,
+    "max_composite_identity_error": 0,
+    "max_u1_norm_error": 1.1102230246251565e-16,
+    "max_reverse_conjugacy_error": 0,
+    "lambda_overflow_fail_closed": true,
+    "orbital_amplitude_overflow_fail_closed": true,
+    "local_receipt_sha256": "0a1d487f1852dcaa045241e93314a4ebb9146892996b02e040801f8bfe05b725",
+    "scope": "EXACT_CURRENT_EQUATION_RECONSTRUCTION_NOT_TWO_REPOSITORY_IMPORT_LEVEL_RUNTIME"
+  },
+  "prior_targeted_evidence": {
+    "cielingo_orbital_hebrew_bridge": {
+      "passed": 14,
+      "failed": 0,
+      "source": "v0.2 audit"
+    },
+    "lingophysics_circular_orbital_metrics": {
+      "passed": 3,
+      "failed": 0,
+      "source": "v0.2 audit"
+    },
+    "freshness": "NOT_REEXECUTED_IN_V0_3_TURN"
+  },
+  "gremlin_postfix_audit": {
+    "authority": "CANDIDATE_ONLY",
+    "scientific_validation_claim": false,
+    "routes": {
+      "cielingo": {
+        "source_event": "gremlin:whisper:sha256:7ae39a49a6793839afe8c8bf93dae8f461057fb8acfdd7f3713e4a06482439f0",
+        "audit_event": "gremlin:whisper:sha256:f9cb91e1d08c351dd7bea7b00f48a1b34c7e7199e2d7a5e21713483d05c6b73d",
+        "species": [
+          "OWL",
+          "SPIDER",
+          "HOUND",
+          "ANT"
+        ]
+      },
+      "lingophysics": {
+        "source_event": "gremlin:whisper:sha256:79e810b0f8e6f30f6d672fc51e4695bc376c79d2409d16b4d71e19a70fc31c71",
+        "audit_event": "gremlin:whisper:sha256:e7a1e51b0bd682c227adf318f36519a225edec375684b3f30f2cb8d2d7fbba20",
+        "species": [
+          "OWL",
+          "SPIDER",
+          "HOUND",
+          "ANT"
+        ]
+      },
+      "phasenav": {
+        "source_event": "gremlin:whisper:sha256:af0ae6c21df3b6497723594ce9ace5284a13f78955def7acab8bc1f1b8403f2b",
+        "audit_event": "gremlin:whisper:sha256:c455292e4e74206f9ceafe108e2fdcfc1ac0a0c58a1c82b3d9c91830467e5d8d",
+        "species": [
+          "OWL",
+          "SPIDER",
+          "HOUND",
+          "ANT"
+        ]
+      }
+    }
+  },
+  "invariants": [
+    "KAKU->ORBITAL_CELL->RADICAL strict adjacency",
+    "CONJUGATE(phi)=phi->-phi and is distinct from COUNTERPHASE(phi)=phi+pi mod 2pi",
+    "unvocalized Hebrew is latent candidate information, not forced phase zero",
+    "matres lectionis candidates are not automatically vowel labels",
+    "phase uses circular S1 geometry",
+    "Lambda remains outside PhaseNav A_sem U(1) input",
+    "structural_mass is not physical mass",
+    "Hebrew codec is a test codec, not evidence of fundamental-physics encoding"
+  ],
+  "remaining_gates": [
+    "full CIELingo/LingoPhysics repository regression suite",
+    "GitHub CI execution/status",
+    "two-repository import-level integration against actual PhaseNav package code",
+    "held-out Hebrew morphology/root-pattern corpus",
+    "shuffled Hebrew letter-number null model",
+    "permuted vowel-phase null model",
+    "independent Hebrew morphology analyzer comparison",
+    "controlled Japanese paired-script experiment",
+    "semantic-prediction benchmark beyond representation"
+  ],
+  "github_validation": {
+    "audited_postfix_head_status_count": 0,
+    "claim": "NOT_CI_GREEN"
+  },
+  "phasenav_core_mutated": false,
+  "main_mutated": false,
+  "canon_promoted": false
+}
