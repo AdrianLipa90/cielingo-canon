@@ -1,0 +1,63 @@
+name: Native CIEL Semantic Generator CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  generator-invariants:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Import native semantic generator API
+        env:
+          PYTHONPATH: src:data/lingophysics/src
+        run: >-
+          python -c "from cielingo_core.generation import
+          CanonicalLingophysicsRoundTripAdapter,
+          CielingoLingophysicsRoundTripValidator,
+          DualNativeSurfaceGenerationEndpoint,
+          NativeResponseSemanticPlanner,
+          NativeResponseSemanticPlannerEndpoint,
+          NativeSurfaceGenerationEndpoint,
+          PlannedLingophysicsRoundTripAdapter;
+          print(CanonicalLingophysicsRoundTripAdapter,
+          CielingoLingophysicsRoundTripValidator,
+          DualNativeSurfaceGenerationEndpoint,
+          NativeResponseSemanticPlanner,
+          NativeResponseSemanticPlannerEndpoint,
+          NativeSurfaceGenerationEndpoint,
+          PlannedLingophysicsRoundTripAdapter)"
+      - name: Run semantic planning and generation invariant suite
+        env:
+          PYTHONPATH: src:data/lingophysics/src
+        run: >-
+          python -m pytest -q
+          tests/test_response_semantics.py
+          tests/test_native_surface_generation.py
+          tests/test_dual_native_surface_generation.py
+          tests/test_native_roundtrip_adapter.py
+          tests/test_canonical_lingophysics_adapter.py
+          tests/test_canonical_token_normalization.py
+          tests/test_gremlin_surface_bridge.py
+          tests/test_genomic_grammar.py
+          tests/test_genomic_compiler.py
+          tests/test_genomic_gremlin_routing.py
+          tests/test_genomic_phase_experiment.py

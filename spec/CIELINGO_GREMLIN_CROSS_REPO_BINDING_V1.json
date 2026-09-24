@@ -1,0 +1,44 @@
+{
+  "schema": "CIELINGO_GREMLIN_CROSS_REPO_BINDING_V1",
+  "local": {
+    "repository": "AdrianLipa90/cielingo-canon",
+    "branch": "feature/genomic-gremlin-grammar-v01",
+    "role": "GENOMIC_GRAMMAR_AND_LANGUAGE_SEMANTICS"
+  },
+  "partner": {
+    "repository": "AdrianLipa90/GREMLIN",
+    "default_branch": "main",
+    "observed_commit": "86059ead6177fbb5bf33211f674781883a149a57",
+    "mcp_schema": "GREMLIN_MCP_V0_5",
+    "version": "0.5.0",
+    "role": "DYNAMIC_BESTIARY_ORCHESTRATION"
+  },
+  "transport": {
+    "kind": "MCP",
+    "discovery": "DYNAMIC_FULL_SURFACE",
+    "vendored": false,
+    "required_core": [
+      "gremlin_status",
+      "gremlin_bestiary",
+      "gremlin_species",
+      "gremlin_plan",
+      "gremlin_route",
+      "gremlin_collect",
+      "gremlin_synthesize",
+      "gremlin_prototype"
+    ]
+  },
+  "observed_partner_registry": {
+    "reference_tool_count": 33,
+    "product_tool_count": 29,
+    "shared_reference_product_count": 27,
+    "note": "Counts are provenance for the observed partner commit, not a frozen allow-list."
+  },
+  "authority": {
+    "crosslink_grants_canon": false,
+    "crosslink_grants_noema_current": false,
+    "crosslink_grants_noema_writeback": false,
+    "crosslink_grants_production_runtime_write": false,
+    "mutation_calls_require_explicit_authorization": true
+  }
+}

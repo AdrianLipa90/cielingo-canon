@@ -1,0 +1,45 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "feature/genomic-gremlin-grammar-v01",
+  "source_head_sha": "7c5245c99af231cac8b8ed0c1a7e0d0fb1f8f182",
+  "merge_base_sha": "c80fa0227d6b6b41dcb10b16b1527b7d40692d63",
+  "target_parent_sha": "be8f8964a08cb5110288456f7092733d9b2d4ec3",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "src/cielingo_core/bridge/__init__.py",
+    "spec/CIELINGO_GREMLIN_CROSS_REPO_BINDING_V1.json",
+    "spec/docs/CIELINGO_GREMLIN_GENOMIC_GRAMMAR_V0_1.md",
+    "src/cielingo_core/bridge/gremlin_surface.py",
+    "src/cielingo_core/genomic/__init__.py",
+    "src/cielingo_core/genomic/compiler.py",
+    "src/cielingo_core/genomic/experiment.py",
+    "src/cielingo_core/genomic/grammar.py",
+    "src/cielingo_core/genomic/routing.py",
+    "tests/test_genomic_compiler.py",
+    "tests/test_genomic_grammar.py",
+    "tests/test_genomic_gremlin_routing.py",
+    "tests/test_genomic_phase_experiment.py",
+    "tests/test_gremlin_surface_bridge.py"
+  ],
+  "conflicts": [
+    {
+      "path": ".github/workflows/native-surface-generation-ci.yml",
+      "main": "a208c1fcb9981c36714360c52d72cbcf9c57a4da",
+      "base": "3a8d01a2bb18706c0c07353acac097941714c568",
+      "branch": "1d94666fa3433252127d8135ece377509d95df08",
+      "archive_path": ".merge-preservation/feature__genomic-gremlin-grammar-v01/.github/workflows/native-surface-generation-ci.yml",
+      "action": "kept_main_archived_branch"
+    },
+    {
+      "path": "src/cielingo_core/__init__.py",
+      "main": "fa4d896c1df1f9fb3cd3331765702dfea45b8305",
+      "base": "fa08685da8acef9e5d302e8905890ebf4d6c96f2",
+      "branch": "5c0f817b4a00fca5e9c4eb26f79113973c082033",
+      "archive_path": ".merge-preservation/feature__genomic-gremlin-grammar-v01/src/cielingo_core/__init__.py",
+      "action": "kept_main_archived_branch"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}
