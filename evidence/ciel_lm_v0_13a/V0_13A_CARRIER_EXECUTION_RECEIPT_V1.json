@@ -1,0 +1,43 @@
+{
+  "schema":"CIEL_LM_V0_13A_CARRIER_EXECUTION_RECEIPT_V1",
+  "status":"BLOCK_CARRIER_ADMISSION",
+  "classification":"PASS_SOURCE_BINDING__BLOCK_VALIDATION_CARRIER_COVERAGE__NO_TRAIN_PROBE__NO_LM_OUTCOME",
+  "source_repository":"AdrianLipa90/GREMLIN",
+  "source_commit_sha":"770c90ebfebc6118fc10187cfa91d2fe845102a1",
+  "source_tree_sha":"baed30c3f759821d2f36db04ceb37967362f6057",
+  "prereg_sha256":"ed737e37d2ccc66cd552e1907a3f8127c806f76ba3fc9a677ea848ae0af3ff79",
+  "implementation_probe_sha256":"4a9cfff48a5162fb794df7294261b30ae43f515d6b6cd45cfb78200eb37597c2",
+  "carrier_sha256":"8de43fe687732cdcfa2bbd2c53c8b0f73e47c382d25ec9266689ac561db9d6c7",
+  "atlas_sha256":"c3eaf295517fa8116528de150be8ec434b8fa2565ca84d7f946c21ef2d651050",
+  "validation_report_sha256":"504a31a5a4d873713064f0889f204c31eae8243a88246a4cc642df855bf9eb54",
+  "source_blob_verification":{
+    "spec/GREMLIN_BESTIARY_V0_1.md":"PASS:fcd8318368c149cd941412dece53ab674d45a184",
+    "docs/QHTRI_TORUS_CHARACTER_KERNEL_V0_2.md":"PASS:a3e8b1ef2a9ea1eeff2c48a29ff028bb9c2aedab",
+    "spec/GREMLIN_BESTIARY_VECTOR_LIVE_V0_4.md":"PASS:2237589bb563914e0bcda265aa84f72c9d91a4d4",
+    "docs/TRIPLE_PULSE_BOOT_V1.md":"PASS:b578d2c2df251729ce10ab5479b73383d9c25a1f"
+  },
+  "validation":{
+    "tokens":1413,
+    "windows":16,
+    "nonzero_relation_windows":5,
+    "required_nonzero_relation_windows":8,
+    "unique_nonzero_vectors":3,
+    "required_unique_nonzero_vectors":2,
+    "total_exact_candidates":23,
+    "operator_bound_candidates":7,
+    "component_nonzero_counts":[5,1,0,0]
+  },
+  "gate":{
+    "source_blob_sha_match":true,
+    "all_candidate_scores_exact_1":true,
+    "validation_nonzero_relation_windows":false,
+    "validation_unique_nonzero_vectors":true,
+    "overall":"BLOCK"
+  },
+  "fail_fast_applied":true,
+  "training_files_materialized":false,
+  "training_probe_executed":false,
+  "lm_quality_outcome_observed":false,
+  "successor_note":"Cross-repo carrier coverage must be repaired prospectively on a new independent namespace before any semantic residual replication is admitted.",
+  "canon_allowed":false
+}
