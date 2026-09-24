@@ -180,7 +180,7 @@
         {
           "code": "he",
           "name": "Hebrew",
-          "profile": "language:he:planned",
+          "profile": "language:he:standard",
           "adapter_required": true
         }
       ],

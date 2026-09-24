@@ -1,0 +1,104 @@
+{
+  "schema": "CIELINGO_ORBITAL_SEMANTIC_VALIDATION_V0_1",
+  "status": "PASS_CANDIDATE",
+  "authority": "CANDIDATE_ONLY",
+  "canon_allowed": false,
+  "branch": "feat/hebrew-orbital-semantic-grammar-v01-20260923",
+  "base_branch": "main",
+  "scope": "Hebrew orbital-fractal semantic grammar candidate and cross-stack integration audit",
+  "hierarchy": [
+    "KAKU",
+    "CHI_PLUS_MINUS",
+    "RADICAL",
+    "CONCEPT",
+    "SENTENCE"
+  ],
+  "isolated_math_validation": {
+    "status": "PASS",
+    "checks": {
+      "phase_counterphase_conjugacy_error": 0,
+      "latent_phase_expectation_abs": 1.2558707210800932e-16,
+      "latent_phase_second_moment": 1,
+      "latent_phase_entropy_bits": 3.700439718141092,
+      "radical_reorder_fidelity": 0.7896139831303567,
+      "bag_reorder_fidelity": 1,
+      "sentence_reorder_fidelity": 0.308641975308642,
+      "relation_change_lexical_fidelity": 1,
+      "relation_change_full_fidelity": 0.9607565575690525
+    },
+    "interpretation_boundary": "These measurements validate deterministic representation invariants only; they do not establish linguistic semantic quality or physical truth."
+  },
+  "data_contract_validation": {
+    "status": "PASS",
+    "hebrew_family_pointer": "language:he:standard",
+    "hebrew_family": "family:semitic",
+    "required_modules": [
+      "root_pattern_analyzer",
+      "orbital_cell_chi",
+      "vowel_phase_mapper",
+      "templatic_derivation_mapper",
+      "construct_state_parser",
+      "semantic_holonomy_adapter"
+    ],
+    "json_yaml_semantic_pair_checks": "PASS",
+    "japanese_freeze_guard_added": true
+  },
+  "phasenav_integration": {
+    "status": "PASS_INTERFACE_BOUNDARY",
+    "cielingo_role": "construct 36D linguistic states and declared edge potentials",
+    "phasenav_role": "authority for semantic U(1) transport, reversal/conjugation, open-path gauge covariance, closed-loop gauge invariance and overlap coupling",
+    "duplicate_u1_implementation": false
+  },
+  "gremlin_live_post_patch": {
+    "status": "PASS_CANDIDATE",
+    "source_event_id": "gremlin:whisper:sha256:7f2184a84487ad327fd5212e4939472f00b0e3d8f3eb83ed6f55ab41f4dd87dd",
+    "fused_event_id": "gremlin:whisper:sha256:c36e4725d4b2b3955e1858bd6306cd719cf695bbf20f192706bc91e1d984df63",
+    "audit_event_id": "gremlin:whisper:sha256:d5e8d6fdc03182d9fab9aeab0af3dd9e012a28cd20a54afe52f12214b62ef32a",
+    "route_species": [
+      "OWL",
+      "SPIDER"
+    ],
+    "phase_attention_terms": [
+      "lexical_order",
+      "typed_syntax",
+      "post-patch",
+      "authority"
+    ],
+    "selection_basis": "PHASENAV_ATTENTION_PLUS_GREMLIN_TYPED_ROLE_SYNTHESIS",
+    "authority": "CANDIDATE_ONLY"
+  },
+  "tether_at_validation": {
+    "guard_schema": "noema.aux-tether-guard/v2",
+    "tether_status": "ACTIVE",
+    "failures": [],
+    "atomic_hydration_status": "PASS",
+    "fresh_aux_roundtrip": true
+  },
+  "repository_diff": {
+    "status": "BOUNDED",
+    "main_mutated": false,
+    "snapshot_basis": "PRE_RECEIPT_COMPARE",
+    "pre_receipt_ahead_by": 18,
+    "pre_receipt_behind_by": 0,
+    "pre_receipt_changed_files": 17,
+    "note": "The validation receipt itself adds one branch commit and one changed file; use the PR head for current counts."
+  },
+  "not_run": [
+    "full repository pytest suite",
+    "GitHub Actions CI"
+  ],
+  "unresolved": [
+    "Corpus-scale Hebrew semantic validation has not been run.",
+    "Conventional gematria has not been shown to add semantic signal beyond orthography and root-pattern morphology.",
+    "Aharonov-Bohm, physical mass, gauge-field and cosmological-Lambda bindings are not established.",
+    "Critical-axis/zeta-semantic construction is intentionally outside the core candidate contract.",
+    "Relation-type separation is detectable in the deterministic representation but comparatively weak in the current two-concept probe (full-state fidelity ~0.961); this needs stronger held-out tests."
+  ],
+  "github_status_at_pr_creation": {
+    "pr_number": 30,
+    "draft": true,
+    "head_sha": "1001264a7450f10d4d755971e8c837046befb2e2",
+    "combined_status_context_count": 0,
+    "interpretation": "NO_REPORTED_STATUS_CONTEXTS; do not treat as CI PASS."
+  }
+}

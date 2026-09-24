@@ -13,6 +13,14 @@ def test_polish_routes_to_slavic_case_stack():
 def test_english_routes_to_word_order_stack():
     stack = grammar_algorithm_stack("en", load_language_families(FAMILIES), load_language_profiles(PROFILES))
     assert stack["family"] == "family:germanic" and "word_order_role_mapper" in stack["modules"] and "auxiliary_stack_parser" in stack["modules"]
+def test_hebrew_routes_to_bounded_orbital_semantic_stack():
+    stack = grammar_algorithm_stack("he", load_language_families(FAMILIES), load_language_profiles(PROFILES))
+    assert stack["family"] == "family:semitic"
+    assert "root_pattern_analyzer" in stack["modules"]
+    assert "orbital_cell_chi" in stack["modules"]
+    assert "vowel_phase_mapper" in stack["modules"]
+    assert "semantic_holonomy_adapter" in stack["modules"]
+    assert not stack["unresolved"]
 def test_unknown_language_is_explicitly_unresolved():
     stack = grammar_algorithm_stack("xx", load_language_families(FAMILIES), load_language_profiles(PROFILES))
     assert "UNRESOLVED_LANGUAGE_FAMILY" in stack["unresolved"] and "UNRESOLVED_LANGUAGE_PROFILE" in stack["unresolved"]

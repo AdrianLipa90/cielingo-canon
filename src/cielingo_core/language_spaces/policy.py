@@ -1,4 +1,4 @@
-"""CIELingo language trajectory policy v1.1E.
+"""CIELingo language trajectory policy v1.1E + HE research candidate.
 
 This module is intentionally small and non-invasive. It does not remove any
 regional solver. It marks which regional surfaces are allowed to grow by default.
@@ -9,9 +9,14 @@ Policy as of 2026-05-30:
     - JA is temporarily frozen for new growth and excluded from default probes
       until explicit review/approval reopens it.
 
+Research extension as of 2026-09-23:
+    - HE is a bounded research-candidate surface for Semitic root-pattern and
+      orbital-semantic experiments. It is excluded from default probes and
+      requires review before expansion.
+
 Boundary:
     This policy is not SOURCE/canon promotion, not NOEMA writeback authority,
-    and not a semantic identity claim.
+    and not a semantic identity or physical-binding claim.
 """
 
 from __future__ import annotations
@@ -19,7 +24,7 @@ from __future__ import annotations
 from dataclasses import dataclass, asdict
 from typing import Literal
 
-LanguageId = Literal["pl", "en", "ja"]
+LanguageId = Literal["pl", "en", "ja", "he"]
 
 
 @dataclass(frozen=True)
@@ -63,6 +68,15 @@ LANGUAGE_TRAJECTORY: dict[str, LanguageTrajectory] = {
         new_feature_growth_allowed=False,
         requires_review_before_expansion=True,
         note="Japanese is temporarily closed for new CIELingo growth and excluded from default probes until explicit review.",
+    ),
+    "he": LanguageTrajectory(
+        language_id="he",
+        priority="research",
+        growth_mode="research_candidate",
+        default_probe_enabled=False,
+        new_feature_growth_allowed=True,
+        requires_review_before_expansion=True,
+        note="Hebrew is a bounded Semitic research surface for root-pattern, vocalization and orbital-semantic validation; it is not a default probe or canon source.",
     ),
 }
 

@@ -85,3 +85,22 @@ profiles:
     - pro_drop_samples
     - clitic_role_pairs
     dialect_adapter_policy: variant_adapter_required_for_regional_lexicon_and_pronoun_systems
+  language:he:standard:
+    family: family:semitic
+    language: he
+    variant: standard
+    priority: research_candidate
+    grammar_strategy: root_pattern_then_orbital_cell_vocalization_then_relation_surface
+    required_modules:
+    - root_pattern_analyzer
+    - orbital_cell_chi
+    - vowel_phase_mapper
+    - templatic_derivation_mapper
+    - construct_state_parser
+    - semantic_holonomy_adapter
+    fine_tuning_units:
+    - root_pattern_minimal_sets
+    - pointed_unpointed_pairs
+    - vocalization_minimal_pairs
+    - construct_state_samples
+    dialect_adapter_policy: research_candidate_requires_review_before_variant_expansion
