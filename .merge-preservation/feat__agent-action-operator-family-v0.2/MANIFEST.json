@@ -1,0 +1,26 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "feat/agent-action-operator-family-v0.2",
+  "source_head_sha": "a286e077bc99d91c59fb9e8fbcd82c81a636ab9b",
+  "merge_base_sha": "7d698b276960d0e8067e30adbdab22cdea964f04",
+  "target_parent_sha": "5e29daca2917aa89abbb1d10f5396ed0156f637e",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "spec/CIEL_AGENT_ACTION_OPERATOR_FAMILY_V0_2.json",
+    "src/cielingo_core/lingophysics/action_operator_family.py",
+    "tests/test_agent_action_operator_family_v02.py"
+  ],
+  "conflicts": [
+    {
+      "path": "src/cielingo_core/lingophysics/__init__.py",
+      "main": "cb50b61e68ed1b15e8201d4f6ecb1282fc7802c7",
+      "base": "1e7740e8400f5a88dbcbf52b5424ce080e352284",
+      "branch": "9103a9cf7f7645645142cc5df9b2e60e46bc6b9e",
+      "archive_path": ".merge-preservation/feat__agent-action-operator-family-v0.2/src/cielingo_core/lingophysics/__init__.py",
+      "action": "kept_main_archived_branch"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}
