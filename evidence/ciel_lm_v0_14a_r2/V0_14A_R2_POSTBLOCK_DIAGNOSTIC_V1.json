@@ -1,0 +1,19 @@
+{
+  "schema": "CIEL_LM_V0_14A_R2_POSTBLOCK_DIAGNOSTIC_V1",
+  "status": "QUARANTINE_POST_BLOCK_NONADMISSIBLE_DIAGNOSTIC",
+  "reason": "The R2 namespace had already been formally closed by V0_14A_R2_PROVENANCE_BLOCK_V1, whose replacement rule required an R3 successor. The source-witnessed measurement below was executed only after that closure and therefore cannot be admitted as a preregistered R2 result.",
+  "closed_r2_replacement_rule": "R3 must commit full cleaner, carrier, runner source witnesses and implementation freeze before carrier measurement; source archive, 109-file universe, seven holdouts and admission gate remain fixed.",
+  "implementation_freeze_sha256": "862ae9028fa8597dcf682b95efccb024fe4866d594a32e189f3e337621a0c102",
+  "replacement_carrier_sha256": "d7580f6222bb0942c594a764979075bb07af2f986b64ef820a1d7ea58a1913c9",
+  "v0_12a_conformance": "PASS_EXACT",
+  "diagnostic_report_sha256": "cf3123f333fdc60e6e037bd412baae145558d77846000069cd6b88c551e5553f",
+  "diagnostic": {
+    "source_universe_sha256": "9d5530ece47dc8132d2e015ab0f0c7d7e75155ee75ba2744ad602d1acde63d88",
+    "training": {"windows":64,"nonzero_relation_windows":28,"unique_nonzero_vectors":4,"total_exact_candidates":102,"operator_bound_candidates":36,"component_nonzero_counts":[28,5,0,0]},
+    "validation": {"windows":16,"nonzero_relation_windows":4,"unique_nonzero_vectors":2,"total_exact_candidates":18,"operator_bound_candidates":5,"component_nonzero_counts":[4,1,0,0]},
+    "frozen_gate_would_block_validation_coverage": true
+  },
+  "lm_quality_outcome_observed": false,
+  "claim_promotion_allowed": false,
+  "canon_allowed": false
+}

@@ -1,0 +1,35 @@
+{
+  "admission_gate": {
+    "all_candidate_scores_must_equal": 1.0,
+    "all_source_hashes_must_match": true,
+    "training_nonzero_relation_windows_min": 16,
+    "unique_nonzero_validation_vectors_min": 2,
+    "validation_nonzero_relation_windows_min": 8
+  },
+  "atlas_sha256": "c3eaf295517fa8116528de150be8ec434b8fa2565ca84d7f946c21ef2d651050",
+  "canon_allowed": false,
+  "carrier_measurement_observed_before_freeze": false,
+  "conformance": {
+    "py_compile": "PASS",
+    "synthetic_smoke": "PASS",
+    "v0_12a_exact_replay": "PASS"
+  },
+  "conformance_receipt_sha256": "c9a69242bdbe0accd4d9b9be83734ac34cba361b9f011c37933e811c8aeb1711",
+  "corpus_cleaner_sha256": "4959ea4436806595022feb67c5e16ce423261f7f3806061e74f6f48cc40e76b7",
+  "implementation_branch": "exp/ciel-lm-v0.14a-r2-carrier-implementation",
+  "legacy_carrier_declared_sha256": "114b7d75f8d42eee11c0d37c26a54f7bbd5ec5cb6533e85312944dbb94cf395b",
+  "legacy_carrier_exact_source_recovered": false,
+  "lm_quality_outcome_allowed": false,
+  "prereg_branch": "exp/ciel-lm-v0.14a-r2-carrier-prereg",
+  "prereg_commit": "59380c6465abf8b6aaa4609bdfa18ba7d6da36b8",
+  "prereg_local_full_sha256": "bb282d1ccafd310994940d33ae4a7670b49d05189ca77cd351a0c9ae24dad671",
+  "probe_sha256": "dc03c9cec7818809dbc3ed9b4b38bfd45052f2dd68660b10beb404eb9eb791df",
+  "replacement_carrier_sha256": "d7580f6222bb0942c594a764979075bb07af2f986b64ef820a1d7ea58a1913c9",
+  "schema": "CIEL_LM_V0_14A_R2_IMPLEMENTATION_FREEZE_V1",
+  "source_archive_sha256": "fef25a4cb20380483fec5b3e84ad8a2d1465e6a53ecf6dfd9ec42ec67d82e9ef",
+  "source_count": 109,
+  "source_universe_sha256": "9d5530ece47dc8132d2e015ab0f0c7d7e75155ee75ba2744ad602d1acde63d88",
+  "source_witness_head_before_freeze": "5ea644bbc8b3e64521695ac1d2a3c7a85368ae20",
+  "status": "FROZEN_BEFORE_CARRIER_MEASUREMENT",
+  "test_sha256": "bc182046936e9216c7c2ed05669f4efa09558f999bb21c1718ab44f79cee05b9"
+}
