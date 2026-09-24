@@ -1,0 +1,112 @@
+{
+  "schema": "CIELINGO_ORBITAL_FRACTAL_AUDIT_RECEIPT_V0_2",
+  "status": "PASS_CANDIDATE_WITH_GATES",
+  "date": "2026-09-23",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "branch": "feat/orbital-fractal-semantic-grammar-v01-20260923",
+  "audited_implementation_head": "0eeed49e80ffd33c7b0859e117bc8b27ca6c29e2",
+  "report_commit": "b7955ac1d42e211f0fec51a57493807aadea6b8a",
+  "noema": {
+    "tether_status": "ACTIVE",
+    "guard_failures": [],
+    "atomic_hydration_status": "PASS",
+    "fresh_aux_roundtrip": true,
+    "atomic_hydration_receipt_sha256": "aa78bd4299ebbd88c8e41f1a72d4216cd745049df46e54d47d1c39e9189d7617",
+    "authority": "CANDIDATE_ONLY"
+  },
+  "targeted_validation": {
+    "cielingo_orbital_hebrew_bridge": {
+      "status": "PASS",
+      "passed": 14,
+      "failed": 0
+    },
+    "lingophysics_circular_orbital_metrics": {
+      "status": "PASS",
+      "passed": 3,
+      "failed": 0
+    },
+    "total": {
+      "status": "PASS",
+      "passed": 17,
+      "failed": 0
+    },
+    "scope": "TARGETED_MODULE_VALIDATION_NOT_FULL_REPOSITORY_SUITE"
+  },
+  "github_validation": {
+    "audited_head_status_count": 0,
+    "claim": "NOT_CI_GREEN"
+  },
+  "gremlin_post_fix": {
+    "authority": "CANDIDATE_ONLY",
+    "query_execution_authority": false,
+    "sources": {
+      "cielingo": "gremlin:whisper:sha256:b65b2dad45a011dc15cb895c3fdd5611ae5290fd3b9d0309572bd4ed73ff1981",
+      "lingophysics": "gremlin:whisper:sha256:e227792be3ed2cc1aba82538609cea5781a8d7629986070236ad163ddb8a4f62",
+      "phasenav": "gremlin:whisper:sha256:361052b0e6eae21880a5e38929a0a43e7dbe64ac53d33dfeb7697696153a7fb1"
+    },
+    "audits": {
+      "cielingo": {
+        "event": "gremlin:whisper:sha256:95411ae056a650086c920926cad5dde6aa9d493498a54d356103972453f2f92b",
+        "route_species": [
+          "OWL",
+          "ANT"
+        ],
+        "phase_attention_terms": [
+          "candidates",
+          "normalizes",
+          "hierarchy",
+          "13-phase"
+        ]
+      },
+      "lingophysics": {
+        "event": "gremlin:whisper:sha256:760660350c068d4f466f9e58ce3072361197305d1b0c5a7c51c50a1ee8834b05",
+        "route_species": [
+          "OWL"
+        ],
+        "phase_attention_terms": [
+          "remains",
+          "counterphase",
+          "coordinates",
+          "nonangular"
+        ]
+      },
+      "phasenav": {
+        "event": "gremlin:whisper:sha256:10d21b9bd07485d97e70840eac71cd61c49e1a7c6780b403005b30f396d20afa",
+        "route_species": [
+          "OWL",
+          "HOUND"
+        ],
+        "phase_attention_terms": [
+          "communication",
+          "semantic_mass",
+          "amplitude",
+          "separates"
+        ]
+      }
+    }
+  },
+  "invariants": [
+    "KAKU->ORBITAL_CELL->RADICAL strict adjacency",
+    "CONJUGATE(phi)=orientation reversal phi->-phi and is not COUNTERPHASE",
+    "COUNTERPHASE(phi)=phi+pi mod 2pi",
+    "unvocalized Hebrew is latent candidate information, not forced phase zero",
+    "matres lectionis candidates are not automatically vowel labels",
+    "phase coordinates use circular S1 distance",
+    "Lambda remains outside PhaseNav A_sem U(1) input",
+    "semantic_mass and structural_mass are not physical-mass claims",
+    "Hebrew codec is a test codec, not evidence of fundamental-physics encoding"
+  ],
+  "remaining_gates": [
+    "held-out Hebrew root-pattern/morphology corpus",
+    "shuffled gematria null model",
+    "permuted vowel-phase null model",
+    "independent Hebrew morphology analyzer comparison",
+    "controlled Japanese paired-script experiment",
+    "actual cross-repository PhaseNav semantic_holonomy integration test",
+    "full repository regression suite",
+    "GitHub CI status"
+  ],
+  "phasenav_core_mutated": false,
+  "main_mutated": false,
+  "canon_promoted": false
+}

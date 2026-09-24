@@ -1,0 +1,47 @@
+{
+  "schema": "CIELINGO_ORBITAL_FRACTAL_AUDIT_RECEIPT_V0_1",
+  "status": "PASS_CANDIDATE_WITH_GATES",
+  "date": "2026-09-23",
+  "branch": "feat/orbital-fractal-semantic-grammar-v01-20260923",
+  "base_head": "59297d21fba563e17c7a656e0cb3139a5a302ee5",
+  "audited_head_before_receipt": "00b3f052ed9936eaf13bc00185f7f9616e074aff",
+  "local_validation": {
+    "orbital_fractal_tests": {
+      "status": "PASS",
+      "passed": 8,
+      "failed": 0
+    },
+    "hebrew_profile_json_contract": "PASS",
+    "candidate_hebrew_yaml_parse": "PASS"
+  },
+  "github_validation": {
+    "combined_commit_status": "NO_STATUSES_REPORTED",
+    "claim": "NOT_CI_GREEN"
+  },
+  "gremlin": {
+    "authority": "CANDIDATE_ONLY",
+    "final_user_task_event": "gremlin:whisper:sha256:e9746a28c149002760b0862302df0ded2bbc49763ad6b39eb3b10fee87d86d0d",
+    "final_internal_audit_event": "gremlin:whisper:sha256:bdfc1a2b2efa21b70ffb7560f8a905819e74e068610e65a27e7f882c5edf6941",
+    "route_species": [
+      "OWL",
+      "HOUND"
+    ],
+    "phase_attention_terms": [
+      "orthography-mode",
+      "paired-script",
+      "root-pattern",
+      "vocalization"
+    ],
+    "canon_allowed": false
+  },
+  "invariants": [
+    "KAKU->ORBITAL_CELL->RADICAL adjacency",
+    "CONJUGATE(phi) != COUNTERPHASE(phi)",
+    "COUNTERPHASE(phi)=phi+pi mod 2pi",
+    "Lambda coupling remains outside PhaseNav A_sem U(1) input",
+    "Hebrew is a candidate test codec, not evidence of physical encoding",
+    "Hiragana/katakana are paired-script test surfaces, not physical phase states"
+  ],
+  "main_mutated": false,
+  "canon_promoted": false
+}

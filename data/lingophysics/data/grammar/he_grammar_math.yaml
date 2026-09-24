@@ -1,0 +1,37 @@
+language_code: he
+language: Hebrew
+status: candidate_test_codec
+grammar_as_gauge:
+  connection: A_gram^(he)
+  surface_to_equation: Surface_l -> RootPattern_l -> OrbitalCell_l -> Equation -> Invariant
+  local_vector_axes:
+  - root_pattern_morphology
+  - templatic_derivation
+  - vocalization_explicitness
+  - mater_lectionis_density
+  - construct_state
+  - agreement
+  - definiteness
+  - word_order
+  gauge_notes:
+    root_pattern: consonantal_root_plus_vocalic_or_morphological_pattern
+    vocalization: explicit_nikkud_or_contextually_recovered_candidate
+    unvocalized_surface: partially_latent_not_zero
+orbital_fractal_candidate:
+  enabled: true
+  epistemic_status: COMPUTATIONAL_HYPOTHESIS
+  physical_mass_claim: false
+  physical_aharonov_bohm_claim: false
+  layers:
+  - KAKU
+  - ORBITAL_CELL
+  - RADICAL
+  - CONCEPT
+  - SENTENCE
+  carrier_role: consonantal_structure
+  realization_role: vocalization_and_pattern
+  latent_rule: omitted_vocalization_is_distribution_not_phase_zero
+  matres_lectionis:
+  - ו
+  - י
+  preserve_surface_orthography: true

@@ -1,0 +1,90 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "feat/orbital-fractal-semantic-grammar-v01-20260923",
+  "source_head_sha": "13bba0394978c3a28b98b1f8b88b18d502eaea73",
+  "merge_base_sha": "59297d21fba563e17c7a656e0cb3139a5a302ee5",
+  "target_parent_sha": "096ac87fb9a032c08ccc5b07ef4300722ef8c57a",
+  "policy": "APPLY_BRANCH_ONLY; KEEP_TARGET_ON_CONFLICT; ARCHIVE_BRANCH_BLOB; NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "data/lingophysics/data/grammar/ja_grammar_math.yaml",
+    "data/lingophysics/src/lingophysics/grammar_math.py",
+    "data/lingophysics/data/grammar/he_grammar_math.json",
+    "data/lingophysics/data/grammar/he_grammar_math.yaml",
+    "data/lingophysics/data/grammar/ja_grammar_math.json",
+    "data/lingophysics/tests/test_orbital_grammar_math.py",
+    "reports/CIELINGO_ORBITAL_FRACTAL_AUDIT_RECEIPT_V0_1.json",
+    "reports/CIELINGO_ORBITAL_FRACTAL_AUDIT_RECEIPT_V0_2.json",
+    "reports/CIELINGO_ORBITAL_FRACTAL_AUDIT_RECEIPT_V0_3.json",
+    "reports/GREMLIN_ORBITAL_FRACTAL_AUDIT_V0_1.md",
+    "reports/GREMLIN_ORBITAL_FRACTAL_AUDIT_V0_2.md",
+    "reports/GREMLIN_ORBITAL_FRACTAL_AUDIT_V0_3.md",
+    "spec/docs/CIELINGO_ORBITAL_FRACTAL_GRAMMAR_V0_1.md",
+    "src/cielingo_core/orbital_semantics/__init__.py",
+    "src/cielingo_core/orbital_semantics/grammar.py",
+    "src/cielingo_core/orbital_semantics/hebrew_codec.py",
+    "src/cielingo_core/orbital_semantics/phasenav_bridge.py",
+    "tests/test_hebrew_orbital_codec.py",
+    "tests/test_orbital_fractal_grammar.py"
+  ],
+  "conflicts": [
+    {
+      "path": "data/lingophysics/data/grammar_algorithms/grammar_algorithm_registry_v2_3.json",
+      "archive_path": ".merge-preservation/feat__orbital-fractal-semantic-grammar-v01-20260923/data/lingophysics/data/grammar_algorithms/grammar_algorithm_registry_v2_3.json",
+      "main": "04f4dfab3e397dab01da7d99f457487e1fdb1880",
+      "base": "f7a78a80a79eb4b042ef4b84df00d1d0c317851d",
+      "branch": "9910b92ec012d70982840a008bd89d4937900c13"
+    },
+    {
+      "path": "data/lingophysics/data/grammar_algorithms/grammar_algorithm_registry_v2_3.yaml",
+      "archive_path": ".merge-preservation/feat__orbital-fractal-semantic-grammar-v01-20260923/data/lingophysics/data/grammar_algorithms/grammar_algorithm_registry_v2_3.yaml",
+      "main": "2ddd9a6c341565de5407ce99f33103304448431d",
+      "base": "8a3fc7b72a0b61e66835456b5b8305e0f1650012",
+      "branch": "891fb9cc0e760bba97df602f360d7afc71cb3c53"
+    },
+    {
+      "path": "data/lingophysics/data/language_families/language_family_grammar_profiles_v2_3.json",
+      "archive_path": ".merge-preservation/feat__orbital-fractal-semantic-grammar-v01-20260923/data/lingophysics/data/language_families/language_family_grammar_profiles_v2_3.json",
+      "main": "3a5e84ee5b699879a3d9131e856e62cc47ca9df0",
+      "base": "ae5b35752d5abfcd28e7978ba4c8ba2e13ab3b92",
+      "branch": "0f3a2c50fc51cba08db62fdbcc06efc540d4c10b"
+    },
+    {
+      "path": "data/lingophysics/data/language_families/language_family_grammar_profiles_v2_3.yaml",
+      "archive_path": ".merge-preservation/feat__orbital-fractal-semantic-grammar-v01-20260923/data/lingophysics/data/language_families/language_family_grammar_profiles_v2_3.yaml",
+      "main": "b8aa0df37a5581b5b05ba93a92641f6bbdd61fb7",
+      "base": "a0b222627b7ec19f9b29a973a1f22c8de852d89b",
+      "branch": "879d0cdb4a257ab960974daa68e85e82cfdfd83e"
+    },
+    {
+      "path": "data/lingophysics/data/language_families/language_profile_specialization_v2_3.json",
+      "archive_path": ".merge-preservation/feat__orbital-fractal-semantic-grammar-v01-20260923/data/lingophysics/data/language_families/language_profile_specialization_v2_3.json",
+      "main": "614a0c93f9107c75d11eb370ab97d26a3dc23f65",
+      "base": "09b97aecef25c5b393675636fb0432d1bd9572f9",
+      "branch": "6b3058999ddbc76917ef48ab68022c4a1d099b6c"
+    },
+    {
+      "path": "data/lingophysics/data/language_families/language_profile_specialization_v2_3.yaml",
+      "archive_path": ".merge-preservation/feat__orbital-fractal-semantic-grammar-v01-20260923/data/lingophysics/data/language_families/language_profile_specialization_v2_3.yaml",
+      "main": "e8bc0c932464f5652fbc040ca8fefd3ef693bc3e",
+      "base": "044540fe11bb97192d965d9ef11dbd606a687707",
+      "branch": "100424666d48caf4d975734b0cbfa65257842df6"
+    },
+    {
+      "path": "data/lingophysics/tests/test_language_family_grammar.py",
+      "archive_path": ".merge-preservation/feat__orbital-fractal-semantic-grammar-v01-20260923/data/lingophysics/tests/test_language_family_grammar.py",
+      "main": "9be115934548bd1139ef113a1e1e3d7763ac5eb4",
+      "base": "b774921a5cb8737ac28515553f1b16402e0259e6",
+      "branch": "1f356b97520ffd2ce1d3e8991d851c50e7bf5520"
+    },
+    {
+      "path": "src/cielingo_core/__init__.py",
+      "archive_path": ".merge-preservation/feat__orbital-fractal-semantic-grammar-v01-20260923/src/cielingo_core/__init__.py",
+      "main": "fa4d896c1df1f9fb3cd3331765702dfea45b8305",
+      "base": "aed930c55dc9783669db3472757d51d3e24ada59",
+      "branch": "56967a82bb24fc73361e9b373bbc9088fef1400c"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}
