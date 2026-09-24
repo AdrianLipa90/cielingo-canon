@@ -8,7 +8,9 @@ from typing import Any
 
 from cielingo_core.global_layer.contracts import MeaningEquation
 from cielingo_core.global_layer.global_algorithm_v02 import GlobalAlgorithmV02Result, run_global_algorithm_v02
+from cielingo_core.global_layer.role_multimap import MeaningRoleBinding, MeaningRoleMultimap
 from cielingo_core.lingophysics.case_port_frame import extract_polish_case_port_frames
+from cielingo_core.lingophysics.operator_signatures import type_case_port_frame
 from cielingo_core.regional.base import RegionalSolveResult
 from cielingo_core.regional.regional_to_global import regional_result_to_meaning_equation
 
@@ -71,6 +73,7 @@ class SentenceEquation:
     noema_writeback_allowed: bool = False
     current_update_allowed: bool = False
     notes: list[str] = field(default_factory=list)
+    role_multimap: MeaningRoleMultimap | None = None
 
     def validate(self) -> list[str]:
         issues: list[str] = []
@@ -81,6 +84,8 @@ class SentenceEquation:
         for name in ("j_total", "closure_pressure", "residue_pressure", "source_pressure", "consent_pressure"):
             if not 0.0 <= float(getattr(self, name)) <= 1.0:
                 issues.append(f"{name} must be in [0,1]")
+        if self.role_multimap is not None:
+            issues.extend(self.role_multimap.validate())
         if self.canon_allowed:
             issues.append("SentenceEquation must not grant canon")
         if self.source_promotion_allowed:
@@ -94,7 +99,7 @@ class SentenceEquation:
         return issues
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        out = {
             "equation_id": self.equation_id,
             "language_id": self.language_id,
             "text": self.text,
@@ -114,6 +119,9 @@ class SentenceEquation:
             "current_update_allowed": self.current_update_allowed,
             "notes": self.notes,
         }
+        if self.role_multimap is not None:
+            out["role_multimap"] = self.role_multimap.to_dict()
+        return out
 
 
 def _case_role_terms(result: RegionalSolveResult) -> list[SentenceEquationTerm]:
@@ -122,9 +130,45 @@ def _case_role_terms(result: RegionalSolveResult) -> list[SentenceEquationTerm]:
     frames = extract_polish_case_port_frames(result.text, list(result.segments.tokens))
     terms: list[SentenceEquationTerm] = []
     for frame in frames:
+        report = type_case_port_frame(frame)
+        normalized = {
+            (
+                binding.grammatical_case,
+                binding.operator_role,
+                binding.entity,
+                binding.token_indices,
+            ): binding
+            for binding in report.universal_roles
+        }
         for position, port in enumerate(frame.ports):
             indices = ",".join(str(index) for index in port.token_indices)
             adposition = port.adposition or ""
+            binding = normalized.get(
+                (port.grammatical_case, port.operator_role, port.entity, port.token_indices)
+            )
+            notes = [
+                f"frame_id={frame.frame_id}",
+                f"operator={frame.operator}",
+                f"case={port.grammatical_case.value}",
+                f"operator_role={port.operator_role}",
+                f"entity={port.entity}",
+                f"token_indices={indices}",
+                f"surface_form={port.surface_form}",
+                f"adposition={adposition}",
+                f"case_basis={port.basis}",
+                f"evidence_basis={frame.evidence_basis}",
+                f"direction_status={frame.direction_status}",
+                f"signature_known={str(report.signature_known).lower()}",
+                f"signature_valid={str(report.valid).lower()}",
+                f"signature_id={report.signature_id or ''}",
+                f"signature_commitment={report.signature_commitment or ''}",
+                "candidate_only=true",
+            ]
+            if binding is not None:
+                notes.extend([
+                    f"universal_role={binding.universal_role.value}",
+                    f"normalization_basis={binding.normalization_basis}",
+                ])
             terms.append(SentenceEquationTerm(
                 term_id=f"role_{frame.frame_id}_{position}",
                 kind=EquationTermKind.ROLE,
@@ -134,22 +178,45 @@ def _case_role_terms(result: RegionalSolveResult) -> list[SentenceEquationTerm]:
                 ),
                 value=clamp01(port.confidence),
                 source="CasePortFrame",
-                notes=[
-                    f"frame_id={frame.frame_id}",
-                    f"operator={frame.operator}",
-                    f"case={port.grammatical_case.value}",
-                    f"operator_role={port.operator_role}",
-                    f"entity={port.entity}",
-                    f"token_indices={indices}",
-                    f"surface_form={port.surface_form}",
-                    f"adposition={adposition}",
-                    f"case_basis={port.basis}",
-                    f"evidence_basis={frame.evidence_basis}",
-                    f"direction_status={frame.direction_status}",
-                    "candidate_only=true",
-                ],
+                notes=notes,
             ))
     return terms
+
+
+def _role_multimap_from_result(
+    result: RegionalSolveResult,
+    *,
+    equation_id: str,
+) -> MeaningRoleMultimap | None:
+    if result.language_id != "pl":
+        return None
+    frames = extract_polish_case_port_frames(result.text, list(result.segments.tokens))
+    bindings: list[MeaningRoleBinding] = []
+    ordinal = 0
+    for frame in frames:
+        report = type_case_port_frame(frame)
+        if not report.valid or not report.signature_id or not report.signature_commitment:
+            continue
+        for normalized in report.universal_roles:
+            ordinal += 1
+            bindings.append(MeaningRoleBinding(
+                binding_id=f"{frame.frame_id}:U{ordinal}",
+                universal_role=normalized.universal_role,
+                entity=normalized.entity,
+                operator=frame.operator,
+                operator_role=normalized.operator_role,
+                grammatical_case=normalized.grammatical_case.value,
+                token_indices=normalized.token_indices,
+                source_frame_id=frame.frame_id,
+                signature_id=report.signature_id,
+                signature_commitment=report.signature_commitment,
+                normalization_basis=normalized.normalization_basis,
+                confidence=clamp01(normalized.confidence),
+                candidate_only=True,
+            ))
+    if not bindings:
+        return None
+    return MeaningRoleMultimap.create(equation_id=equation_id, bindings=bindings)
 
 
 def _terms_from_regional_result(
@@ -245,9 +312,11 @@ def calculate_sentence_equation(result: RegionalSolveResult) -> SentenceEquation
     if issues:
         raise ValueError("; ".join(issues))
 
+    equation_id = "sent_eq_" + result.surface_solution.equation_id
     meaning = regional_result_to_meaning_equation(result)
     global_result = run_global_algorithm_v02(meaning)
     terms = _terms_from_regional_result(result, meaning, global_result)
+    role_multimap = _role_multimap_from_result(result, equation_id=equation_id)
 
     j_values = [t.value for t in terms if t.kind == EquationTermKind.J]
     j_total = clamp01(sum(j_values) / max(1, len(j_values)))
@@ -258,7 +327,7 @@ def calculate_sentence_equation(result: RegionalSolveResult) -> SentenceEquation
     closure_pressure = clamp01((source_pressure + consent_pressure + residue_pressure) / 3.0)
 
     return SentenceEquation(
-        equation_id="sent_eq_" + result.surface_solution.equation_id,
+        equation_id=equation_id,
         language_id=result.language_id,
         text=result.text,
         tokens=list(result.segments.tokens),
@@ -278,5 +347,8 @@ def calculate_sentence_equation(result: RegionalSolveResult) -> SentenceEquation
         notes=[
             "Sentence equation is computed from regional SurfaceSolution and GLOBAL v0.2.",
             "CasePortFrame candidates preserve grammatical case separately from operator-specific role.",
+            "Operator signatures gate optional UniversalRole normalization by operator role, never by case alone.",
+            "MeaningRoleMultimap preserves zero-or-more normalized role bindings without collapsing duplicate roles.",
         ],
+        role_multimap=role_multimap,
     )
