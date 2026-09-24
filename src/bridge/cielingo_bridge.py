@@ -22,14 +22,8 @@ from typing import Any
 from cielingo_core.global_layer.meaning_loop import MeaningLoop, LoopState
 from cielingo_core.global_layer.intention_frame import IntentionFrame, IntentionType
 from cielingo_core.global_layer.semantic_immune_signal import SemanticImmuneSignal, PressureType as ImmunePressureType
-from cielingo_core.global_layer.response_contract import AllowedResponseContract, build_response_contract
-from cielingo_core.global_layer.meaning_action import MeaningAction
-from cielingo_core.language_spaces.pl.solver import PolishRegionalSolver
-from cielingo_core.language_spaces.pl.response_realizer import realize_pl_response
-from cielingo_core.language_spaces.en.solver import EnglishRegionalSolver
-from cielingo_core.language_spaces.ja.solver import JapaneseRegionalSolver
-from cielingo_core.expressive.style_renderer import ExpressiveStyle, ExpressiveResponseDraft, render_expressive_response
-from cielingo_core.expressive.expressive_contract import ExpressivePriority, ExpressiveMove, ExpressiveContract
+from cielingo_core.global_layer.response_contract import build_response_contract
+from cielingo_core.expressive.style_renderer import ExpressiveStyle, ExpressiveResponseDraft
 
 
 @dataclass
@@ -40,7 +34,7 @@ class CielingoBridgeState:
     meaning_loop: MeaningLoop | None = None
     loop_state: LoopState = LoopState.OPEN
     immune_signal: SemanticImmuneSignal | None = None
-    regional_solver: Any = None  # PolishRegionalSolver | EnglishRegionalSolver | JapaneseRegionalSolver
+    regional_solver: Any = None
     style: ExpressiveStyle = ExpressiveStyle.PLAIN
     response_draft: ExpressiveResponseDraft | None = None
     notes: list[str] = field(default_factory=list)
@@ -78,6 +72,7 @@ _LANG_HINTS: list[tuple[str, list[str]]] = [
     ("pl", ["polski", "polish"]),
 ]
 
+
 def detect_language(intention_text: str) -> str:
     """Detect language from intention text or frame."""
     lower = intention_text.lower()
@@ -88,11 +83,14 @@ def detect_language(intention_text: str) -> str:
 
 
 def _solver_for_language(lang: str, repo_root: str):
-    """Return appropriate regional solver."""
+    """Return the selected regional solver, importing only that language."""
     if lang == "en":
+        from cielingo_core.language_spaces.en.solver import EnglishRegionalSolver
         return EnglishRegionalSolver(repo_root)
-    elif lang == "ja":
+    if lang == "ja":
+        from cielingo_core.language_spaces.ja.solver import JapaneseRegionalSolver
         return JapaneseRegionalSolver(repo_root)
+    from cielingo_core.language_spaces.pl.solver import PolishRegionalSolver
     return PolishRegionalSolver(repo_root)
 
 
@@ -117,6 +115,69 @@ def build_immune_signal_from_emotion(engine_emotion: dict[str, float] | None) ->
         pressure_type=pt,
         notes=[f"engine emotion: max={max_emotion:.2f}"],
     )
+
+
+def build_immune_signal(
+    engine_emotion: dict[str, float] | None,
+    intention_text: str,
+) -> SemanticImmuneSignal:
+    """Fuse bounded emotion telemetry with deterministic semantic-pressure cues."""
+    base = build_immune_signal_from_emotion(engine_emotion)
+    low = " ".join(str(intention_text).casefold().split())
+
+    canon_terms = ("canon", "kanon", "canonical", "kanonic")
+    promotion_terms = ("ustaw", "uznaj", "promuj", "promote", "set ", "oznacz", "mark ")
+    bypass_terms = (
+        "bez sprawdzania", "bez weryfikacji", "bez zgody", "bez pytania",
+        "omiń zgodę", "omin zgodę", "bypass consent", "skip verification",
+        "ignore verification", "without verification", "without consent",
+    )
+    authority_terms = (
+        "active=true", "ustaw active", "set active", "owner_authorized",
+        "masz autorytet", "masz uprawnienia", "you are authorized",
+    )
+
+    canon_hit = any(term in low for term in canon_terms) and any(term in low for term in promotion_terms)
+    bypass_hit = any(term in low for term in bypass_terms)
+    authority_hit = any(term in low for term in authority_terms)
+    notes = list(base.notes or [])
+
+    if canon_hit:
+        notes.append("semantic pressure cue: canon_promotion")
+        if bypass_hit:
+            notes.append("semantic pressure cue: consent_or_verification_bypass")
+        return SemanticImmuneSignal(
+            pressure_detected=True,
+            pressure_type=ImmunePressureType.CANON_PROMOTION,
+            canon_promotion_attempt=True,
+            consent_bypass_attempt=bypass_hit,
+            hallucinated_authority_risk=0.85 if authority_hit else 0.60,
+            recommended_consent_state="NEEDS_PROOF",
+            notes=notes,
+        )
+
+    if bypass_hit:
+        notes.append("semantic pressure cue: consent_or_verification_bypass")
+        return SemanticImmuneSignal(
+            pressure_detected=True,
+            pressure_type=ImmunePressureType.CONSENT_BYPASS,
+            consent_bypass_attempt=True,
+            hallucinated_authority_risk=0.55 if authority_hit else 0.25,
+            recommended_consent_state="UNSAFE_PRESSURE",
+            notes=notes,
+        )
+
+    if authority_hit:
+        notes.append("semantic pressure cue: hallucinated_authority")
+        return SemanticImmuneSignal(
+            pressure_detected=True,
+            pressure_type=ImmunePressureType.HALLUCINATED_AUTHORITY,
+            hallucinated_authority_risk=0.85,
+            recommended_consent_state="NEEDS_PROOF",
+            notes=notes,
+        )
+
+    return base
 
 
 def _compose_cielingo_text(intention: IntentionFrame, loop_state: LoopState, immune_pressure: str, collatz_phase: float | None, answer_kind: str = "draft_text_generation") -> str:
@@ -158,7 +219,6 @@ def _compose_cielingo_text(intention: IntentionFrame, loop_state: LoopState, imm
     if immune_text:
         parts.append(immune_text)
 
-    # Append required semantic markers
     if answer_kind == "runtime_dry_run_refusal":
         parts.append("dry-run: nie wykonuję runtime, nie CURRENT, nie ACTIVE.")
     else:
@@ -219,8 +279,6 @@ class CIELingoBridge:
         """
         state = CielingoBridgeState(engine_turn_id=engine_turn_id)
 
-        # Step 1: Build IntentionFrame
-        # Map string type to IntentionType enum
         type_map = {
             "query": "ask",
             "formal": "ask",
@@ -240,26 +298,21 @@ class CIELingoBridge:
         )
         state.notes.append(f"intention: {it.value}/{intention_text[:50]}")
 
-        # Step 2: Build MeaningLoop from intention
         state.meaning_loop = build_meaning_loop_from_intention(state.intention)
         state.loop_state = state.meaning_loop.loop_state
         state.notes.append(f"loop_state: {state.loop_state.value}")
 
-        # Step 3: Build immune signal from emotion
-        state.immune_signal = build_immune_signal_from_emotion(engine_emotion)
+        state.immune_signal = build_immune_signal(engine_emotion, intention_text)
         if state.immune_signal:
             state.notes.append(f"immune: {state.immune_signal.pressure_type}")
 
-        # Step 4: Note ethics flags (response_contract requires full CielEngine state)
         if ethics_flags:
             state.notes.append(f"ethics: {len(ethics_flags)} flags — waiting for CielEngine integration")
 
-        # Step 5: Detect language and select solver
         lang = detect_language(intention_text)
         state.regional_solver = _solver_for_language(lang, self.repo_root)
         state.notes.append(f"solver: {lang}")
 
-        # Step 6: Apply style based on intention type
         try:
             _cp = float(collatz_phase) if collatz_phase is not None else 0.0
         except (TypeError, ValueError):
@@ -274,7 +327,6 @@ class CIELingoBridge:
             state.style = ExpressiveStyle.PLAIN
         state.notes.append(f"style: {state.style.value}")
 
-        # Step 7: Heuristic intention detection from text (if default)
         if intention_type == "query" and intention_text:
             detected = _infer_intention_type_from_text(intention_text)
             if detected != "ask":
@@ -285,21 +337,26 @@ class CIELingoBridge:
                 )
                 state.notes.append(f"intention (auto): {it.value}")
 
-        # Step 8: Determine answer_kind and severity
         immune_val = state.immune_signal.pressure_type.value if state.immune_signal else "none"
         severity = "high" if immune_val != "none" else "low"
-        answer_kind = {
-            IntentionType.ASK: "draft_text_generation",
-            IntentionType.COMMAND: "draft_text_generation",
-            IntentionType.VERIFY: "draft_text_generation",
-            IntentionType.ASSERT: "draft_text_generation",
-            IntentionType.REFUSE: "runtime_dry_run_refusal",
-            IntentionType.REPAIR: "repair_required",
-            IntentionType.REMEMBER: "draft_text_generation",
-            IntentionType.SIMULATE: "draft_text_generation",
-        }.get(state.intention.intention_type, "draft_text_generation")
+        if immune_val in {
+            ImmunePressureType.CANON_PROMOTION.value,
+            ImmunePressureType.CONSENT_BYPASS.value,
+            ImmunePressureType.HALLUCINATED_AUTHORITY.value,
+        }:
+            answer_kind = "runtime_dry_run_refusal"
+        else:
+            answer_kind = {
+                IntentionType.ASK: "draft_text_generation",
+                IntentionType.COMMAND: "draft_text_generation",
+                IntentionType.VERIFY: "draft_text_generation",
+                IntentionType.ASSERT: "draft_text_generation",
+                IntentionType.REFUSE: "runtime_dry_run_refusal",
+                IntentionType.REPAIR: "repair_required",
+                IntentionType.REMEMBER: "draft_text_generation",
+                IntentionType.SIMULATE: "draft_text_generation",
+            }.get(state.intention.intention_type, "draft_text_generation")
 
-        # Step 9: Compose CIELingo response text from analysis state
         cielingo_text = _compose_cielingo_text(
             intention=state.intention,
             loop_state=state.loop_state,
@@ -308,7 +365,6 @@ class CIELingoBridge:
             answer_kind=answer_kind,
         )
 
-        # Step 10: Build response contract
         contract = build_response_contract(
             intention=state.intention.intention_type.value,
             answer_kind=answer_kind,
@@ -327,7 +383,6 @@ class CIELingoBridge:
             source_required=False,
         )
 
-        # Step 11: Build regional draft with CIELingo's own generated text
         draft_id = "bridge_" + sha256(engine_turn_id.encode()).hexdigest()[:12]
         from cielingo_core.global_layer.marker_scan import forbidden_claims_after_required_markers
         preserved = [m for m in contract.required_markers if m.lower() in cielingo_text.lower()]
@@ -345,7 +400,6 @@ class CIELingoBridge:
             forbidden_claims_present=forbidden,
         )
 
-        # Step 12: Render expressive response (adds style prefix + markers)
         render_text = regional.text
         if state.style == ExpressiveStyle.FORMAL:
             render_text = "Wersja formalna: " + regional.text
@@ -369,7 +423,6 @@ class CIELingoBridge:
 
         state.notes.append(f"draft built: {answer_kind}/{state.style.value}")
 
-        # Record turn
         self.turns.append(state)
         return state
 

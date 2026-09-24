@@ -6,9 +6,10 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from hashlib import sha256
 import json
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-from cielingo_core.global_layer.query_generation import QueryGenerationDryRunReport
+if TYPE_CHECKING:
+    from cielingo_core.global_layer.query_generation import QueryGenerationDryRunReport
 
 
 @dataclass(frozen=True)

@@ -1,0 +1,51 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/cielingo-canon",
+  "target_branch": "main",
+  "source_branch": "fix/cielingo-bind-closure-v0.1",
+  "source_head_sha": "917c2b94eb59effdd78c64db797558994bb37697",
+  "merge_base_sha": "5ae1ae5f615c2240207bae9e26819b9c1060453f",
+  "target_parent_sha": "a1713efcd62616e2e33b459851399a4f18c5e713",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "src/bridge/__init__.py",
+    "src/bridge/cielingo_bridge.py",
+    "src/bridge/cielingo_pipeline_adapter.py",
+    "src/cielingo_core/__init__.py",
+    "src/cielingo_core/expressive/__init__.py",
+    "src/cielingo_core/expressive/style_renderer.py",
+    "src/cielingo_core/global_layer/meaning_loop.py",
+    "src/cielingo_core/global_layer/response_contract.py",
+    "src/cielingo_core/language_spaces/pl/__init__.py",
+    "src/cielingo_core/language_spaces/pl/solver.py",
+    "tests/test_lazy_package_import.py",
+    "tests/test_semantic_immune_text_pressure.py"
+  ],
+  "conflicts": [
+    {
+      "path": ".github/workflows/native-surface-generation-ci.yml",
+      "main": "a208c1fcb9981c36714360c52d72cbcf9c57a4da",
+      "base": "3a8d01a2bb18706c0c07353acac097941714c568",
+      "branch": "d2d581f1935b455ba85406f27434a560e84d9149",
+      "archive_path": ".merge-preservation/fix__cielingo-bind-closure-v0.1/.github/workflows/native-surface-generation-ci.yml",
+      "action": "kept_main_archived_branch"
+    },
+    {
+      "path": "src/cielingo_core/global_layer/__init__.py",
+      "main": "940ab3e84b35d21528f84070e9066b392ec512fd",
+      "base": "b6951865561cd8f73f8abd847204fce3597be114",
+      "branch": "45ee7dea004d6c075598c6132f6e53044622999f",
+      "archive_path": ".merge-preservation/fix__cielingo-bind-closure-v0.1/src/cielingo_core/global_layer/__init__.py",
+      "action": "kept_main_archived_branch"
+    },
+    {
+      "path": "src/cielingo_core/language_spaces/__init__.py",
+      "main": "66b0f7dafc2b7962e06c009ca83b04389c6c99c5",
+      "base": "9da258ccba92f2a22c63321065f4f6dbc77213f3",
+      "branch": "83bbc8b56c96651f289fc49a4bba233a2951aeb4",
+      "archive_path": ".merge-preservation/fix__cielingo-bind-closure-v0.1/src/cielingo_core/language_spaces/__init__.py",
+      "action": "kept_main_archived_branch"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}
