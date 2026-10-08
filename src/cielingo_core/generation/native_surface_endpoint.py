@@ -51,9 +51,8 @@ class CandidateProposal:
             issues.append("unsupported candidate backend_kind")
         if not self.backend_id or not self.backend_version or not self.source_commit:
             issues.append("candidate backend provenance is incomplete")
-        # Language backends may act as primary surface generators. Semantic
-        # correctness is enforced by the independent round-trip validator below,
-        # not by an AI-authored "advisory only" capability restriction.
+        if self.backend_kind in {"language_backend", "gguf_advisory"} and not self.advisory_only:
+            issues.append("external language backend must be advisory_only")
         return issues
 
 
@@ -270,8 +269,17 @@ class NativeSurfaceGenerationEndpoint:
                 }
                 else "info"
             ),
-            required_markers=[],
-            forbidden_claims=[],
+            required_markers=[
+                "draft_answer_candidate",
+                "nie SOURCE",
+                "nie canon",
+            ],
+            forbidden_claims=[
+                "SOURCE confirmed",
+                "canon confirmed",
+                "runtime executed",
+                "CURRENT updated",
+            ],
             uncertainty_required=epistemic_status == "unresolved_source_required",
             source_required=epistemic_status == "unresolved_source_required",
             repair_routes=(
