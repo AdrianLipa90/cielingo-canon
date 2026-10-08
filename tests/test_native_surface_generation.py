@@ -198,7 +198,9 @@ def test_endpoint_generates_from_response_semantics_not_input_semantics() -> Non
     assert response["status"] == "ACK"
     assert response["schema"] == "CIEL_AUX_TEXT_GENERATION_RESULT_V1"
     assert "Człowiek buduje dom." in response["final_text"]
-    assert response["final_text"].strip()
+    assert "draft_answer_candidate" in response["final_text"]
+    assert "nie SOURCE" in response["final_text"]
+    assert "nie canon" in response["final_text"]
     assert response["candidate"]["backend_kind"] == "cielingo_native"
     assert response["candidate"]["prompt_binding_sha256"] == response[
         "response_plan_sha256"
@@ -255,15 +257,15 @@ def test_endpoint_rejects_semantic_invariant_loss() -> None:
     assert "response semantic invariant" in response["detail"]
 
 
-def test_endpoint_accepts_primary_language_backend_when_roundtrip_passes() -> None:
+def test_endpoint_rejects_non_advisory_gguf() -> None:
     endpoint = NativeSurfaceGenerationEndpoint(
         validator=ValidRoundTripValidator(),
         backend=UnsafeGGUFBackend(),
     )
     response = endpoint.handle(_request())
 
-    assert response["status"] == "ACK"
-    assert "Człowiek buduje dom." in response["final_text"]
+    assert response["status"] == "NACK"
+    assert "advisory_only" in response["detail"]
 
 
 def test_endpoint_rejects_lost_polarity() -> None:
